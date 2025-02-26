@@ -8,10 +8,10 @@ const {
   rateLimitAndTimeout,
   setupProxy,
   handleNotFound,
-} = require("./middleware/proxyMiddleware");
+} = require("./middleware/proxy");
 require("dotenv").config();
 
-const indexRouter = require("./routes/index");
+const { services } = require("./services/index");
 
 const app = express();
 
@@ -23,27 +23,6 @@ app.use(cors());
 app.use(helmet());
 app.use(logger("dev"));
 app.disable("x-powered-by");
-
-app.use("/", indexRouter);
-
-const services = [
-  {
-    route: "/auth",
-    target: "https://your-deployed-service.herokuapp.com/auth",
-  },
-  {
-    route: "/users",
-    target: "https://your-deployed-service.herokuapp.com/users/",
-  },
-  {
-    route: "/chats",
-    target: "https://your-deployed-service.herokuapp.com/chats/",
-  },
-  {
-    route: "/payment",
-    target: "https://your-deployed-service.herokuapp.com/payment/",
-  },
-];
 
 app.use(rateLimitAndTimeout);
 
