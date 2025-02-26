@@ -1,4 +1,5 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
+const { validateRequest } = require("./validation.js");
 
 const rateLimit = 20;
 const interval = 60 * 1000;
@@ -48,7 +49,12 @@ function setupProxy(app, services) {
       },
     };
 
-    app.use(route, rateLimitAndTimeout, createProxyMiddleware(proxyOptions));
+    app.use(
+      route,
+      validateRequest,
+      rateLimitAndTimeout,
+      createProxyMiddleware(proxyOptions)
+    );
   });
 }
 
