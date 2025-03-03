@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id        Int        @id @default(autoincrement())
+  name      String     @db.VarChar(30)
+  latitude  Float
+  longitude Float
+  inventory Inventory?
+}
+
+model Inventory {
+  id      Int    @id @default(autoincrement())
+  store   Store  @relation(fields: [storeId], references: [id])
+  storeId Int @unique
+  items   Item[]
+}
+
+model Item {
+  id             Int       @id @default(autoincrement())
+  inventory      Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId    Int
+  name           String
+  type           String
+  productionDate DateTime
+  expirationDate DateTime
+}
