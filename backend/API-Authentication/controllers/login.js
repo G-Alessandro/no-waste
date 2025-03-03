@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { body } = require("express-validator");
-const handleValidationErrors = require("./utils/validation/validation");
+const handleValidationErrors = require("./validation/validation");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
