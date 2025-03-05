@@ -5,18 +5,28 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.post_store_inventory_items = [
-  body("itemName").isLength({ min: 1, max: 30 }).trim.escape(),
-  body("itemType").trim().escape(),
-  body("productionDate").isISO8601().trim.escape(),
-  body("expirationDate").isISO8601().trim.escape(),
-  body("inventoryId").isInt().trim().escape(),
   body("userId").isInt().trim().escape(),
+  body("storeId").isInt().trim().escape(),
+  body("itemName").isLength({ min: 1, max: 30 }).trim().escape(),
+  body("itemType").trim().escape(),
+  body("productionDate").isISO8601().trim().escape(),
+  body("expirationDate").isISO8601().trim().escape(),
   asyncHandler(async (req, res) => {
     handleValidationErrors(req, res);
     try {
+      let inventory = await prisma.inventory.findUnique({
+        where: { storeId: Number(req.body.storeId) },
+      });
+
+      if (!inventory) {
+        inventory = await prisma.inventory.create({
+          data: { storeId: Number(req.body.storeId) },
+        });
+      }
+
       const newItem = await prisma.item.create({
         data: {
-          inventoryId: Number(req.body.inventoryId),
+          inventoryId: inventory.id,
           name: req.body.itemName,
           type: req.body.itemType,
           productionDate: new Date(req.body.productionDate),
@@ -24,6 +34,7 @@ exports.post_store_inventory_items = [
           createdByUserId: Number(req.body.userId),
         },
       });
+      
       res.status(201).json({ message: "New item added" });
     } catch (error) {
       console.log(error);
