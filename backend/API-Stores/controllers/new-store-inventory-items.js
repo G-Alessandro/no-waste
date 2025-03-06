@@ -5,7 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const he = require("he");
 
-exports.post_store_inventory_items = [
+exports.post_new_store_inventory_items = [
   body("userId").isInt().trim().escape(),
   body("storeId").isInt().trim().escape(),
   body("itemName").isLength({ min: 1, max: 30 }).trim().escape(),
