@@ -30,7 +30,7 @@ app.use("/", indexRouter);
 const PORT = process.env.PORT || 5002;
 
 app.listen(PORT, () => {
-  console.log(`Authentication is running on port ${PORT}`);
+  console.log(`API-Store is running on port ${PORT}`);
 });
 
 module.exports = app;
