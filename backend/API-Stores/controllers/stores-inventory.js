@@ -1,10 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.get_stores_inventory = asyncHandler(async (req, res) => {
-  handleValidationErrors(req, res);
   try {
     const storesWithInventoryAndItems = await prisma.store.findMany({
       include: {
