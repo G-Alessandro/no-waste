@@ -3,6 +3,7 @@ const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const he = require("he");
 
 exports.post_store_inventory_items = [
   body("userId").isInt().trim().escape(),
@@ -27,14 +28,14 @@ exports.post_store_inventory_items = [
       const newItem = await prisma.item.create({
         data: {
           inventoryId: inventory.id,
-          name: req.body.itemName,
+          name: he.decode(req.body.itemName),
           type: req.body.itemType,
           productionDate: new Date(req.body.productionDate),
           expirationDate: new Date(req.body.expirationDate),
           createdByUserId: Number(req.body.userId),
         },
       });
-      
+
       res.status(201).json({ message: "New item added" });
     } catch (error) {
       console.log(error);

@@ -3,6 +3,7 @@ const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const he = require("he");
 
 exports.post_new_store = [
   body("storeName").isLength({ min: 1, max: 30 }).trim().escape(),
@@ -14,7 +15,7 @@ exports.post_new_store = [
     try {
       const newStore = await prisma.store.create({
         data: {
-          name: req.body.storeName,
+          name: he.decode(req.body.storeName),
           latitude: parseFloat(req.body.latitude),
           longitude: parseFloat(req.body.longitude),
           createdByUserId: Number(req.body.userId),
