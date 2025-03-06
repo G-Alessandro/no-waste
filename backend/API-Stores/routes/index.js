@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const stores_inventory_controllers = require("./controllers/store-inventory.js");
-const store_inventory_items_controllers = require("./controllers/store-inventory-items.js");
-const new_store_controllers = require("./controllers/new-store.js");
-const delete_store_controllers = require("./controllers/store.js");
-const delete_item_controllers = require("./controller/delete-item.js");
+const stores_inventory_controllers = require("../controllers/store-inventory.js");
+const store_inventory_items_controllers = require("../controllers/store-inventory-items.js");
+const new_store_controllers = require("../controllers/new-store.js");
+const delete_store_controllers = require("../controllers/store.js");
+const delete_item_controllers = require("../controller/delete-item.js");
 
 router.get(
   "/stores-inventory",
