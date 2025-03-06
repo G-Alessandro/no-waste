@@ -8,26 +8,28 @@ datasource db {
 }
 
 model Store {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(30)
-  latitude  Float
-  longitude Float
-  inventory Inventory?
+  id              Int        @id @default(autoincrement())
+  name            String     @db.VarChar(30)
+  latitude        Float
+  longitude       Float
+  inventory       Inventory?
+  createdByUserId Int?
 }
 
 model Inventory {
   id      Int    @id @default(autoincrement())
   store   Store  @relation(fields: [storeId], references: [id])
-  storeId Int @unique
+  storeId Int    @unique
   items   Item[]
 }
 
 model Item {
-  id             Int       @id @default(autoincrement())
-  inventory      Inventory @relation(fields: [inventoryId], references: [id])
-  inventoryId    Int
-  name           String
-  type           String
-  productionDate DateTime
-  expirationDate DateTime
+  id              Int       @id @default(autoincrement())
+  inventory       Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId     Int
+  name            String    @db.VarChar(30)
+  type            String
+  productionDate  DateTime
+  expirationDate  DateTime
+  createdByUserId Int?
 }
