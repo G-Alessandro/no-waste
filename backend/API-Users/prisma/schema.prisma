@@ -15,7 +15,7 @@ model UserLocations {
 
 model Location {
   id              Int           @id @default(autoincrement())
-  name            String
+  name            String        @db.VarChar(30)
   latitude        Float
   longitude       Float
   userLocations   UserLocations @relation(fields: [userLocationsId], references: [id])
