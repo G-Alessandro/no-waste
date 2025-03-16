@@ -4,7 +4,7 @@ const user_location_controller = require("../controllers/user-location.js");
 const new_user_location_controller = require("../controllers/new-user-location.js");
 const delete_user_location_controller = require("../controllers/delete-user-location.js");
 
-router.get("/user-location", user_location_controller.get_user_location);
+router.get("/user-location/id", user_location_controller.get_user_location);
 
 router.post(
   "/new-user-location",
