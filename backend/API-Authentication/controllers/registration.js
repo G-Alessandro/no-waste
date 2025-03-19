@@ -26,6 +26,16 @@ exports.registration_post = [
         throw new Error("email is already in use");
       }
     }),
+  body("confirmEmail", "Confirm email must match email.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .custom((value, { req }) => {
+      if (value !== req.body.email) {
+        throw new Error("emails do not match");
+      }
+      return true;
+    }),
   body("password", "Password name must not be empty.")
     .trim()
     .isLength({ min: 1, max: 30 })
