@@ -181,8 +181,13 @@ export default function Registration({ setError }) {
             </div>
           )}
 
-          {showLoader && <div></div>}
-          {!showLoader && <button type="submit">DONE</button>}
+          {showLoader && (
+            <div
+              aria-live="assertive"
+              aria-label="Registration in progress, please wait..."
+            ></div>
+          )}
+          {!showLoader && <button type="submit">Sign Up</button>}
         </form>
       )}
       <Footer />
