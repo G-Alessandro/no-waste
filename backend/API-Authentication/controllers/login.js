@@ -6,6 +6,26 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 
+const generateAccessToken = (user) => {
+  return jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: "15m",
+  });
+};
+
+const generateRefreshToken = async (user) => {
+  const refreshToken = jwt.sign(
+    { userId: user.id },
+    process.env.JWT_REFRESH_SECRET_KEY,
+    { expiresIn: "1d" }
+  );
+
+  await prisma.refreshToken.create({
+    data: { token: refreshToken, userId: user.id },
+  });
+
+  return refreshToken;
+};
+
 exports.login_post = [
   body("email")
     .isEmail()
@@ -34,11 +54,19 @@ exports.login_post = [
       if (!passwordMatch) {
         return res.status(401).json({ error: "Authentication failed" });
       }
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-        expiresIn: "2h",
+
+      const accessToken = generateAccessToken(user);
+      const refreshToken = await generateRefreshToken(user);
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Strict",
       });
-      res.status(200).json({ token });
+
+      res.status(200).json({ accessToken });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Login failed" });
     }
   }),
