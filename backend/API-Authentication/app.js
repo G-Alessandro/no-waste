@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
+const { startExpiredTokensCleanup } = require("./utils/tokenCleaner");
 require("dotenv").config();
 
 const indexRouter = require("./routes/index");
@@ -26,6 +27,8 @@ app.use(cookieParser());
 app.use(helmet());
 
 app.use("/", indexRouter);
+
+startExpiredTokensCleanup();
 
 const PORT = process.env.PORT || 5001;
 
