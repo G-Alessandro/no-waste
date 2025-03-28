@@ -4,6 +4,7 @@ const handleValidationErrors = require("./validation/validation");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const he = require("he");
 
 exports.registration_post = [
   body("firstName", "First name must not be empty.")
@@ -57,8 +58,8 @@ exports.registration_post = [
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       await prisma.userAccount.create({
         data: {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
+          firstName: he.decode(req.body.firstName),
+          lastName: he.decode(req.body.lastName),
           email: req.body.email,
           password: hashedPassword,
         },
