@@ -20,7 +20,11 @@ const generateRefreshToken = async (user) => {
   );
 
   await prisma.refreshToken.create({
-    data: { token: refreshToken, userId: user.id },
+    data: {
+      token: refreshToken,
+      userId: user.id,
+      expiresAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+    },
   });
 
   return refreshToken;
