@@ -18,7 +18,7 @@ export default function Login({ setError }) {
     };
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/authentication/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -75,7 +75,12 @@ export default function Login({ setError }) {
             </div>
           )}
 
-          {showLoader && <div aria-live="assertive" aria-label="Logging in, please wait..."></div>}
+          {showLoader && (
+            <div
+              aria-live="assertive"
+              aria-label="Logging in, please wait..."
+            ></div>
+          )}
           {!showLoader && <button type="submit">Login</button>}
         </form>
       )}
