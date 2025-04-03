@@ -1,0 +1,33 @@
+const asyncHandler = require("express-async-handler");
+const handleValidationErrors = require("./validation/validation");
+const prisma = new PrismaClient();
+const jwt = require("jsonwebtoken");
+
+exports.user_data_get = asyncHandler(async (req, res) => {
+  handleValidationErrors(req, res);
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) {
+    res.status(403).json({
+      message: "Access denied, you must log in to access this feature",
+    });
+  }
+  const token = authHeader.split(" ")[1];
+  try {
+    const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    const userData = await prisma.userAccount.findUnique({
+      where: { id: decodedJwt.userId },
+      select: {
+        firstName: true,
+        lastName: true,
+      },
+    });
+
+    if (!userData) {
+      res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ userData });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid or expired token" });
+  }
+});
