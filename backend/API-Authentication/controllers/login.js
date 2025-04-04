@@ -18,6 +18,10 @@ const generateRefreshToken = async (user) => {
     process.env.JWT_REFRESH_SECRET_KEY,
     { expiresIn: "1d" }
   );
+  
+  await prisma.refreshToken.deleteMany({
+    where: { userId: user.id },
+  });
 
   await prisma.refreshToken.create({
     data: {
