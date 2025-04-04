@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const handleValidationErrors = require("./validation/validation");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 
