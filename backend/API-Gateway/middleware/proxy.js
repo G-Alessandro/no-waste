@@ -52,7 +52,7 @@ function setupProxy(app, services) {
     const middlewares = [validateRequest];
 
     if (requiresAuthentication) {
-      middlewares.push(verifyToken());
+      middlewares.push(verifyToken);
     }
 
     middlewares.push(rateLimitAndTimeout);
