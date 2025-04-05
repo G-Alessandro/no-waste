@@ -11,7 +11,6 @@ const {
 require("dotenv").config();
 
 const { services } = require("./services/index");
-
 const app = express();
 
 app.use(logger("dev"));
