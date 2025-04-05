@@ -41,7 +41,7 @@ function rateLimitAndTimeout(req, res, next) {
 }
 
 function setupProxy(app, services) {
-  services.forEach(({ route, target }) => {
+  services.forEach(({ route, target, requiresAuthentication }) => {
     const proxyOptions = {
       target,
       changeOrigin: true,
@@ -49,14 +49,16 @@ function setupProxy(app, services) {
         [`^${route}`]: "",
       },
     };
+    const middlewares = [validateRequest];
 
-    app.use(
-      route,
-      validateRequest,
-      proxyOptions.requiresAuthentication ? verifyToken() : undefined,
-      rateLimitAndTimeout,
-      createProxyMiddleware(proxyOptions)
-    );
+    if (requiresAuthentication) {
+      middlewares.push(verifyToken());
+    }
+
+    middlewares.push(rateLimitAndTimeout);
+    middlewares.push(createProxyMiddleware(proxyOptions));
+
+    app.use(route, ...middlewares);
   });
 }
 
