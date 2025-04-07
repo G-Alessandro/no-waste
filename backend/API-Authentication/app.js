@@ -30,10 +30,4 @@ app.use("/", indexRouter);
 
 startExpiredTokensCleanup();
 
-const PORT = process.env.PORT || 5001;
-
-app.listen(PORT, () => {
-  console.log(`Authentication is running on port ${PORT}`);
-});
-
 module.exports = app;
