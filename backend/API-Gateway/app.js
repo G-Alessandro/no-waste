@@ -27,10 +27,4 @@ app.use(rateLimitAndTimeout);
 setupProxy(app, services);
 app.use(handleNotFound);
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Gateway is running on port ${PORT}`);
-});
-
 module.exports = app;
