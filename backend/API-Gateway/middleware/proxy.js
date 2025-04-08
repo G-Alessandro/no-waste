@@ -1,5 +1,4 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
-const { validateRequest } = require("./validation.js");
 const { verifyToken } = require("./verifyToken.js");
 
 const rateLimit = 20;
@@ -49,7 +48,7 @@ function setupProxy(app, services) {
         [`^${route}`]: "",
       },
     };
-    
+
     const middlewares = [];
 
     if (requiresAuthentication) {
