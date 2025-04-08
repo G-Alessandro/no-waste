@@ -49,7 +49,8 @@ function setupProxy(app, services) {
         [`^${route}`]: "",
       },
     };
-    const middlewares = [validateRequest];
+    
+    const middlewares = [];
 
     if (requiresAuthentication) {
       middlewares.push(verifyToken);
