@@ -47,6 +47,9 @@ function setupProxy(app, services) {
       pathRewrite: {
         [`^${route}`]: "",
       },
+      onProxyReq: (proxyReq, req, res) => {
+        proxyReq.setHeader("x-gateway-secret", process.env.GATEWAY_SECRET);
+      },
     };
 
     const middlewares = [];
