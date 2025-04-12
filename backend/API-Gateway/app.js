@@ -11,14 +11,20 @@ const {
 require("dotenv").config();
 
 const { services } = require("./services/index");
+const allowedFrontendOrigin = process.env.ALLOWED_FRONTEND_ORIGIN;
+
 const app = express();
 
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: allowedFrontendOrigin,
+    credentials: true,
+  })
+);
 app.use(helmet());
-app.use(logger("dev"));
 app.disable("x-powered-by");
 
 app.use(rateLimitAndTimeout);
