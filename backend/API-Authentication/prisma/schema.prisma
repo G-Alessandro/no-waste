@@ -17,7 +17,7 @@ model UserAccount {
 }
 
 model RefreshToken {
-  id        String      @id @default(uuid())
+  id        Int         @id @default(autoincrement())
   token     String      @unique
   userId    Int
   user      UserAccount @relation(fields: [userId], references: [id], onDelete: Cascade)
