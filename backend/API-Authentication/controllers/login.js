@@ -18,7 +18,7 @@ const generateRefreshToken = async (user) => {
     process.env.JWT_REFRESH_SECRET_KEY,
     { expiresIn: "1d" }
   );
-  
+
   await prisma.refreshToken.deleteMany({
     where: { userId: user.id },
   });
@@ -27,6 +27,7 @@ const generateRefreshToken = async (user) => {
     data: {
       token: refreshToken,
       userId: user.id,
+      createdAt: new Date(Date.now()),
       expiresAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     },
   });
@@ -71,7 +72,6 @@ exports.login_post = [
         secure: process.env.NODE_ENV === "production",
         sameSite: "Strict",
       });
-
       res.status(200).json({ accessToken });
     } catch (error) {
       console.log(error);
