@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import TopBar from "../top-bar/TopBar";
 import Footer from "../footer/Footer";
 
-export default function Registration({ setError }) {
+export default function Registration() {
+  const [registrationError, setRegistrationError] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
   const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
   const [email, setEmail] = useState("");
@@ -45,27 +46,28 @@ export default function Registration({ setError }) {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/registration`,
+        `${import.meta.env.VITE_BACKEND_URL}/authentication/registration`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           mode: "cors",
+          credentials: "include",
           body: JSON.stringify(formData),
         }
       );
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error);
+        setRegistrationError(data.error);
       } else {
         setRegistrationSuccessful(true);
         setTimeout(() => navigate("/login"), 5000);
       }
     } catch (error) {
       console.log("Error requesting registration:", error);
-      setError(error);
+      setRegistrationError(error);
     } finally {
       setShowLoader(false);
     }
@@ -94,6 +96,11 @@ export default function Registration({ setError }) {
           <p>
             Registration successful, you will be redirected to the login page
           </p>
+        </div>
+      )}
+      {registrationError && (
+        <div aria-live="polite">
+          <p>{registrationError}</p>
         </div>
       )}
       {!registrationSuccessful && (
