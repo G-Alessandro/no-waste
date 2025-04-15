@@ -34,6 +34,8 @@ export default function Login({ setError }) {
         setLoginError(true);
       } else {
         setLoginSuccessful(true);
+        const accessToken = data.accessToken;
+        localStorage.setItem("accessToken", accessToken);
         setTimeout(() => navigate("/finds-stores"), 5000);
       }
     } catch (error) {
