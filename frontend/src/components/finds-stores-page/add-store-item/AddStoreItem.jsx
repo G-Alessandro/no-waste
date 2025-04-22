@@ -26,7 +26,7 @@ export default function AddStoreItem({
     };
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/new-store-inventory-items`,
+        `${import.meta.env.VITE_BACKEND_URL}/stores/new-store-inventory-items`,
         {
           method: "POST",
           headers: {

@@ -15,7 +15,7 @@ export default function AddStore({
     };
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/new-store`,
+        `${import.meta.env.VITE_BACKEND_URL}/stores/new-store`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
