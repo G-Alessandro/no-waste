@@ -10,6 +10,7 @@ exports.post_new_store_inventory_items = [
   body("storeId").isInt().trim().escape(),
   body("itemName").isLength({ min: 1, max: 30 }).trim().escape(),
   body("itemType").trim().escape(),
+  body("itemPrice").isFloat({ min: 0.01 }).toFloat(),
   body("productionDate").isISO8601().trim().escape(),
   body("expirationDate").isISO8601().trim().escape(),
   asyncHandler(async (req, res) => {
@@ -30,6 +31,7 @@ exports.post_new_store_inventory_items = [
           inventoryId: inventory.id,
           name: he.decode(req.body.itemName),
           type: req.body.itemType,
+          price: req.body.itemPrice,
           productionDate: new Date(req.body.productionDate),
           expirationDate: new Date(req.body.expirationDate),
           createdByUserId: Number(req.body.userId),
