@@ -9,7 +9,7 @@ datasource db {
 
 model Store {
   id              Int        @id @default(autoincrement())
-  name            String     @db.VarChar(30) @unique
+  name            String     @unique @db.VarChar(30)
   latitude        Float
   longitude       Float
   inventory       Inventory?
@@ -31,5 +31,6 @@ model Item {
   type            String
   productionDate  DateTime
   expirationDate  DateTime
+  price           Decimal   @db.Decimal(10, 2)
   createdByUserId Int?
 }
