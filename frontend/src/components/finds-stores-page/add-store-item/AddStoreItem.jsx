@@ -21,6 +21,7 @@ export default function AddStoreItem({
       storeId: event.target["stores"].value,
       itemName: event.target["item-name"].value,
       itemType: event.target["item-type"].value,
+      itemPrice: event.target["item-price"].value,
       productionDate: event.target["production-date"].value,
       expirationDate: event.target["expiration-date"].value,
     };
@@ -91,6 +92,15 @@ export default function AddStoreItem({
           })}
         </optgroup>
       </select>
+
+      <label htmlFor="item-price">Price</label>
+      <input
+        type="number"
+        name="item-price"
+        id="item-price"
+        min={0.01}
+        step={0.01}
+      />
 
       <label htmlFor="production-date">Production Date</label>
       <input type="date" id="production-date" name="production-date" required />
