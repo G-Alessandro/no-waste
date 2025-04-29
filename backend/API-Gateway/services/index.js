@@ -9,6 +9,11 @@ const services = [
     target: process.env.USERS_SERVICES,
     requiresAuthentication: true,
   },
+  {
+    route: "/stores",
+    target: process.env.USERS_SERVICES,
+    requiresAuthentication: false,
+  },
 ];
 
 module.exports = { services };
