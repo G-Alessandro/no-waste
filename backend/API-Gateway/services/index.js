@@ -11,7 +11,7 @@ const services = [
   },
   {
     route: "/stores",
-    target: process.env.USERS_SERVICES,
+    target: process.env.STORES_SERVICES,
     requiresAuthentication: false,
   },
 ];
