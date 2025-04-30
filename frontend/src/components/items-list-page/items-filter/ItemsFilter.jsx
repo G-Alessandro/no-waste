@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 const numericFilters = [
   { label: "Price", attribute: "price", parameter: "price" },
@@ -76,7 +76,7 @@ export default function ItemsFilter({
 
       {numericFilters.map((filter) => {
         return (
-          <>
+          <React.Fragment key={filter.parameter}>
             <label htmlFor={`items-${filter.attribute}`}>{filter.label}</label>
             <select
               name={`items-${filter.attribute}`}
@@ -91,7 +91,7 @@ export default function ItemsFilter({
               <option value="ascending">ascending</option>
               <option value="descending">descending</option>
             </select>
-          </>
+          </React.Fragment>
         );
       })}
     </div>
