@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function TopBar() {
+export default function TopBar({ setUserId }) {
   const [userData, setUserData] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState(null);
@@ -40,6 +40,7 @@ export default function TopBar() {
           console.log("No data found");
         } else {
           setUserData(data.userData);
+          setUserId(data.userData.id);
         }
       } catch (error) {
         console.log("Error fetching user data:", error);
