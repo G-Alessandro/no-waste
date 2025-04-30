@@ -3,19 +3,28 @@ const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const jwt = require("jsonwebtoken");
 
 exports.delete_store = [
-  body("userId").isInt().trim().escape(),
   body("storeId").isInt().trim().escape(),
   asyncHandler(async (req, res) => {
     handleValidationErrors(req, res);
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      res.status(403).json({
+        message:
+          "Unauthorized deletion, you must log in to access this feature",
+      });
+    }
+    const token = authHeader.split(" ")[1];
     try {
-      const userId = Number(req.body.userId);
-      const storeId = Number(req.body.storeId);
+      const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const userId = decodedJwt.userId;
 
       const findStore = await prisma.store.findUnique({
         where: {
-          id: storeId,
+          id: Number(req.body.storeId),
+          createdByUserId: userId,
         },
       });
 
