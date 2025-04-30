@@ -21,6 +21,7 @@ exports.user_data_get = asyncHandler(async (req, res) => {
       select: {
         firstName: true,
         lastName: true,
+        id: true,
       },
     });
 
