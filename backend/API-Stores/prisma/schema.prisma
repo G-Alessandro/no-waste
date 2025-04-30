@@ -13,7 +13,7 @@ model Store {
   latitude        Float
   longitude       Float
   inventory       Inventory?
-  createdByUserId Int?
+  createdByUserId Int
 }
 
 model Inventory {
