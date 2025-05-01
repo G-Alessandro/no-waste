@@ -19,16 +19,27 @@ exports.delete_item = [
     const token = authHeader.split(" ")[1];
     try {
       const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
-      const deletedItem = await prisma.item.deleteMany({
+      const deletedItem = await prisma.item.delete({
         where: {
-          id: Number(req.body.userId),
+          id: Number(req.body.itemId),
           createdByUserId: decodedJwt.userId,
         },
       });
 
-      if (deletedItem.count === 0) {
-        res.status(404).json({
-          message: "Item not found or you do not have permission to delete it",
+      const itemInventory = await prisma.inventory.findUnique({
+        where: {
+          id: deletedItem.inventoryId,
+        },
+        _count: {
+          items: true,
+        },
+      });
+
+      if (itemInventory._count.items === 0) {
+        await prisma.inventory.delete({
+          where: {
+            id: itemInventory.id,
+          },
         });
       }
 
