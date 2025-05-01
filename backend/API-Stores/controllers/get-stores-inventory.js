@@ -4,16 +4,39 @@ const prisma = new PrismaClient();
 
 exports.get_stores_inventory = asyncHandler(async (req, res) => {
   try {
-    const storesWithInventoryAndItems = await prisma.store.findMany({
+    const storesWithItems = await prisma.store.findMany({
       include: {
         inventory: {
           include: {
-            items: true,
+            items: {
+              select: {
+                type: true,
+              },
+            },
           },
         },
       },
     });
-    res.status(200).json({ storesWithInventoryAndItems });
+
+    const result = storesWithItems.map((store) => {
+      const items = store.inventory?.items ?? [];
+
+      const typeCounts = items.reduce((acc, item) => {
+        acc[item.type] = (acc[item.type] || 0) + 1;
+        return acc;
+      }, {});
+
+      return {
+        id: store.id,
+        name: store.name,
+        latitude: store.latitude,
+        longitude: store.longitude,
+        createdByUserId: store.createdByUserId,
+        itemsByType: typeCounts,
+      };
+    });
+
+    res.status(200).json({ result });
   } catch (error) {
     console.log(error);
     res
