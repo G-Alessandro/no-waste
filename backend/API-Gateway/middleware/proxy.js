@@ -45,16 +45,20 @@ function setupProxy(app, services) {
       target,
       changeOrigin: true,
       pathRewrite: {
-        [`^${route}`]: "",
+        [`^/${route}(?=/)`]: "",
       },
       onProxyReq: (proxyReq, req, res) => {
         proxyReq.setHeader("x-gateway-secret", process.env.GATEWAY_SECRET);
       },
     };
-
     const middlewares = [];
 
-    if (requiresAuthentication) {
+    if (
+      requiresAuthentication ||
+      Object.keys(proxyOptions.pathRewrite).some(
+        (key) => key.startsWith("/delete-") || key.startsWith("/new-")
+      )
+    ) {
       middlewares.push(verifyToken);
     }
 
@@ -74,4 +78,4 @@ function handleNotFound(req, res) {
   });
 }
 
-module.exports = { rateLimitAndTimeout, setupProxy, handleNotFound };
+module.exports = { setupProxy, handleNotFound };
