@@ -4,7 +4,6 @@ const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const {
-  rateLimitAndTimeout,
   setupProxy,
   handleNotFound,
 } = require("./middleware/proxy");
@@ -27,9 +26,7 @@ app.use(
 app.use(helmet());
 app.disable("x-powered-by");
 
-app.use(rateLimitAndTimeout);
 
 setupProxy(app, services);
 app.use(handleNotFound);
-
 module.exports = app;
