@@ -42,6 +42,13 @@ exports.get_stores_list = asyncHandler(async (req, res) => {
         }
       });
 
+      const sortFoodsTypeArray = (array) => {
+        array.sort((a, b) => a.type.localeCompare(b.type));
+      };
+
+      sortFoodsTypeArray(freshFoods);
+      sortFoodsTypeArray(cannedFoods);
+
       return {
         id: store.id,
         name: store.name,
