@@ -41,16 +41,17 @@ exports.get_items_list = [
           (new Date(item.expirationDate) - new Date(item.productionDate)) /
             (1000 * 60 * 60 * 24)
         );
-
+        const newPrice = item.price.toFixed(2);
         const newExpirationDate = new Date();
         newExpirationDate.setDate(newExpirationDate.getDate() + daysRemaining);
 
-        const { productionDate, expirationDate, ...rest } = item;
+        const { productionDate, expirationDate, price, ...rest } = item;
 
         return {
           ...rest,
           daysRemaining,
           expirationDate: newExpirationDate,
+          price: newPrice,
         };
       });
 
