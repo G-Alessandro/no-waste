@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 const numericFilters = [
   { label: "Price", attribute: "price", parameter: "price" },
@@ -17,11 +17,30 @@ const numericFilters = [
 export default function ItemsFilter({
   itemsList,
   setItemsList,
+  searchText,
   setSearchText,
   typesFilter,
+  setTypesFilter,
+  selectedType,
   setSelectedType,
+  hideItem,
 }) {
   const selectRefs = useRef({});
+
+  useEffect(() => {
+    if (itemsList && itemsList.length > 0) {
+      let types = [...new Set(itemsList.map((item) => item.type))];
+      if (searchText) {
+        const visibleItems = itemsList.filter(
+          (item) => !hideItem(item, "search")
+        );
+        types = [...new Set(visibleItems.map((item) => item.type))];
+      }
+      types.sort();
+      types.unshift("none");
+      setTypesFilter(types);
+    }
+  }, [itemsList, selectedType, searchText]);
 
   let searchHandler = (e) => {
     let lowerCase = e.target.value.toLowerCase();
