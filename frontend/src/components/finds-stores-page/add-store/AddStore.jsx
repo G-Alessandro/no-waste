@@ -1,10 +1,15 @@
+import { useContext } from "react";
+import { AuthContext } from "../../../main";
+
 export default function AddStore({
+  userId,
   newStoreLatitude,
   newStoreLongitude,
-  userId,
   setMessage,
   setError,
 }) {
+  const { token } = useContext(AuthContext);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = {
@@ -18,7 +23,10 @@ export default function AddStore({
         `${import.meta.env.VITE_BACKEND_URL}/stores/new-store`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
           mode: "cors",
           credentials: "include",
           body: JSON.stringify(formData),
