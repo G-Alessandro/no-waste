@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../main.jsx";
 import TopBar from "../top-bar/TopBar.jsx";
 import Footer from "../footer/Footer.jsx";
 
 export default function Login({ setError }) {
+  const { setToken } = useContext(AuthContext);
   const [loginSuccessful, setLoginSuccessful] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -35,8 +37,8 @@ export default function Login({ setError }) {
       } else {
         setLoginSuccessful(true);
         const accessToken = data.accessToken;
+        setToken(accessToken);
         localStorage.setItem("accessToken", accessToken);
-        setTimeout(() => navigate("/finds-stores"), 5000);
       }
     } catch (error) {
       console.log("Error requesting registration:", error);
@@ -45,6 +47,12 @@ export default function Login({ setError }) {
       setShowLoader(false);
     }
   };
+
+  useEffect(() => {
+    if (loginSuccessful) {
+      setTimeout(() => navigate("/finds-stores"), 5000);
+    }
+  }, [loginSuccessful]);
 
   return (
     <main>
