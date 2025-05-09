@@ -1,23 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../main.jsx";
 
 export default function TopBar({ setUserId }) {
   const [userData, setUserData] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("accessToken"));
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setToken(localStorage.getItem("accessToken"));
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  const { token, setToken } = useContext(AuthContext);
 
   useEffect(() => {
     if (!token) return;
