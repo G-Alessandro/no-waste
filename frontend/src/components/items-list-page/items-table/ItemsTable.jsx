@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../../main";
 
 export default function ItemsTable({
   userId,
@@ -8,17 +9,7 @@ export default function ItemsTable({
   setErrorMessage,
 }) {
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem("accessToken"));
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setToken(localStorage.getItem("accessToken"));
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     if (itemsList && itemsList.length > 0) {
