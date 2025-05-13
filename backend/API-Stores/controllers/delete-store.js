@@ -15,15 +15,17 @@ exports.delete_store = [
         message:
           "Unauthorized deletion, you must log in to access this feature",
       });
+      return;
     }
     const token = authHeader.split(" ")[1];
     try {
       const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
       const userId = decodedJwt.userId;
+      const storeId = Number(req.body.storeId);
 
       const findStore = await prisma.store.findUnique({
         where: {
-          id: Number(req.body.storeId),
+          id: storeId,
           createdByUserId: userId,
         },
       });
@@ -33,6 +35,7 @@ exports.delete_store = [
           message:
             "You do not have the necessary permission to delete the store",
         });
+        return;
       }
 
       const findInventory = await prisma.inventory.findUnique({
@@ -41,15 +44,17 @@ exports.delete_store = [
         },
       });
 
-      await prisma.item.deleteMany({
-        where: { inventoryId: findInventory.id },
-      });
+      if (findInventory) {
+        await prisma.item.deleteMany({
+          where: { inventoryId: findInventory.id },
+        });
 
-      await prisma.inventory.delete({
-        where: {
-          storeId: storeId,
-        },
-      });
+        await prisma.inventory.delete({
+          where: {
+            storeId: storeId,
+          },
+        });
+      }
 
       await prisma.store.delete({
         where: {
