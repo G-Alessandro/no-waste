@@ -51,21 +51,17 @@ function setupProxy(app, services) {
         proxyReq.setHeader("x-gateway-secret", process.env.GATEWAY_SECRET);
       },
     };
-    const middlewares = [];
+    
+    app.use(route, (req, res, next) => {
+      const isNewOrDelete =
+        req.path.startsWith("/new-") || req.path.startsWith("/delete-");
+      if (requiresAuthentication || isNewOrDelete) {
+        return verifyToken(req, res, next);
+      }
+      next();
+    });
 
-    if (
-      requiresAuthentication ||
-      Object.keys(proxyOptions.pathRewrite).some(
-        (key) => key.startsWith("/delete-") || key.startsWith("/new-")
-      )
-    ) {
-      middlewares.push(verifyToken);
-    }
-
-    middlewares.push(rateLimitAndTimeout);
-    middlewares.push(createProxyMiddleware(proxyOptions));
-
-    app.use(route, ...middlewares);
+    app.use(route, rateLimitAndTimeout, createProxyMiddleware(proxyOptions));
   });
 }
 
