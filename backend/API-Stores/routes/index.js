@@ -18,8 +18,8 @@ router.post(
 
 router.post("/new-store", new_store_controller.post_new_store);
 
-router.delete("/delete-store/:id", delete_store_controller.delete_store);
+router.delete("/delete-store", delete_store_controller.delete_store);
 
-router.delete("/delete-item/:id", delete_item_controller.delete_item);
+router.delete("/delete-item", delete_item_controller.delete_item);
 
 module.exports = router;
