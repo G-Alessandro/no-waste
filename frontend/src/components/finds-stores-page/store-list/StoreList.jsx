@@ -9,6 +9,8 @@ export default function StoreList({
   setStoresList,
   selectedStoreId,
   setSelectedStoreId,
+  statusChanged,
+  setStatusChanged,
 }) {
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
   const [message, setMessage] = useState([]);
@@ -41,7 +43,7 @@ export default function StoreList({
       }
     };
     fetchStoreItemList();
-  }, []);
+  }, [statusChanged]);
 
   useEffect(() => {
     if (storesList && storesList.length > 0) {
@@ -83,18 +85,19 @@ export default function StoreList({
       console.log("Error while deleting the store:", error);
     } finally {
       handleShowLoader(index);
+      setStatusChanged(!statusChanged);
     }
   };
 
   return (
     <div>
       {!storesList && <p>Loading Stores...</p>}
+      {message && <p aria-live="polite">{message}</p>}
+      {errorMessage && <p aria-live="polite">{errorMessage}</p>}
       {storesList &&
         storesList.map((store, index) => {
           return (
             <div key={store.id}>
-              {message && <p aria-live="polite">{message}</p>}
-              {errorMessage && <p aria-live="polite">{errorMessage}</p>}
               <button onClick={() => setSelectedStoreId(store.id)}>
                 <h2>{store.name}</h2>
                 <FoodTypeCounter
