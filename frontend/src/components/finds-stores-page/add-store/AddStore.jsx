@@ -1,22 +1,24 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../../main";
 
 export default function AddStore({
-  userId,
   newStoreLatitude,
   newStoreLongitude,
+  statusChanged,
+  setStatusChanged,
   setMessage,
   setError,
 }) {
   const { token } = useContext(AuthContext);
+  const [showLoader, setShowLoader] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setShowLoader(true);
     const formData = {
       storeName: event.target["store-name"].value,
       latitude: newStoreLatitude,
       longitude: newStoreLongitude,
-      userId: userId,
     };
     try {
       const response = await fetch(
@@ -35,9 +37,14 @@ export default function AddStore({
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
+        setTimeout(() => setMessage(null), 2000);
+        setStatusChanged(!statusChanged);
       }
     } catch (error) {
       setError(error);
+      setTimeout(() => setError(null), 3000);
+    } finally {
+      setShowLoader(false);
     }
   };
 
@@ -53,7 +60,18 @@ export default function AddStore({
         placeholder="Enter the store name"
         required
       />
-      <button type="submit">ADD STORE</button>
+      {!showLoader && (
+        <button
+          type="submit"
+          disabled={!newStoreLatitude || !newStoreLongitude}
+        >
+          ADD STORE
+        </button>
+      )}
+      {showLoader && <div></div>}
+      {!newStoreLatitude && !newStoreLongitude && (
+        <p>You need to select a location on google-maps</p>
+      )}
     </form>
   );
 }
