@@ -1,6 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../../main";
 
-export default function AddStoreItem({ storesList, setMessage, setError }) {
+export default function AddStoreItem({
+  storesList,
+  statusChanged,
+  setStatusChanged,
+  setMessage,
+  setError,
+}) {
   const typesOfFood = [
     "bread",
     "meat",
@@ -9,6 +16,7 @@ export default function AddStoreItem({ storesList, setMessage, setError }) {
     "vegetables",
     "other",
   ];
+  const { token } = useContext(AuthContext);
   const [showLoader, setShowLoader] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -29,6 +37,7 @@ export default function AddStoreItem({ storesList, setMessage, setError }) {
         {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           mode: "cors",
@@ -40,9 +49,12 @@ export default function AddStoreItem({ storesList, setMessage, setError }) {
       const data = await response.json();
       if (response.ok) {
         setMessage(data.message);
+        setTimeout(() => setMessage(null), 2000);
+        setStatusChanged(!statusChanged);
       }
     } catch (error) {
       setError(error);
+      setTimeout(() => setError(null), 3000);
     } finally {
       setShowLoader(false);
     }
