@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function AddStoreItem({ storesList, setMessage, setError }) {
   const typesOfFood = [
     "bread",
@@ -7,9 +9,11 @@ export default function AddStoreItem({ storesList, setMessage, setError }) {
     "vegetables",
     "other",
   ];
+  const [showLoader, setShowLoader] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setShowLoader(true);
 
     const formData = {
       storeId: event.target["stores"].value,
@@ -39,6 +43,8 @@ export default function AddStoreItem({ storesList, setMessage, setError }) {
       }
     } catch (error) {
       setError(error);
+    } finally {
+      setShowLoader(false);
     }
   };
 
@@ -103,7 +109,8 @@ export default function AddStoreItem({ storesList, setMessage, setError }) {
       <label htmlFor="expiration-date">Expiration Date</label>
       <input type="date" id="expiration-date" name="expiration-date" required />
 
-      <button type="submit">Add Item</button>
+      {!showLoader && <button type="submit">Add Item</button>}
+      {showLoader && <div></div>}
     </form>
   );
 }
