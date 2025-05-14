@@ -1,9 +1,4 @@
-export default function AddStoreItem({
-  userId,
-  storesData,
-  setMessage,
-  setError,
-}) {
+export default function AddStoreItem({ storesList, setMessage, setError }) {
   const typesOfFood = [
     "bread",
     "meat",
@@ -17,7 +12,6 @@ export default function AddStoreItem({
     event.preventDefault();
 
     const formData = {
-      userId: userId,
       storeId: event.target["stores"].value,
       itemName: event.target["item-name"].value,
       itemType: event.target["item-type"].value,
@@ -50,9 +44,9 @@ export default function AddStoreItem({
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="stores">Stores</label>
+      <label htmlFor="stores">Store</label>
       <select name="stores" id="stores" required>
-        {storesData.map((store) => {
+        {storesList.map((store) => {
           return (
             <option key={store.id} value={store.id}>
               {store.name}
@@ -100,6 +94,7 @@ export default function AddStoreItem({
         id="item-price"
         min={0.01}
         step={0.01}
+        required
       />
 
       <label htmlFor="production-date">Production Date</label>
