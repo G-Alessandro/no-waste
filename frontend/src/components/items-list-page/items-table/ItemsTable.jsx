@@ -7,6 +7,8 @@ export default function ItemsTable({
   hideItem,
   setMessage,
   setErrorMessage,
+  itemsListStatusChanged,
+  setItemsListStatusChanged,
 }) {
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
   const { token } = useContext(AuthContext);
@@ -43,6 +45,7 @@ export default function ItemsTable({
         setErrorMessage("Item not found!");
       } else {
         setMessage(data.message);
+        setItemsListStatusChanged(!itemsListStatusChanged);
         setTimeout(() => setMessage(null), 5000);
       }
     } catch (error) {
