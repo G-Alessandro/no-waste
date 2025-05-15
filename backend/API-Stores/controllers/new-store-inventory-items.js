@@ -4,9 +4,9 @@ const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const he = require("he");
+const jwt = require("jsonwebtoken");
 
 exports.post_new_store_inventory_items = [
-  body("userId").isInt().trim().escape(),
   body("storeId").isInt().trim().escape(),
   body("itemName").isLength({ min: 1, max: 30 }).trim().escape(),
   body("itemType").trim().escape(),
@@ -15,7 +15,22 @@ exports.post_new_store_inventory_items = [
   body("expirationDate").isISO8601().trim().escape(),
   asyncHandler(async (req, res) => {
     handleValidationErrors(req, res);
+
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+      res.status(403).json({
+        message:
+          "Unauthorized deletion, you must log in to access this feature",
+      });
+      return;
+    }
+
+    const token = authHeader.split(" ")[1];
+    
     try {
+      const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const userId = decodedJwt.userId;
+
       let inventory = await prisma.inventory.findUnique({
         where: { storeId: Number(req.body.storeId) },
       });
@@ -34,7 +49,7 @@ exports.post_new_store_inventory_items = [
           price: req.body.itemPrice,
           productionDate: new Date(req.body.productionDate),
           expirationDate: new Date(req.body.expirationDate),
-          createdByUserId: Number(req.body.userId),
+          createdByUserId: userId,
         },
       });
 
