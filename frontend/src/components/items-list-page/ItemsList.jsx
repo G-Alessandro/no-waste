@@ -14,6 +14,7 @@ export default function ItemsList() {
   const [searchText, setSearchText] = useState(null);
   const [typesFilter, setTypesFilter] = useState([]);
   const [selectedType, setSelectedType] = useState("none");
+  const [itemsListStatusChanged, setItemsListStatusChanged] = useState(false);
 
   useEffect(() => {
     const fetchStoreItemList = async () => {
@@ -41,7 +42,7 @@ export default function ItemsList() {
       }
     };
     fetchStoreItemList();
-  }, []);
+  }, [itemsListStatusChanged]);
 
   function hideItem(item, hideType) {
     const hideByType = selectedType !== "none" && selectedType !== item.type;
@@ -79,6 +80,8 @@ export default function ItemsList() {
               hideItem={hideItem}
               setMessage={setMessage}
               setErrorMessage={setErrorMessage}
+              itemsListStatusChanged={itemsListStatusChanged}
+              setItemsListStatusChanged={setItemsListStatusChanged}
             />
           )}
         </section>
