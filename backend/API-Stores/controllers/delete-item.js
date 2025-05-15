@@ -19,10 +19,12 @@ exports.delete_item = [
     const token = authHeader.split(" ")[1];
     try {
       const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const userId = decodedJwt.userId;
+
       const deletedItem = await prisma.item.delete({
         where: {
           id: Number(req.body.itemId),
-          createdByUserId: decodedJwt.userId,
+          createdByUserId: userId,
         },
       });
 
@@ -30,8 +32,10 @@ exports.delete_item = [
         where: {
           id: deletedItem.inventoryId,
         },
-        _count: {
-          items: true,
+        include: {
+          _count: {
+            select: { items: true },
+          },
         },
       });
 
