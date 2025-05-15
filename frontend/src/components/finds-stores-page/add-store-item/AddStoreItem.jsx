@@ -57,13 +57,17 @@ export default function AddStoreItem({
       setTimeout(() => setError(null), 3000);
     } finally {
       setShowLoader(false);
+      event.target.reset();
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="stores">Store</label>
-      <select name="stores" id="stores" required>
+      <select name="stores" id="stores" defaultValue="" required>
+        <option value="" disabled hidden>
+          Choose a store
+        </option>
         {storesList.map((store) => {
           return (
             <option key={store.id} value={store.id}>
@@ -80,11 +84,15 @@ export default function AddStoreItem({
         name="item-name"
         minLength={1}
         maxLength={30}
+        placeholder="Enter the item name"
         required
       />
 
       <label htmlFor="item-type">Item Type</label>
-      <select name="item-type" id="item-type" required>
+      <select name="item-type" id="item-type" defaultValue="" required>
+        <option value="" disabled hidden>
+          Choose a type
+        </option>
         <optgroup label="Fresh Food">
           {typesOfFood.map((type) => {
             return (
@@ -112,6 +120,7 @@ export default function AddStoreItem({
         id="item-price"
         min={0.01}
         step={0.01}
+        placeholder="Enter the item price"
         required
       />
 
