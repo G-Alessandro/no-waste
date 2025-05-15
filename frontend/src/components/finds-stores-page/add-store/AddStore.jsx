@@ -45,6 +45,7 @@ export default function AddStore({
       setTimeout(() => setError(null), 3000);
     } finally {
       setShowLoader(false);
+      event.target.reset();
     }
   };
 
