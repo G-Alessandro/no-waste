@@ -64,7 +64,13 @@ export default function AddStoreItem({
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="stores">Store</label>
-      <select name="stores" id="stores" defaultValue="" required>
+      <select
+        name="stores"
+        id="stores"
+        defaultValue={storesList.length === 1 ? storesList[0].name : ""}
+        disabled={storesList.length === 1 ? true : false}
+        required
+      >
         <option value="" disabled hidden>
           Choose a store
         </option>
