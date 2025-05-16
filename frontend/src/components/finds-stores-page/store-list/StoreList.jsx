@@ -115,7 +115,7 @@ export default function StoreList({
                     </button>
                   )}
                 {showDeleteLoader[index] && <div></div>}
-                <Link to="/items-list" state={{ storeId: store.id }}>
+                <Link to="/items-list" state={{ store }}>
                   See food list
                 </Link>
               </div>
