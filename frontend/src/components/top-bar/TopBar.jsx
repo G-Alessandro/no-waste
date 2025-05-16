@@ -63,6 +63,7 @@ export default function TopBar({ setUserId }) {
       } else {
         localStorage.removeItem("accessToken");
         setUserData(null);
+        setUserId(null);
         setToken(null);
         setLogoutMessage(data.message);
       }
