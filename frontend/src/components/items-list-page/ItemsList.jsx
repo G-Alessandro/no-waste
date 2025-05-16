@@ -1,26 +1,27 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import TopBar from "../top-bar/TopBar";
+import AddStoreItem from "../finds-stores-page/add-store-item/AddStoreItem";
 import ItemsFilter from "./items-filter/ItemsFilter";
 import ItemsTable from "./items-table/ItemsTable";
 
 export default function ItemsList() {
   const location = useLocation();
-  const { storeId } = location.state;
+  const { store } = location.state;
   const [userId, setUserId] = useState(null);
   const [itemsList, setItemsList] = useState(null);
   const [message, setMessage] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [error, setError] = useState(null);
   const [searchText, setSearchText] = useState(null);
   const [typesFilter, setTypesFilter] = useState([]);
   const [selectedType, setSelectedType] = useState("none");
-  const [itemsListStatusChanged, setItemsListStatusChanged] = useState(false);
+  const [statusChanged, setStatusChanged] = useState(false);
 
   useEffect(() => {
     const fetchStoreItemList = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/stores/items-list/${storeId}`,
+          `${import.meta.env.VITE_BACKEND_URL}/stores/items-list/${store.id}`,
           {
             method: "GET",
             credentials: "include",
@@ -30,19 +31,19 @@ export default function ItemsList() {
 
         const data = await response.json();
         if (!data) {
-          setErrorMessage("No data found");
-          setTimeout(() => setErrorMessage(null), 5000);
+          setError("No data found");
+          setTimeout(() => setError(null), 5000);
         } else {
           setItemsList(data.itemsList);
         }
       } catch (error) {
-        setErrorMessage(error);
-        setTimeout(() => setErrorMessage(null), 5000);
+        setError(error);
+        setTimeout(() => setError(null), 5000);
         console.log("Error while searching for items:", error);
       }
     };
     fetchStoreItemList();
-  }, [itemsListStatusChanged]);
+  }, [statusChanged]);
 
   function hideItem(item, hideType) {
     const hideByType = selectedType !== "none" && selectedType !== item.type;
@@ -59,9 +60,17 @@ export default function ItemsList() {
     <main>
       <TopBar setUserId={setUserId} />
       {message && <p aria-live="polite">{message}</p>}
-      {errorMessage && <p aria-live="polite">{errorMessage}</p>}
+      {error && <p aria-live="polite">{error}</p>}
       {itemsList && (
         <section>
+          <AddStoreItem
+            statusChanged={statusChanged}
+            setStatusChanged={setStatusChanged}
+            userId={userId}
+            storesList={[store]}
+            setMessage={setMessage}
+            setError={setError}
+          />
           <ItemsFilter
             itemsList={itemsList}
             setItemsList={setItemsList}
@@ -79,9 +88,9 @@ export default function ItemsList() {
               itemsList={itemsList}
               hideItem={hideItem}
               setMessage={setMessage}
-              setErrorMessage={setErrorMessage}
-              itemsListStatusChanged={itemsListStatusChanged}
-              setItemsListStatusChanged={setItemsListStatusChanged}
+              setError={setError}
+              statusChanged={statusChanged}
+              setStatusChanged={setStatusChanged}
             />
           )}
         </section>
