@@ -4,36 +4,8 @@ const handleValidationErrors = require("./validation/validation");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const jwt = require("jsonwebtoken");
-
-const generateAccessToken = (user) => {
-  return jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "15m",
-  });
-};
-
-const generateRefreshToken = async (user) => {
-  const refreshToken = jwt.sign(
-    { userId: user.id },
-    process.env.JWT_REFRESH_SECRET_KEY,
-    { expiresIn: "1d" }
-  );
-
-  await prisma.refreshToken.deleteMany({
-    where: { userId: user.id },
-  });
-
-  await prisma.refreshToken.create({
-    data: {
-      token: refreshToken,
-      userId: user.id,
-      createdAt: new Date(Date.now()),
-      expiresAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-    },
-  });
-
-  return refreshToken;
-};
+const generateAccessToken = require("./token-utils/generateAccessToken");
+const generateRefreshToken = require("./token-utils/generateRefreshToken");
 
 exports.login_post = [
   body("email")
