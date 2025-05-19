@@ -11,21 +11,28 @@ export default function Login({ setError }) {
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, type) => {
     event.preventDefault();
     setShowLoader(true);
-    const formData = {
-      email: event.target.email.value,
-      password: event.target.password.value,
-    };
+
+    const isLogin = type === "login";
+    const route = isLogin ? "login" : "demo-account";
+    const method = isLogin ? "POST" : "GET";
+
+    const formData = isLogin
+      ? JSON.stringify({
+          email: event.target.email.value,
+          password: event.target.password.value,
+        })
+      : undefined;
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/authentication/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/authentication/${route}`,
         {
-          method: "POST",
+          method: method,
           headers: { "Content-Type": "application/json" },
           mode: "cors",
-          body: JSON.stringify(formData),
+          body: formData,
         }
       );
 
@@ -66,7 +73,7 @@ export default function Login({ setError }) {
       )}
       <TopBar />
       {!loginSuccessful && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(event) => handleSubmit(event, "login")}>
           <label htmlFor="email">Email</label>
           <input type="email" name="email" id="email" minLength={1} required />
 
@@ -92,6 +99,11 @@ export default function Login({ setError }) {
             ></div>
           )}
           {!showLoader && <button type="submit">Login</button>}
+          {!showLoader && (
+            <button onClick={(event) => handleSubmit(event, "demo-account")}>
+              Try a demo account
+            </button>
+          )}
         </form>
       )}
       <Footer />
