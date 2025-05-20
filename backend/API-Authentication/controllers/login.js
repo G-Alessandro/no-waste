@@ -36,14 +36,9 @@ exports.login_post = [
         return res.status(401).json({ error: "Authentication failed" });
       }
 
-      const accessToken = generateAccessToken(user);
-      const refreshToken = await generateRefreshToken(user);
+      const accessToken = generateAccessToken(user.id);
+      await generateRefreshToken(user.id);
 
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "Strict",
-      });
       res.status(200).json({ accessToken });
     } catch (error) {
       console.log(error);
