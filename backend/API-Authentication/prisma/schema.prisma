@@ -24,3 +24,10 @@ model RefreshToken {
   createdAt DateTime
   expiresAt DateTime
 }
+
+model BlacklistedRefreshToken {
+  id            Int      @id @default(autoincrement())
+  token         String   @unique
+  blacklistedAt DateTime
+  expiresAt     DateTime
+}
