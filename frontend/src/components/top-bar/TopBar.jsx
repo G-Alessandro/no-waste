@@ -1,15 +1,14 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../main.jsx";
 
 export default function TopBar({ setUserId }) {
   const [userData, setUserData] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState(null);
-  const { token, setToken } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!token) return;
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) return;
     const fetchUserData = async () => {
       try {
         const response = await fetch(
@@ -19,15 +18,21 @@ export default function TopBar({ setUserId }) {
             credentials: "include",
             mode: "cors",
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${accessToken}`,
               "Content-Type": "application/json",
             },
           }
         );
+
+        const newToken = response.headers.get("Authorization");
         const data = await response.json();
+
         if (!data) {
           console.log("No data found");
         } else {
+          if (newToken) {
+            localStorage.setItem("accessToken", newToken);
+          }
           setUserData(data.userData);
           setUserId(data.userData.id);
         }
@@ -37,7 +42,7 @@ export default function TopBar({ setUserId }) {
     };
 
     fetchUserData();
-  }, [token]);
+  }, []);
 
   const handleLogout = async (event) => {
     event.preventDefault();
@@ -64,7 +69,6 @@ export default function TopBar({ setUserId }) {
         localStorage.removeItem("accessToken");
         setUserData(null);
         setUserId(null);
-        setToken(null);
         setLogoutMessage(data.message);
       }
     } catch (error) {
