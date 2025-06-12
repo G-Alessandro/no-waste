@@ -1,11 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../main.jsx";
 import TopBar from "../top-bar/TopBar.jsx";
 import Footer from "../footer/Footer.jsx";
 
 export default function Login({ setError }) {
-  const { setToken } = useContext(AuthContext);
   const [loginSuccessful, setLoginSuccessful] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -44,7 +42,6 @@ export default function Login({ setError }) {
       } else {
         setLoginSuccessful(true);
         const accessToken = data.accessToken;
-        setToken(accessToken);
         localStorage.setItem("accessToken", accessToken);
       }
     } catch (error) {
