@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../../main";
 import FoodTypeCounter from "./food-type-counter/FoodTypeCounter";
 
 export default function StoreList({
@@ -15,7 +14,6 @@ export default function StoreList({
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
   const [message, setMessage] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchStoreItemList = async () => {
@@ -28,7 +26,6 @@ export default function StoreList({
             mode: "cors",
           }
         );
-
         const data = await response.json();
         if (!data) {
           setErrorMessage("No data found");
@@ -67,16 +64,22 @@ export default function StoreList({
           credentials: "include",
           mode: "cors",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ storeId }),
         }
       );
+
+      const newToken = response.headers.get("Authorization");
       const data = await response.json();
+
       if (!data) {
         setErrorMessage("Store not found!");
       } else {
+        if (newToken) {
+          localStorage.setItem("accessToken", newToken);
+        }
         setMessage(data.message);
         setTimeout(() => setMessage(null), 5000);
       }
@@ -108,7 +111,7 @@ export default function StoreList({
               <p>{selectedStoreId}</p>
               <div>
                 {userId === store.createdByUserId &&
-                  token &&
+                  localStorage.getItem("accessToken") &&
                   showDeleteLoader[index] === false && (
                     <button onClick={() => handleDeleteStore(store.id, index)}>
                       X
