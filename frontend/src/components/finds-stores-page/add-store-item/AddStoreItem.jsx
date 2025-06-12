@@ -1,5 +1,4 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../../../main";
+import { useState } from "react";
 
 export default function AddStoreItem({
   storesList,
@@ -16,7 +15,6 @@ export default function AddStoreItem({
     "vegetables",
     "other",
   ];
-  const { token } = useContext(AuthContext);
   const [showLoader, setShowLoader] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -37,7 +35,7 @@ export default function AddStoreItem({
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             "Content-Type": "application/json",
           },
           mode: "cors",
@@ -46,8 +44,13 @@ export default function AddStoreItem({
         }
       );
 
+      const newToken = response.headers.get("Authorization");
       const data = await response.json();
+
       if (response.ok) {
+        if (newToken) {
+          localStorage.setItem("accessToken", newToken);
+        }
         setMessage(data.message);
         setTimeout(() => setMessage(null), 2000);
         setStatusChanged(!statusChanged);
