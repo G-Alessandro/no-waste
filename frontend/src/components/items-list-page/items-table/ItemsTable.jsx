@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../../main";
+import { useState, useEffect } from "react";
 
 export default function ItemsTable({
   userId,
@@ -11,7 +10,6 @@ export default function ItemsTable({
   setStatusChanged,
 }) {
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
-  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     if (itemsList && itemsList.length > 0) {
@@ -34,16 +32,22 @@ export default function ItemsTable({
           credentials: "include",
           mode: "cors",
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ itemId }),
         }
       );
+
+      const newToken = response.headers.get("Authorization");
       const data = await response.json();
+
       if (!data) {
         setErrorMessage("Item not found!");
       } else {
+        if (newToken) {
+          localStorage.setItem("accessToken", newToken);
+        }
         setMessage(data.message);
         setStatusChanged(!statusChanged);
         setTimeout(() => setMessage(null), 5000);
