@@ -23,7 +23,10 @@ exports.logout_post = asyncHandler(async (req, res) => {
       res.status(403).json({ message: "Invalid login data" });
     }
 
-    res.status(200).json({ message: "Logged out successfully" });
+    res
+      .status(200)
+      .clearCookie("refreshToken")
+      .json({ message: "Logged out successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "An error occurred while logging out" });
