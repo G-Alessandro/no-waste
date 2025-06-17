@@ -28,6 +28,7 @@ export default function Login({ setError }) {
         `${import.meta.env.VITE_BACKEND_URL}/authentication/${route}`,
         {
           method: method,
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           mode: "cors",
           body: formData,
