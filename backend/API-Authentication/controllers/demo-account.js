@@ -31,9 +31,17 @@ exports.demo_account_get = asyncHandler(async (req, res) => {
     }
 
     const accessToken = generateAccessToken(user.id);
-    await generateRefreshToken(user.id);
+    const refreshToken = await generateRefreshToken(user.id);
 
-    res.status(200).json({ accessToken });
+    res
+      .status(200)
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .json({ accessToken });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Login failed" });
