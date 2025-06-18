@@ -9,16 +9,20 @@ exports.delete_item = [
   body("itemId").isInt().trim().escape(),
   asyncHandler(async (req, res) => {
     handleValidationErrors(req, res);
-    const authHeader = req.headers["authorization"];
-    if (!authHeader) {
+
+    let accessToken = req.headers["authorization"];
+
+    if (!accessToken) {
       res.status(403).json({
-        message:
-          "Unauthorized deletion, you must log in to access this feature",
+        message: "Access denied, you must log in to access this feature",
       });
     }
-    const token = authHeader.split(" ")[1];
+    if (accessToken.startsWith("Bearer ")) {
+      accessToken = accessToken.split(" ")[1];
+    }
+
     try {
-      const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const decodedJwt = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
       const userId = decodedJwt.userId;
 
       const deletedItem = await prisma.item.delete({

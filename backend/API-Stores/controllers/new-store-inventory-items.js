@@ -16,19 +16,19 @@ exports.post_new_store_inventory_items = [
   asyncHandler(async (req, res) => {
     handleValidationErrors(req, res);
 
-    const authHeader = req.headers["authorization"];
-    if (!authHeader) {
-      res.status(403).json({
-        message:
-          "Unauthorized deletion, you must log in to access this feature",
-      });
-      return;
-    }
+    let accessToken = req.headers["authorization"];
 
-    const token = authHeader.split(" ")[1];
+    if (!accessToken) {
+      res.status(403).json({
+        message: "Access denied, you must log in to access this feature",
+      });
+    }
+    if (accessToken.startsWith("Bearer ")) {
+      accessToken = accessToken.split(" ")[1];
+    }
     
     try {
-      const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      const decodedJwt = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
       const userId = decodedJwt.userId;
 
       let inventory = await prisma.inventory.findUnique({
