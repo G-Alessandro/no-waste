@@ -1,60 +1,53 @@
 const asyncHandler = require("express-async-handler");
 const handleValidationErrors = require("./validation/validation");
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
+const generateAccessToken = require("./token-utils/generateAccessToken");
+const generateRefreshToken = require("./token-utils/generateRefreshToken");
 
 exports.refresh_token_post = asyncHandler(async (req, res) => {
   handleValidationErrors(req, res);
   try {
-    const refreshToken = req.cookies.refreshToken;
-    const storedToken = await prisma.refreshToken.findUnique({
-      where: { refreshToken },
-    });
+    const oldRefreshToken = req.cookies.refreshToken;
 
-    if (!storedToken) {
-      res.status(403).json({ message: "Invalid refresh token" });
+    if (!oldRefreshToken) {
+      return res.status(401).json({ error: "Invalid access, please login" });
     }
 
-    jwt.verify(
-      refreshToken,
-      process.env.JWT_REFRESH_SECRET_KEY,
-      async (err, decoded) => {
-        if (err)
-          return res
-            .status(403)
-            .json({ message: "Error validating login data" });
-
-        const storedToken = await prisma.refreshToken.findUnique({
-          where: { token: refreshToken },
-        });
-
-        if (!storedToken) {
-          return res
-            .status(403)
-            .json({ message: "Login data not found, please log in again" });
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { id: decoded.userId },
-        });
-
-        if (!user)
-          return res.status(403).json({
-            message: "Error validating login data: Account not found",
-          });
-
-        const newAccessToken = jwt.sign(
-          { userId: user.id },
-          process.env.JWT_SECRET,
-          { expiresIn: "15m" }
-        );
-
-        res.json({ accessToken: newAccessToken });
-      }
+    const decodedJwt = jwt.verify(
+      oldRefreshToken,
+      process.env.JWT_REFRESH_SECRET_KEY
     );
+
+    const accessToken = generateAccessToken(decodedJwt.userId);
+    const refreshToken = await generateRefreshToken(
+      decodedJwt.userId,
+      oldRefreshToken
+    );
+
+    res
+      .status(200)
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .json({ accessToken });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Login expired, Please log in again" });
+
+    if (error.name === "TokenExpiredError") {
+      return res
+        .status(401)
+        .clearCookie("refreshToken")
+        .json({ error: "Access no longer valid, please login" });
+    }
+    if (error.name === "JsonWebTokenError") {
+      return res
+        .status(403)
+        .clearCookie("refreshToken")
+        .json({ error: "Invalid access, please login" });
+    }
+
+    res.status(500).json({ error: "internal server error" });
   }
 });
