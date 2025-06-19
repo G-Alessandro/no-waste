@@ -11,8 +11,20 @@ const deleteExpiredTokens = async () => {
       },
     });
 
+    const deletedBlackListedTokens = await prisma.blacklistedRefreshToken.deleteMany({
+      where: {
+        expiresAt: { lt: now },
+      },
+    });
+
     if (deletedTokens.count > 0) {
       console.log(`Removed ${deletedTokens.count} expired tokens.`);
+    }
+
+    if (deletedBlackListedTokens.count > 0) {
+      console.log(
+        `Removed ${deletedBlackListedTokens.count} expired black listed tokens.`
+      );
     }
   } catch (error) {
     console.error("Error clearing expired tokens:", error);
