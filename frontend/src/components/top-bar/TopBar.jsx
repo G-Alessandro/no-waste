@@ -27,9 +27,7 @@ export default function TopBar({ setUserId }) {
         const newToken = response.headers.get("Authorization");
         const data = await response.json();
 
-        if (!data) {
-          console.log("No data found");
-        } else {
+        if (response.ok) {
           if (newToken) {
             localStorage.setItem("accessToken", newToken);
           }
