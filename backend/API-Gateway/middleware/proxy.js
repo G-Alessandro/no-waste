@@ -51,11 +51,13 @@ function setupProxy(app, services) {
         proxyReq.setHeader("x-gateway-secret", process.env.GATEWAY_SECRET);
       },
     };
-    
+
     app.use(route, (req, res, next) => {
-      const isNewOrDelete =
-        req.path.startsWith("/new-") || req.path.startsWith("/delete-");
-      if (requiresAuthentication || isNewOrDelete) {
+      const routesToCheck =
+        req.path.startsWith("/new-") ||
+        req.path.startsWith("/delete-") ||
+        req.path.startsWith("/user-data");
+      if (requiresAuthentication || routesToCheck) {
         return verifyToken(req, res, next);
       }
       next();
