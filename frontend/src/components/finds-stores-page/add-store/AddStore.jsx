@@ -1,12 +1,15 @@
 import { useState } from "react";
+import Geocoding from "./geocoding/Geocoding";
 
 export default function AddStore({
-  newStoreLatitude,
-  newStoreLongitude,
+  newStoreLocation,
+  setNewStoreLocation,
   statusChanged,
   setStatusChanged,
   setMessage,
   setError,
+  addingLocationFromMap,
+  setAddingLocationFromMap,
 }) {
   const [showLoader, setShowLoader] = useState(false);
 
@@ -15,8 +18,8 @@ export default function AddStore({
     setShowLoader(true);
     const formData = {
       storeName: event.target["store-name"].value,
-      latitude: newStoreLatitude,
-      longitude: newStoreLongitude,
+      latitude: newStoreLocation.location.lat,
+      longitude: newStoreLocation.location.lng,
     };
     try {
       const response = await fetch(
@@ -42,6 +45,7 @@ export default function AddStore({
         }
         setMessage(data.message);
         setTimeout(() => setMessage(null), 2000);
+        setNewStoreLocation(null);
         setStatusChanged(!statusChanged);
       }
     } catch (error) {
@@ -52,7 +56,7 @@ export default function AddStore({
       event.target.reset();
     }
   };
-
+  
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="store-name">Store Name</label>
@@ -65,18 +69,32 @@ export default function AddStore({
         placeholder="Enter the store name"
         required
       />
+
+      <Geocoding
+        addingLocationFromMap={addingLocationFromMap}
+        newStoreLocation={newStoreLocation}
+        setNewStoreLocation={setNewStoreLocation}
+      />
+
+      {!addingLocationFromMap && (
+        <button onClick={() => setAddingLocationFromMap(true)}>
+          Click directly on the map
+        </button>
+      )}
+
+      {addingLocationFromMap && (
+        <button onClick={() => setAddingLocationFromMap(false)}>
+          Write the address
+        </button>
+      )}
+
       {!showLoader && (
-        <button
-          type="submit"
-          disabled={!newStoreLatitude || !newStoreLongitude}
-        >
+        <button type="submit" disabled={!newStoreLocation}>
           ADD STORE
         </button>
       )}
       {showLoader && <div></div>}
-      {!newStoreLatitude && !newStoreLongitude && (
-        <p>You need to select a location on google-maps</p>
-      )}
+      {!newStoreLocation && <p>You need to select a location</p>}
     </form>
   );
 }
