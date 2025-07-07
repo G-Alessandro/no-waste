@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import FoodTypeCounter from "./food-type-counter/FoodTypeCounter";
+import style from "./StoreList.module.css";
 
 export default function StoreList({
   userId,
   storesList,
   setStoresList,
-  selectedStoreId,
-  setSelectedStoreId,
+  selectedStore,
+  setSelectedStore,
   statusChanged,
   setStatusChanged,
 }) {
@@ -92,6 +93,19 @@ export default function StoreList({
     }
   };
 
+  const handleStoreSelect = (store) => {
+    setSelectedStore({
+      storeId: store.id,
+      storeName: store.name,
+      location: {
+        lat: store.latitude,
+        lng: store.longitude,
+      },
+      freshFoods: store.freshFoods,
+      cannedFoods: store.cannedFoods,
+    });
+  };
+
   return (
     <div>
       {!storesList && <p>Loading Stores...</p>}
@@ -101,14 +115,20 @@ export default function StoreList({
         storesList.map((store, index) => {
           return (
             <div key={store.id}>
-              <button onClick={() => setSelectedStoreId(store.id)}>
+              <button
+                onClick={() => handleStoreSelect(store)}
+                className={
+                  selectedStore?.storeId === store.id
+                    ? style.storeButtonClicked
+                    : style.storeButton
+                }
+              >
                 <h2>{store.name}</h2>
                 <FoodTypeCounter
                   freshFoods={store.freshFoods}
                   cannedFoods={store.cannedFoods}
                 />
               </button>
-              <p>{selectedStoreId}</p>
               <div>
                 {userId === store.createdByUserId &&
                   localStorage.getItem("accessToken") &&
