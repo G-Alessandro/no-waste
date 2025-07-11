@@ -19,9 +19,14 @@ export default function MapComponent({
   addingLocationFromMap,
 }) {
   const [userMarker, setUserMarker] = useState({
-    location: { lat: 39.03922, lng: 125.76252 },
+    location: {
+      lat: parseFloat(import.meta.env.VITE_DEFAULT_LATITUDE),
+      lng: parseFloat(import.meta.env.VITE_DEFAULT_LONGITUDE),
+    },
   });
+
   const [mapCenter, setMapCenter] = useState(userMarker.location);
+  const [mapZoom, setMapZoom] = useState(13);
 
   useEffect(() => {
     if (userLocation) {
@@ -31,6 +36,7 @@ export default function MapComponent({
           lng: userLocation.longitude,
         },
       });
+      setMapZoom(13);
     }
   }, [userLocation]);
 
@@ -41,12 +47,14 @@ export default function MapComponent({
   useEffect(() => {
     if (selectedStore) {
       setMapCenter(selectedStore.location);
+      setMapZoom(13);
     }
   }, [selectedStore]);
 
   useEffect(() => {
     if (newStoreLocation) {
       setMapCenter(newStoreLocation.location);
+      setMapZoom(13);
     }
     if (!newStoreLocation) {
       if (userLocation) {
@@ -69,8 +77,12 @@ export default function MapComponent({
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
           <Map
             mapId={import.meta.env.VITE_GOOGLE_MAPS_ID}
-            defaultZoom={13}
+            zoom={mapZoom}
             center={mapCenter}
+            onCameraChanged={(ev) => {
+              setMapCenter(ev.detail.center);
+              setMapZoom(ev.detail.zoom);
+            }}
           >
             {storesList && (
               <StoreMarkers
