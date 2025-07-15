@@ -7,6 +7,7 @@ export default function StoreList({
   userId,
   storesList,
   setStoresList,
+  userLocation,
   selectedStore,
   setSelectedStore,
   statusChanged,
@@ -15,12 +16,14 @@ export default function StoreList({
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
   const [message, setMessage] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-
+  
   useEffect(() => {
     const fetchStoreItemList = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/stores/stores-list`,
+          `${import.meta.env.VITE_BACKEND_URL}/stores/stores-list/${
+            userLocation.latitude
+          }/${userLocation.longitude}`,
           {
             method: "GET",
             credentials: "include",
@@ -41,7 +44,7 @@ export default function StoreList({
       }
     };
     fetchStoreItemList();
-  }, [statusChanged]);
+  }, [statusChanged, userLocation]);
 
   useEffect(() => {
     if (storesList && storesList.length > 0) {
