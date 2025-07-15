@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Geocoding from "./geocoding/Geocoding";
+import Geocoding from "../google-maps/geocoding/Geocoding";
 
 export default function AddStore({
   newStoreLocation,
@@ -18,8 +18,8 @@ export default function AddStore({
     setShowLoader(true);
     const formData = {
       storeName: event.target["store-name"].value,
-      latitude: newStoreLocation.location.lat,
-      longitude: newStoreLocation.location.lng,
+      latitude: newStoreLocation.latitude,
+      longitude: newStoreLocation.longitude,
     };
     try {
       const response = await fetch(
@@ -56,7 +56,7 @@ export default function AddStore({
       event.target.reset();
     }
   };
-  
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="store-name">Store Name</label>
@@ -72,8 +72,9 @@ export default function AddStore({
 
       <Geocoding
         addingLocationFromMap={addingLocationFromMap}
-        newStoreLocation={newStoreLocation}
-        setNewStoreLocation={setNewStoreLocation}
+        newLocation={newStoreLocation}
+        setNewLocation={setNewStoreLocation}
+        parentComponent={"add-store"}
       />
 
       {!addingLocationFromMap && (
