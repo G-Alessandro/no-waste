@@ -8,7 +8,7 @@ export default function NewStoreMarker({ setNewStoreLocation }) {
     const listener = map.addListener("click", (e) => {
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
-      setNewStoreLocation({ location: { lat, lng } });
+      setNewStoreLocation({ latitude: lat, longitude: lng });
     });
     return () => listener.remove();
   }, [map, setNewStoreLocation]);
