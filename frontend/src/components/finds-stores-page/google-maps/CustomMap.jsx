@@ -53,7 +53,10 @@ export default function MapComponent({
 
   useEffect(() => {
     if (newStoreLocation) {
-      setMapCenter(newStoreLocation.location);
+      setMapCenter({
+        lat: newStoreLocation.latitude,
+        lng: newStoreLocation.longitude,
+      });
       setMapZoom(13);
     }
     if (!newStoreLocation) {
@@ -97,7 +100,12 @@ export default function MapComponent({
             )}
 
             {newStoreLocation && (
-              <AdvancedMarker position={newStoreLocation.location}>
+              <AdvancedMarker
+                position={{
+                  lat: newStoreLocation.latitude,
+                  lng: newStoreLocation.longitude,
+                }}
+              >
                 <Pin
                   background="#a8e992"
                   glyphColor="#000"
