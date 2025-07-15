@@ -5,7 +5,6 @@ export default function UserGeolocation({ setUserLocation }) {
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
-      
       const options = {
         enableHighAccuracy: true,
         timeout: 10000,
@@ -31,7 +30,7 @@ export default function UserGeolocation({ setUserLocation }) {
 
   return (
     <div>
-      <button onClick={getUserLocation}>Find your location</button>
+      <button onClick={getUserLocation}>Use Geolocation</button>
       {geolocationError && (
         <p aria-live="polite">Geolocation is not supported by this browser</p>
       )}
