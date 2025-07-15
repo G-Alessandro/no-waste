@@ -3,7 +3,7 @@ import TopBar from "../top-bar/TopBar";
 import AddStore from "./add-store/AddStore.jsx";
 import AddStoreItem from "./add-store-item/AddStoreItem.jsx";
 import StoreList from "./store-list/StoreList.jsx";
-import UserGeolocation from "./user-geolocation/UserGeolocation.jsx";
+import UserLocations from "./user-locations/UserLocations.jsx";
 import CustomMap from "./google-maps/CustomMap.jsx";
 import Footer from "../footer/Footer";
 import style from "./FindStore.module.css";
@@ -17,7 +17,10 @@ export default function FindStore() {
   const [addingNewItem, setAddingNewItem] = useState(false);
   const [addingLocationFromMap, setAddingLocationFromMap] = useState(false);
   const [statusChanged, setStatusChanged] = useState(false);
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState({
+    latitude: parseFloat(import.meta.env.VITE_DEFAULT_LATITUDE),
+    longitude: parseFloat(import.meta.env.VITE_DEFAULT_LONGITUDE),
+  });
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
@@ -64,14 +67,23 @@ export default function FindStore() {
           userId={userId}
           storesList={storesList}
           setStoresList={setStoresList}
+          userLocation={userLocation}
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
           statusChanged={statusChanged}
           setStatusChanged={setStatusChanged}
         />
-        <UserGeolocation setUserLocation={setUserLocation} />
       </section>
       <section>
+        {userId && (
+          <UserLocations
+            userId={userId}
+            setMessage={setMessage}
+            setError={setError}
+            userLocation={userLocation}
+            setUserLocation={setUserLocation}
+          />
+        )}
         <CustomMap
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
