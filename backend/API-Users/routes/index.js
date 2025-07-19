@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const user_location_controller = require("../controllers/user-location.js");
+const user_locations_controller = require("../controllers/user-locations.js");
 const new_user_location_controller = require("../controllers/new-user-location.js");
 const delete_user_location_controller = require("../controllers/delete-user-location.js");
 
-router.get("/user-location/id", user_location_controller.get_user_location);
+router.get("/user-locations", user_locations_controller.get_user_locations);
 
 router.post(
   "/new-user-location",
