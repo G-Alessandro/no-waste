@@ -3,16 +3,28 @@ const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const jwt = require("jsonwebtoken");
 
 exports.delete_user_location = [
-  body("userId").isInt().trim().escape(),
   body("locationId").isInt().trim().escape(),
   asyncHandler(async (req, res) => {
+    handleValidationErrors(req, res);
+    let accessToken = req.headers["authorization"];
+
+    if (!accessToken) {
+      res.status(403).json({
+        message: "Access denied, you must log in to access this feature",
+      });
+    }
+    if (accessToken.startsWith("Bearer ")) {
+      accessToken = accessToken.split(" ")[1];
+    }
     try {
-      handleValidationErrors(req, res);
+      const decodedJwt = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+      const userId = decodedJwt.userId;
 
       const userLocations = await prisma.userLocations.findUnique({
-        where: { userId: Number(req.body.userId) },
+        where: { userId: userId },
         include: { location: true },
       });
 
@@ -20,6 +32,7 @@ exports.delete_user_location = [
         where: {
           id: Number(req.body.locationId),
           userLocationsId: userLocations.id,
+          createdByUserId: userId,
         },
       });
 
