@@ -9,7 +9,7 @@ datasource db {
 
 model UserLocations {
   id       Int        @id @default(autoincrement())
-  userId   Int
+  userId   Int        @unique
   location Location[]
 }
 
@@ -20,4 +20,5 @@ model Location {
   longitude       Float
   userLocations   UserLocations @relation(fields: [userLocationsId], references: [id])
   userLocationsId Int
+  createdByUserId Int
 }
