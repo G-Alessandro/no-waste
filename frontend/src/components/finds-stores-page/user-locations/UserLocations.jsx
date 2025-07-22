@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import UserGeolocation from "./user-geolocation/UserGeolocation.jsx";
 import Geocoding from "../google-maps/geocoding/Geocoding.jsx";
+import UserLocationsSelect from "./user-locations-select/UserLocationsSelect.jsx";
 import SaveUserLocation from "./save-user-location/SaveUserLocation.jsx";
+import UserLocationsList from "./user-locations-list/UserLocationsList.jsx";
 
 export default function UserLocations({
   userId,
@@ -9,6 +11,7 @@ export default function UserLocations({
   setError,
   userLocation,
   setUserLocation,
+  setShowUserMarker,
 }) {
   const [userLocationStatusChanged, setUserLocationStatusChanged] =
     useState(false);
@@ -17,114 +20,80 @@ export default function UserLocations({
       import.meta.env.VITE_DEFAULT_LONGITUDE
     )}`
   );
-  const [previousUserLocation, setPreviousUserLocation] = useState(null);
-  const [userLocationsArray, setUserLocationsArray] = useState(null);
+  const [userLocationsList, setUserLocationsList] = useState([]);
   const [showSaveLocation, setShowSaveLocation] = useState(false);
+  const [showUserLocationsList, setShowUserLocationsList] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [locationsSelectIsNone, setLocationsSelectIsNone] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/user-location/${userId}`,
-          {
-            method: "GET",
-            credentials: "include",
-            mode: "cors",
-          }
-        );
-
-        const data = await response.json();
-        if (!response.ok) {
-          setError(data.error);
-        } else {
-          setUserLocationsArray(data);
-        }
-      } catch (error) {
-        setError(error);
-      }
-    };
-    fetchData();
-  }, [userLocationStatusChanged]);
-
-  const handleLocationChange = (event) => {
-    const value = event.target.value;
-    setSelectDefaultValue(event.target.value);
-    if (value === "none") {
-      setUserLocation({
-        latitude: previousUserLocation.latitude,
-        longitude: previousUserLocation.longitude,
-      });
-    } else {
-      const [latitude, longitude] = value.split(",");
-      setPreviousUserLocation({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
-      });
-      setUserLocation({
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
-      });
-    }
-  };
+  const [locationFromGeolocation, setLocationFromGeolocation] = useState(false);
 
   return (
     <section>
-      {!showSaveLocation && (
-        <div>
-          <UserGeolocation setUserLocation={setUserLocation} />
-          <Geocoding
-            addingLocationFromMap={true}
-            previousUserLocation={previousUserLocation}
-            setPreviousUserLocation={setPreviousUserLocation}
-            newLocation={userLocation}
-            setNewLocation={setUserLocation}
-            setSelectDefaultValue={setSelectDefaultValue}
-            parentComponent={"user-locations"}
-          />
-          <button onClick={() => setShowSaveLocation(true)}>
-            Save location
-          </button>
-        </div>
-      )}
+      <div>
+        <UserGeolocation
+          setUserLocation={setUserLocation}
+          setLocationFromGeolocation={setLocationFromGeolocation}
+        />
+        <Geocoding
+          userId={userId}
+          addingLocationFromMap={locationFromGeolocation}
+          setAddingLocationFromMap={setLocationFromGeolocation}
+          newLocation={userLocation}
+          setNewLocation={setUserLocation}
+          setSelectDefaultValue={setSelectDefaultValue}
+          parentComponent={"user-locations"}
+          setShowSaveLocation={setShowSaveLocation}
+          setShowUserMarker={setShowUserMarker}
+          selectedPlace={selectedPlace}
+          setSelectedPlace={setSelectedPlace}
+          locationsSelectIsNone={locationsSelectIsNone}
+          setLocationsSelectIsNone={setLocationsSelectIsNone}
+        />
+      </div>
 
-      {showSaveLocation && (
+      {userId && showSaveLocation && (
         <div>
           <SaveUserLocation
             userId={userId}
             setError={setError}
             setMessage={setMessage}
+            userLocation={userLocation}
             userLocationStatusChanged={userLocationStatusChanged}
             setUserLocationStatusChanged={setUserLocationStatusChanged}
             setShowSaveLocation={setShowSaveLocation}
+            setSelectDefaultValue={setSelectDefaultValue}
+            setSelectedPlace={setSelectedPlace}
           />
         </div>
       )}
+      <UserLocationsSelect
+        userId={userId}
+        setError={setError}
+        setUserLocationsList={setUserLocationsList}
+        userLocationStatusChanged={userLocationStatusChanged}
+        selectDefaultValue={selectDefaultValue}
+        setSelectDefaultValue={setSelectDefaultValue}
+        setUserLocation={setUserLocation}
+        userLocationsList={userLocationsList}
+        showUserLocationsList={showUserLocationsList}
+        setShowUserLocationsList={setShowUserLocationsList}
+        setShowUserMarker={setShowUserMarker}
+        setLocationsSelectIsNone={setLocationsSelectIsNone}
+      />
 
-      <label htmlFor="user-locations">Your Locations</label>
-      <select
-        id="user-locations"
-        name="user-locations"
-        value={selectDefaultValue}
-        onChange={handleLocationChange}
-      >
-        <option value="none">None</option>
-        <option
-          value={`${parseFloat(
-            import.meta.env.VITE_DEFAULT_LATITUDE
-          )},${parseFloat(import.meta.env.VITE_DEFAULT_LONGITUDE)}`}
-        >
-          Default
-        </option>
-        {userLocationsArray &&
-          userLocationsArray.map((location) => {
-            <option
-              key={location.id}
-              value={`${location.latitude},${location.longitude}`}
-            >
-              {location.name}
-            </option>;
-          })}
-      </select>
+      {showUserLocationsList && (
+        <UserLocationsList
+          setMessage={setMessage}
+          setError={setError}
+          userLocationsList={userLocationsList}
+          setShowUserLocationsList={setShowUserLocationsList}
+          userLocationStatusChanged={userLocationStatusChanged}
+          setUserLocationStatusChanged={setUserLocationStatusChanged}
+          setShowUserMarker={setShowUserMarker}
+          setSelectDefaultValue={setSelectDefaultValue}
+        />
+      )}
     </section>
   );
 }
