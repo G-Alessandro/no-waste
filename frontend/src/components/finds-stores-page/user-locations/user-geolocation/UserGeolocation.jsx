@@ -1,6 +1,9 @@
 import { useState } from "react";
 
-export default function UserGeolocation({ setUserLocation }) {
+export default function UserGeolocation({
+  setUserLocation,
+  setLocationFromGeolocation,
+}) {
   const [geolocationError, setGeolocationError] = useState(false);
 
   const getUserLocation = () => {
@@ -15,6 +18,7 @@ export default function UserGeolocation({ setUserLocation }) {
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserLocation({ latitude, longitude });
+          setLocationFromGeolocation(true);
         },
         (error) => {
           console.error("Error getting user location:", error);
