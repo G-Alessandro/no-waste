@@ -41,11 +41,15 @@ export default function UserLocationsList({
         }
       );
 
+      const newToken = response.headers.get("Authorization");
       const data = await response.json();
 
       if (!data) {
         setError("Location not found!");
       } else {
+        if (newToken) {
+          localStorage.setItem("accessToken", newToken);
+        }
         setMessage(data.message);
         setShowUserMarker(false);
         setSelectDefaultValue("none");
