@@ -12,6 +12,7 @@ export default function AddStore({
   setAddingLocationFromMap,
 }) {
   const [showLoader, setShowLoader] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,6 +47,7 @@ export default function AddStore({
         setMessage(data.message);
         setTimeout(() => setMessage(null), 2000);
         setNewStoreLocation(null);
+        setAddingLocationFromMap(false);
         setStatusChanged(!statusChanged);
       }
     } catch (error) {
@@ -72,9 +74,12 @@ export default function AddStore({
 
       <Geocoding
         addingLocationFromMap={addingLocationFromMap}
+        setAddingLocationFromMap={setAddingLocationFromMap}
         newLocation={newStoreLocation}
         setNewLocation={setNewStoreLocation}
         parentComponent={"add-store"}
+        selectedPlace={selectedPlace}
+        setSelectedPlace={setSelectedPlace}
       />
 
       {!addingLocationFromMap && (
@@ -90,7 +95,7 @@ export default function AddStore({
       )}
 
       {!showLoader && (
-        <button type="submit" disabled={!newStoreLocation}>
+        <button type="submit" disabled={!newStoreLocation || !selectedPlace}>
           ADD STORE
         </button>
       )}
