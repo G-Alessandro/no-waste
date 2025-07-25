@@ -3,15 +3,19 @@ import { APIProvider, useMapsLibrary } from "@vis.gl/react-google-maps";
 import PlaceAutocomplete from "./place-autocomplete/PlaceAutocomplete";
 
 function GeocodingInput({
+  userId,
   addingLocationFromMap,
-  previousUserLocation,
-  setPreviousUserLocation,
+  setAddingLocationFromMap,
   newLocation,
   setNewLocation,
   selectedPlace,
   setSelectedPlace,
   setSelectDefaultValue,
   parentComponent,
+  setShowSaveLocation,
+  setShowUserMarker,
+  locationsSelectIsNone,
+  setLocationsSelectIsNone,
 }) {
   const geocodingApiLoaded = useMapsLibrary("geocoding");
   const [geocodingService, setGeocodingService] = useState(null);
@@ -30,11 +34,8 @@ function GeocodingInput({
       (results, status) => {
         if (results && status === "OK") {
           if (parentComponent === "user-locations") {
-            setPreviousUserLocation({
-              latitude: newLocation.latitude,
-              longitude: newLocation.longitude,
-            });
             setSelectDefaultValue("none");
+            setLocationsSelectIsNone(true);
           }
           setNewLocation({
             latitude: results[0].geometry.location.lat(),
@@ -47,40 +48,53 @@ function GeocodingInput({
 
   return (
     <PlaceAutocomplete
+      userId={userId}
       addingLocationFromMap={addingLocationFromMap}
-      previousUserLocation={previousUserLocation}
+      setAddingLocationFromMap={setAddingLocationFromMap}
       geocodingService={geocodingService}
+      selectedPlace={selectedPlace}
       setSelectedPlace={setSelectedPlace}
       newLocation={newLocation}
       setNewLocation={setNewLocation}
       parentComponent={parentComponent}
+      setShowSaveLocation={setShowSaveLocation}
+      setShowUserMarker={setShowUserMarker}
+      locationsSelectIsNone={locationsSelectIsNone}
     />
   );
 }
 
 export default function Geocoding({
+  userId,
   addingLocationFromMap,
-  previousUserLocation,
-  setPreviousUserLocation,
+  setAddingLocationFromMap,
   newLocation,
   setNewLocation,
   parentComponent,
   setSelectDefaultValue,
+  setShowSaveLocation,
+  setShowUserMarker,
+  selectedPlace,
+  setSelectedPlace,
+  locationsSelectIsNone,
+  setLocationsSelectIsNone,
 }) {
-  const [selectedPlace, setSelectedPlace] = useState(null);
-
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <GeocodingInput
+        userId={userId}
         addingLocationFromMap={addingLocationFromMap}
-        previousUserLocation={previousUserLocation}
-        setPreviousUserLocation={setPreviousUserLocation}
+        setAddingLocationFromMap={setAddingLocationFromMap}
         newLocation={newLocation}
         setNewLocation={setNewLocation}
         selectedPlace={selectedPlace}
         setSelectedPlace={setSelectedPlace}
         setSelectDefaultValue={setSelectDefaultValue}
         parentComponent={parentComponent}
+        setShowSaveLocation={setShowSaveLocation}
+        setShowUserMarker={setShowUserMarker}
+        locationsSelectIsNone={locationsSelectIsNone}
+        setLocationsSelectIsNone={setLocationsSelectIsNone}
       />
     </APIProvider>
   );
