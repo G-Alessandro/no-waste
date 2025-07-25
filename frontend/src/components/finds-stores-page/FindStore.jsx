@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TopBar from "../top-bar/TopBar";
 import AddStore from "./add-store/AddStore.jsx";
 import AddStoreItem from "./add-store-item/AddStoreItem.jsx";
@@ -21,8 +21,19 @@ export default function FindStore() {
     latitude: parseFloat(import.meta.env.VITE_DEFAULT_LATITUDE),
     longitude: parseFloat(import.meta.env.VITE_DEFAULT_LONGITUDE),
   });
+  const [showUserMarker, setShowUserMarker] = useState(true);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let timerId;
+    if (message) {
+      timerId = setTimeout(() => setMessage(null), 5000);
+    } else if (error) {
+      timerId = setTimeout(() => setError(null), 5000);
+    }
+    return () => clearTimeout(timerId);
+  }, [message, error]);
 
   return (
     <main className={style.FindStoreContainer}>
@@ -75,15 +86,14 @@ export default function FindStore() {
         />
       </section>
       <section>
-        {userId && (
-          <UserLocations
-            userId={userId}
-            setMessage={setMessage}
-            setError={setError}
-            userLocation={userLocation}
-            setUserLocation={setUserLocation}
-          />
-        )}
+        <UserLocations
+          userId={userId}
+          setMessage={setMessage}
+          setError={setError}
+          userLocation={userLocation}
+          setUserLocation={setUserLocation}
+          setShowUserMarker={setShowUserMarker}
+        />
         <CustomMap
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
@@ -92,6 +102,8 @@ export default function FindStore() {
           newStoreLocation={newStoreLocation}
           setNewStoreLocation={setNewStoreLocation}
           addingLocationFromMap={addingLocationFromMap}
+          showUserMarker={showUserMarker}
+          setShowUserMarker={setShowUserMarker}
         />
       </section>
       <Footer />
