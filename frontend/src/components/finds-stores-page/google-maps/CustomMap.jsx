@@ -17,6 +17,8 @@ export default function MapComponent({
   newStoreLocation,
   setNewStoreLocation,
   addingLocationFromMap,
+  showUserMarker,
+  setShowUserMarker,
 }) {
   const [userMarker, setUserMarker] = useState({
     location: {
@@ -37,6 +39,7 @@ export default function MapComponent({
         },
       });
       setMapZoom(13);
+      setShowUserMarker(true);
     }
   }, [userLocation]);
 
@@ -114,13 +117,15 @@ export default function MapComponent({
               </AdvancedMarker>
             )}
 
-            <AdvancedMarker position={userMarker.location}>
-              <Pin
-                background={"#ff5406"}
-                glyphColor={"#000"}
-                borderColor={"#000"}
-              />
-            </AdvancedMarker>
+            {showUserMarker && (
+              <AdvancedMarker position={userMarker.location}>
+                <Pin
+                  background={"#ff5406"}
+                  glyphColor={"#000"}
+                  borderColor={"#000"}
+                />
+              </AdvancedMarker>
+            )}
           </Map>
         </APIProvider>
       )}
