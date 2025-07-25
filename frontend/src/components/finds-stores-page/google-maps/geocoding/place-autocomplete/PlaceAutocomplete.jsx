@@ -2,13 +2,18 @@ import { useEffect, useState, useRef } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 
 export default function PlaceAutocomplete({
+  userId,
   addingLocationFromMap,
-  previousUserLocation,
+  setAddingLocationFromMap,
   geocodingService,
+  selectedPlace,
   setSelectedPlace,
   newLocation,
   setNewLocation,
   parentComponent,
+  setShowSaveLocation,
+  setShowUserMarker,
+  locationsSelectIsNone,
 }) {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
   const [locationChanged, setLocationChanged] = useState(false);
@@ -16,10 +21,14 @@ export default function PlaceAutocomplete({
   const places = useMapsLibrary("places");
 
   useEffect(() => {
-    if (parentComponent === "add-store") {
-      setLocationChanged(!locationChanged);
-    }
+    setLocationChanged(!locationChanged);
   }, [newLocation]);
+
+  useEffect(() => {
+    if (!selectedPlace) {
+      inputRef.current.value = "";
+    }
+  }, [selectedPlace]);
 
   useEffect(() => {
     if (!places || !inputRef.current) return;
@@ -51,18 +60,17 @@ export default function PlaceAutocomplete({
       (results, status) => {
         if (results && status === "OK") {
           inputRef.current.value = results[0].formatted_address;
+          inputRef.current.focus();
         }
       }
     );
+    setAddingLocationFromMap(false);
   }, [locationChanged]);
 
   const deleteLocation = () => {
     if (inputRef.current.value !== "") {
-      if (previousUserLocation) {
-        setNewLocation({
-          latitude: previousUserLocation.latitude,
-          longitude: previousUserLocation.longitude,
-        });
+      if (locationsSelectIsNone === true) {
+        setShowUserMarker(false);
       }
       if (parentComponent === "add-store") {
         setNewLocation(null);
@@ -86,13 +94,23 @@ export default function PlaceAutocomplete({
         name="geocoding-location"
         minLength={1}
         placeholder={
-          parentComponent === "add-store" ? "Enter the store location" : "Enter your location"
+          parentComponent === "add-store"
+            ? "Enter the store location"
+            : "Enter your location"
         }
         required
       />
-      <button type="button" onClick={deleteLocation}>
+      <button type="button" onClick={deleteLocation} disabled={!selectedPlace}>
         Cancel location
       </button>
+      {userId && (
+        <button
+          onClick={() => setShowSaveLocation(true)}
+          disabled={!selectedPlace}
+        >
+          Save location
+        </button>
+      )}
     </div>
   );
 }
