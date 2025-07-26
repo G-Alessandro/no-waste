@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import StoreRoutes from "./store-routes/StoreRoutes";
 import FoodTypeCounter from "./food-type-counter/FoodTypeCounter";
 import style from "./StoreList.module.css";
 
@@ -16,7 +17,7 @@ export default function StoreList({
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
   const [message, setMessage] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  
+
   useEffect(() => {
     const fetchStoreItemList = async () => {
       try {
@@ -106,6 +107,7 @@ export default function StoreList({
       },
       freshFoods: store.freshFoods,
       cannedFoods: store.cannedFoods,
+      routes: store.routes,
     });
   };
 
@@ -127,6 +129,7 @@ export default function StoreList({
                 }
               >
                 <h2>{store.name}</h2>
+                <StoreRoutes routes={store.routes} />
                 <FoodTypeCounter
                   freshFoods={store.freshFoods}
                   cannedFoods={store.cannedFoods}
