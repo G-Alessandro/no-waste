@@ -5,6 +5,7 @@ import {
   InfoWindow,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
+import StoreRoutes from "../../store-list/store-routes/StoreRoutes";
 import FoodTypeCounter from "../../store-list/food-type-counter/FoodTypeCounter";
 
 export default function StoreMarkers({
@@ -53,6 +54,7 @@ export default function StoreMarkers({
             freshFoods: selectedStore.freshFoods,
             cannedFoods: selectedStore.cannedFoods,
             storeAddress,
+            routes: selectedStore.routes,
           });
 
           setInfoWindowShown(true);
@@ -88,6 +90,7 @@ export default function StoreMarkers({
           onClose={() => setInfoWindowShown(false)}
         >
           <h2>{storeInfo.storeName}</h2>
+          <StoreRoutes routes={storeInfo.routes} />
           <FoodTypeCounter
             freshFoods={storeInfo.freshFoods}
             cannedFoods={storeInfo.cannedFoods}
