@@ -1,5 +1,4 @@
 const storeRoutes = async (userLocation, storeLocation) => {
-  
   const travelsMode = ["DRIVE", "BICYCLE", "WALK", "TRANSIT"];
   const routes = {};
 
@@ -93,14 +92,17 @@ const storeRoutes = async (userLocation, storeLocation) => {
 
       const json = await response.json();
       const routeData = json.routes?.[0];
-      if (!routeData) {
-        throw new Error(`No route returned for mode ${mode}`);
-      }
 
       const route = {
-        distanceMeters: formattedRouteDistance(routeData.distanceMeters),
-        duration: formattedRouteDuration(routeData.duration),
-        polyline: routeData.polyline,
+        distanceMeters: routeData?.distanceMeters
+          ? formattedRouteDistance(routeData.distanceMeters)
+          : { distance: "no-data" },
+        duration: routeData?.duration
+          ? formattedRouteDuration(routeData.duration)
+          : { duration: "no-data" },
+        polyline: routeData?.polyline
+          ? routeData.polyline
+          : { encodedPolyline: "no-data" },
       };
 
       routes[mode.toLowerCase()] = route;
@@ -111,7 +113,6 @@ const storeRoutes = async (userLocation, storeLocation) => {
   });
 
   await Promise.all(routesPromises);
-
   return routes;
 };
 
