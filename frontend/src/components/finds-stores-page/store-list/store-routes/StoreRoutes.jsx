@@ -2,6 +2,7 @@ import walkSvg from "/assets/svg/walk.svg";
 import bicycleSvg from "/assets/svg/bicycle.svg";
 import driveSvg from "/assets/svg/drive.svg";
 import transitSvg from "/assets/svg/transit.svg";
+import noRouteData from "/assets/svg/no-route-data.svg";
 import style from "./StoreRoutes.module.css";
 
 export default function StoreRoutes({ routes }) {
@@ -67,10 +68,21 @@ export default function StoreRoutes({ routes }) {
                 className={style.routeDistance}
                 aria-label={`distance ${data.distanceMeters.distance} ${data.distanceMeters.distanceUnit}`}
               >
-                <p aria-hidden="true">{data.distanceMeters.distance}</p>
-                <p className={style.routeDistanceUnit} aria-hidden="true">
-                  {data.distanceMeters.distanceUnit}
-                </p>
+                {data.distanceMeters.distance !== "no-data" && (
+                  <>
+                    <p aria-hidden="true">{data.distanceMeters.distance}</p>
+                    <p className={style.routeDistanceUnit} aria-hidden="true">
+                      {data.distanceMeters.distanceUnit}
+                    </p>
+                  </>
+                )}
+                {data.distanceMeters.distance === "no-data" && (
+                  <img
+                    src={noRouteData}
+                    className={style.routeTypeSvg}
+                    alt="distance not available"
+                  />
+                )}
               </div>
             </div>
 
@@ -85,10 +97,20 @@ export default function StoreRoutes({ routes }) {
                     className={style.routeDuration}
                     aria-label={`${data} ${mode}`}
                   >
-                    <p aria-hidden="true">{data}</p>
-                    <p className={style.routeDurationUnit} aria-hidden="true">
-                      {routeDistanceUnitFormatted(mode)}
-                    </p>
+                    {data !== "no-data" && (
+                      <>
+                        <p aria-hidden="true">{data}</p>
+                        <p
+                          className={style.routeDurationUnit}
+                          aria-hidden="true"
+                        >
+                          {routeDistanceUnitFormatted(mode)}
+                        </p>
+                      </>
+                    )}
+                    {data === "no-data" && (
+                      <p aria-hidden="true">unknown timing</p>
+                    )}
                   </div>
                 ))}
             </div>
