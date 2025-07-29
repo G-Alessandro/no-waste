@@ -33,6 +33,7 @@ export default function StoreMarkers({
       },
       freshFoods: store.freshFoods,
       cannedFoods: store.cannedFoods,
+      routes: store.routes,
     });
   };
 
