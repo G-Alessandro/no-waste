@@ -35,6 +35,7 @@ export default function StoreMarkers({
       cannedFoods: store.cannedFoods,
       routes: store.routes,
     });
+    setInfoWindowShown(true);
   };
 
   useEffect(() => {
@@ -57,8 +58,6 @@ export default function StoreMarkers({
             storeAddress,
             routes: selectedStore.routes,
           });
-
-          setInfoWindowShown(true);
         }
       }
     );
