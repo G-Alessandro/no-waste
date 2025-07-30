@@ -7,6 +7,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import StoreMarkers from "./store-markers/StoreMarkers";
 import NewStoreMarker from "./new-store-marker/NewStoreMarker";
+import Polyline from "./polyline/Polyline";
 import style from "./CustomMap.module.css";
 
 export default function MapComponent({
@@ -19,6 +20,7 @@ export default function MapComponent({
   addingLocationFromMap,
   showUserMarker,
   setShowUserMarker,
+  travelMode,
 }) {
   const [userMarker, setUserMarker] = useState({
     location: {
@@ -26,9 +28,9 @@ export default function MapComponent({
       lng: parseFloat(import.meta.env.VITE_DEFAULT_LONGITUDE),
     },
   });
-
   const [mapCenter, setMapCenter] = useState(userMarker.location);
   const [mapZoom, setMapZoom] = useState(13);
+  const [encodedPolyline, setEncodedPolyline] = useState(null);
 
   useEffect(() => {
     if (userLocation) {
@@ -48,11 +50,12 @@ export default function MapComponent({
   }, [userMarker]);
 
   useEffect(() => {
-    if (selectedStore) {
-      setMapCenter(selectedStore.location);
-      setMapZoom(13);
+    const polyline =
+      selectedStore?.routes?.[travelMode]?.polyline?.encodedPolyline;
+    if (polyline) {
+      setEncodedPolyline(polyline);
     }
-  }, [selectedStore]);
+  }, [selectedStore, travelMode]);
 
   useEffect(() => {
     if (newStoreLocation) {
@@ -90,6 +93,17 @@ export default function MapComponent({
               setMapZoom(ev.detail.zoom);
             }}
           >
+            {encodedPolyline &&
+              userMarker &&
+              selectedStore &&
+              showUserMarker && (
+                <Polyline
+                  encodedPolyline={encodedPolyline}
+                  userMarker={userMarker.location}
+                  storeMarker={selectedStore.location}
+                />
+              )}
+
             {storesList && (
               <StoreMarkers
                 storesList={storesList}
