@@ -16,6 +16,7 @@ export default function FindStore() {
   const [addingNewStore, setAddingNewStore] = useState(false);
   const [addingNewItem, setAddingNewItem] = useState(false);
   const [addingLocationFromMap, setAddingLocationFromMap] = useState(false);
+  const [travelMode, setTravelMode] = useState("drive");
   const [statusChanged, setStatusChanged] = useState(false);
   const [userLocation, setUserLocation] = useState({
     latitude: parseFloat(import.meta.env.VITE_DEFAULT_LATITUDE),
@@ -93,6 +94,8 @@ export default function FindStore() {
           userLocation={userLocation}
           setUserLocation={setUserLocation}
           setShowUserMarker={setShowUserMarker}
+          travelMode={travelMode}
+          setTravelMode={setTravelMode}
         />
         <CustomMap
           selectedStore={selectedStore}
@@ -104,6 +107,7 @@ export default function FindStore() {
           addingLocationFromMap={addingLocationFromMap}
           showUserMarker={showUserMarker}
           setShowUserMarker={setShowUserMarker}
+          travelMode={travelMode}
         />
       </section>
       <Footer />
