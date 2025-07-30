@@ -4,6 +4,7 @@ import Geocoding from "../google-maps/geocoding/Geocoding.jsx";
 import UserLocationsSelect from "./user-locations-select/UserLocationsSelect.jsx";
 import SaveUserLocation from "./save-user-location/SaveUserLocation.jsx";
 import UserLocationsList from "./user-locations-list/UserLocationsList.jsx";
+import UserTravelModes from "./user-travel-modes/UserTravelModes.jsx";
 
 export default function UserLocations({
   userId,
@@ -12,6 +13,8 @@ export default function UserLocations({
   userLocation,
   setUserLocation,
   setShowUserMarker,
+  travelMode,
+  setTravelMode,
 }) {
   const [userLocationStatusChanged, setUserLocationStatusChanged] =
     useState(false);
@@ -25,7 +28,6 @@ export default function UserLocations({
   const [showUserLocationsList, setShowUserLocationsList] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [locationsSelectIsNone, setLocationsSelectIsNone] = useState(false);
-
   const [locationFromGeolocation, setLocationFromGeolocation] = useState(false);
 
   return (
@@ -94,6 +96,8 @@ export default function UserLocations({
           setSelectDefaultValue={setSelectDefaultValue}
         />
       )}
+
+      <UserTravelModes travelMode={travelMode} setTravelMode={setTravelMode} />
     </section>
   );
 }
