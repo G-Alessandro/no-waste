@@ -82,6 +82,15 @@ export default function MapComponent({
 
   return (
     <div className={style.mapContainer}>
+      {userLocation && selectedStore && (
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation.latitude},${userLocation.longitude}&destination=${selectedStore.location.lat},${selectedStore.location.lng}&travelmode=${travelMode}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Directions
+        </a>
+      )}
       {userMarker && (
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
           <Map
