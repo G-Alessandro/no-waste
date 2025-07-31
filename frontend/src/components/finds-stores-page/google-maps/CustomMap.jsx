@@ -82,7 +82,7 @@ export default function MapComponent({
 
   return (
     <div className={style.mapContainer}>
-      {userLocation && selectedStore && (
+      {userLocation && selectedStore && travelMode && (
         <a
           href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation.latitude},${userLocation.longitude}&destination=${selectedStore.location.lat},${selectedStore.location.lng}&travelmode=${travelMode}`}
           target="_blank"
