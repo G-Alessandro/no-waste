@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import StoresFilter from "./stores-filter/StoresFilter";
+import StoreSearch from "./store-search/StoreSearch";
 import StoreRoutes from "./store-routes/StoreRoutes";
 import FoodTypeCounter from "./food-type-counter/FoodTypeCounter";
 import style from "./StoreList.module.css";
@@ -20,7 +21,6 @@ export default function StoreList({
   const [searchText, setSearchText] = useState(null);
   const [travelModesFilter, setTravelModesFilter] = useState("drive");
   const [travelUnitFilter, setTravelUnitFilter] = useState("distance");
-
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
   const [message, setMessage] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -127,49 +127,56 @@ export default function StoreList({
         <StoresFilter
           storesList={storesList}
           setSortedStoresList={setSortedStoresList}
-          searchText={searchText}
-          setSearchText={setSearchText}
           travelModesFilter={travelModesFilter}
           travelUnitFilter={travelUnitFilter}
           setTravelModesFilter={setTravelModesFilter}
           setTravelUnitFilter={setTravelUnitFilter}
         />
       )}
+      <StoreSearch setSearchText={setSearchText} />
       {sortedStoresList &&
-        sortedStoresList.map((store, index) => {
-          return (
-            <div key={store.id}>
-              <button
-                onClick={() => handleStoreSelect(store)}
-                className={
-                  selectedStore?.storeId === store.id
-                    ? style.storeButtonClicked
-                    : style.storeButton
-                }
-              >
-                <h2>{store.name}</h2>
-                <StoreRoutes routes={store.routes} />
-                <FoodTypeCounter
-                  freshFoods={store.freshFoods}
-                  cannedFoods={store.cannedFoods}
-                />
-              </button>
-              <div>
-                {userId === store.createdByUserId &&
-                  localStorage.getItem("accessToken") &&
-                  showDeleteLoader[index] === false && (
-                    <button onClick={() => handleDeleteStore(store.id, index)}>
-                      X
-                    </button>
-                  )}
-                {showDeleteLoader[index] && <div></div>}
-                <Link to="/items-list" state={{ store }}>
-                  See food list
-                </Link>
+        sortedStoresList
+          .filter(
+            (store) =>
+              !searchText ||
+              store.name.toLowerCase().includes(searchText.toLowerCase())
+          )
+          .map((store, index) => {
+            return (
+              <div key={store.id}>
+                <button
+                  onClick={() => handleStoreSelect(store)}
+                  className={
+                    selectedStore?.storeId === store.id
+                      ? style.storeButtonClicked
+                      : style.storeButton
+                  }
+                >
+                  <h2>{store.name}</h2>
+                  <StoreRoutes routes={store.routes} />
+                  <FoodTypeCounter
+                    freshFoods={store.freshFoods}
+                    cannedFoods={store.cannedFoods}
+                  />
+                </button>
+                <div>
+                  {userId === store.createdByUserId &&
+                    localStorage.getItem("accessToken") &&
+                    showDeleteLoader[index] === false && (
+                      <button
+                        onClick={() => handleDeleteStore(store.id, index)}
+                      >
+                        X
+                      </button>
+                    )}
+                  {showDeleteLoader[index] && <div></div>}
+                  <Link to="/items-list" state={{ store }}>
+                    See food list
+                  </Link>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
     </div>
   );
 }
