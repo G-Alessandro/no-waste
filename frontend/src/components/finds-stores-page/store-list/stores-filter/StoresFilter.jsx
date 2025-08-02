@@ -116,14 +116,6 @@ export default function StoresFilter({
           <label htmlFor="travel-unit-time">Time</label>
         </div>
       )}
-
-      <label htmlFor="store-search">Search</label>
-      <input
-        type="text"
-        onChange={searchHandler}
-        name="store-search"
-        id="store-search"
-      />
     </>
   );
 }
