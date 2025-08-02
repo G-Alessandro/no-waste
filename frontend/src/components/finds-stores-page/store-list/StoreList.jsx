@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import StoresFilter from "./stores-filter/StoresFilter";
 import StoreRoutes from "./store-routes/StoreRoutes";
 import FoodTypeCounter from "./food-type-counter/FoodTypeCounter";
 import style from "./StoreList.module.css";
@@ -8,12 +9,18 @@ export default function StoreList({
   userId,
   storesList,
   setStoresList,
+  sortedStoresList,
+  setSortedStoresList,
   userLocation,
   selectedStore,
   setSelectedStore,
   statusChanged,
   setStatusChanged,
 }) {
+  const [searchText, setSearchText] = useState(null);
+  const [travelModesFilter, setTravelModesFilter] = useState("drive");
+  const [travelUnitFilter, setTravelUnitFilter] = useState("distance");
+
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
   const [message, setMessage] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -116,8 +123,20 @@ export default function StoreList({
       {!storesList && <p>Loading Stores...</p>}
       {message && <p aria-live="polite">{message}</p>}
       {errorMessage && <p aria-live="polite">{errorMessage}</p>}
-      {storesList &&
-        storesList.map((store, index) => {
+      {storesList && (
+        <StoresFilter
+          storesList={storesList}
+          setSortedStoresList={setSortedStoresList}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          travelModesFilter={travelModesFilter}
+          travelUnitFilter={travelUnitFilter}
+          setTravelModesFilter={setTravelModesFilter}
+          setTravelUnitFilter={setTravelUnitFilter}
+        />
+      )}
+      {sortedStoresList &&
+        sortedStoresList.map((store, index) => {
           return (
             <div key={store.id}>
               <button
