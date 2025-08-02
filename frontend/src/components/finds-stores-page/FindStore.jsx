@@ -11,6 +11,7 @@ import style from "./FindStore.module.css";
 export default function FindStore() {
   const [userId, setUserId] = useState(null);
   const [storesList, setStoresList] = useState(null);
+  const [sortedStoresList, setSortedStoresList] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
   const [newStoreLocation, setNewStoreLocation] = useState(null);
   const [addingNewStore, setAddingNewStore] = useState(false);
@@ -79,6 +80,8 @@ export default function FindStore() {
           userId={userId}
           storesList={storesList}
           setStoresList={setStoresList}
+          sortedStoresList={sortedStoresList}
+          setSortedStoresList={setSortedStoresList}
           userLocation={userLocation}
           selectedStore={selectedStore}
           setSelectedStore={setSelectedStore}
