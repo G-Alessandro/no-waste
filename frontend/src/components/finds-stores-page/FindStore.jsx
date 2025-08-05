@@ -14,8 +14,6 @@ export default function FindStore() {
   const [sortedStoresList, setSortedStoresList] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
   const [newStoreLocation, setNewStoreLocation] = useState(null);
-  const [addingNewStore, setAddingNewStore] = useState(false);
-  const [addingNewItem, setAddingNewItem] = useState(false);
   const [addingLocationFromMap, setAddingLocationFromMap] = useState(false);
   const [travelMode, setTravelMode] = useState("drive");
   const [statusChanged, setStatusChanged] = useState(false);
@@ -45,35 +43,25 @@ export default function FindStore() {
         {error && <p>{error}</p>}
         {userId && (
           <>
-            <button onClick={() => setAddingNewStore(!addingNewStore)}>
-              ADD STORE
-            </button>
-            {addingNewStore && (
-              <AddStore
-                newStoreLocation={newStoreLocation}
-                setNewStoreLocation={setNewStoreLocation}
-                setAddingNewStore={setAddingNewStore}
-                statusChanged={statusChanged}
-                setStatusChanged={setStatusChanged}
-                setMessage={setMessage}
-                setError={setError}
-                addingLocationFromMap={addingLocationFromMap}
-                setAddingLocationFromMap={setAddingLocationFromMap}
-              />
-            )}
-            <button onClick={() => setAddingNewItem(!addingNewItem)}>
-              ADD ITEM
-            </button>
-            {storesList && addingNewItem && (
-              <AddStoreItem
-                statusChanged={statusChanged}
-                setStatusChanged={setStatusChanged}
-                userId={userId}
-                storesList={storesList}
-                setMessage={setMessage}
-                setError={setError}
-              />
-            )}
+            <AddStore
+              newStoreLocation={newStoreLocation}
+              setNewStoreLocation={setNewStoreLocation}
+              statusChanged={statusChanged}
+              setStatusChanged={setStatusChanged}
+              setMessage={setMessage}
+              setError={setError}
+              addingLocationFromMap={addingLocationFromMap}
+              setAddingLocationFromMap={setAddingLocationFromMap}
+            />
+
+            <AddStoreItem
+              statusChanged={statusChanged}
+              setStatusChanged={setStatusChanged}
+              userId={userId}
+              storesList={storesList}
+              setMessage={setMessage}
+              setError={setError}
+            />
           </>
         )}
         <StoreList
