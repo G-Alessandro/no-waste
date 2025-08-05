@@ -1,12 +1,11 @@
-import walkSvg from "/assets/svg/walk.svg";
-import bicycleSvg from "/assets/svg/bicycle.svg";
-import driveSvg from "/assets/svg/drive.svg";
-import transitSvg from "/assets/svg/transit.svg";
-import noRouteData from "/assets/svg/no-route-data.svg";
+import walkSvg from "/assets/images/svg/walk.svg";
+import bicycleSvg from "/assets/images/svg/bicycle.svg";
+import driveSvg from "/assets/images/svg/drive.svg";
+import transitSvg from "/assets/images/svg/transit.svg";
+import noRouteData from "/assets/images/svg/no-route-data.svg";
 import style from "./StoreRoutes.module.css";
 
 export default function StoreRoutes({ routes }) {
-
   const routeDistanceUnitFormatted = (routeTimeUnit) => {
     let timeName;
 
