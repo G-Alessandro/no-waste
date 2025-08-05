@@ -15,6 +15,7 @@ export default function AddStoreItem({
     "vegetables",
     "other",
   ];
+  const [addingNewItem, setAddingNewItem] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -65,82 +66,97 @@ export default function AddStoreItem({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="stores">Store</label>
-      <select
-        name="stores"
-        id="stores"
-        defaultValue={storesList.length === 1 ? storesList[0].name : ""}
-        disabled={storesList.length === 1 ? true : false}
-        required
-      >
-        <option value="" disabled hidden>
-          Choose a store
-        </option>
-        {storesList.map((store) => {
-          return (
-            <option key={store.id} value={store.id}>
-              {store.name}
+    <>
+      <button onClick={() => setAddingNewItem(!addingNewItem)}>ADD ITEM</button>
+      {storesList && addingNewItem && (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="stores">Store</label>
+          <select
+            name="stores"
+            id="stores"
+            defaultValue={storesList.length === 1 ? storesList[0].name : ""}
+            disabled={storesList.length === 1 ? true : false}
+            required
+          >
+            <option value="" disabled hidden>
+              Choose a store
             </option>
-          );
-        })}
-      </select>
+            {storesList.map((store) => {
+              return (
+                <option key={store.id} value={store.id}>
+                  {store.name}
+                </option>
+              );
+            })}
+          </select>
 
-      <label htmlFor="item-name">Item Name</label>
-      <input
-        type="text"
-        id="item-name"
-        name="item-name"
-        minLength={1}
-        maxLength={30}
-        placeholder="Enter the item name"
-        required
-      />
+          <label htmlFor="item-name">Item Name</label>
+          <input
+            type="text"
+            id="item-name"
+            name="item-name"
+            minLength={1}
+            maxLength={30}
+            placeholder="Enter the item name"
+            required
+          />
 
-      <label htmlFor="item-type">Item Type</label>
-      <select name="item-type" id="item-type" defaultValue="" required>
-        <option value="" disabled hidden>
-          Choose a type
-        </option>
-        <optgroup label="Fresh Food">
-          {typesOfFood.map((type) => {
-            return (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            );
-          })}
-        </optgroup>
-        <optgroup label="Canned Food">
-          {typesOfFood.map((type) => {
-            return (
-              <option key={`canned-${type}`} value={`canned-${type}`}>
-                {type}
-              </option>
-            );
-          })}
-        </optgroup>
-      </select>
+          <label htmlFor="item-type">Item Type</label>
+          <select name="item-type" id="item-type" defaultValue="" required>
+            <option value="" disabled hidden>
+              Choose a type
+            </option>
+            <optgroup label="Fresh Food">
+              {typesOfFood.map((type) => {
+                return (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                );
+              })}
+            </optgroup>
+            <optgroup label="Canned Food">
+              {typesOfFood.map((type) => {
+                return (
+                  <option key={`canned-${type}`} value={`canned-${type}`}>
+                    {type}
+                  </option>
+                );
+              })}
+            </optgroup>
+          </select>
 
-      <label htmlFor="item-price">Price</label>
-      <input
-        type="number"
-        name="item-price"
-        id="item-price"
-        min={0.01}
-        step={0.01}
-        placeholder="Enter the item price"
-        required
-      />
+          <label htmlFor="item-price">Price</label>
+          <input
+            type="number"
+            name="item-price"
+            id="item-price"
+            min={0.01}
+            step={0.01}
+            placeholder="Enter the item price"
+            required
+          />
 
-      <label htmlFor="production-date">Production Date</label>
-      <input type="date" id="production-date" name="production-date" required />
+          <label htmlFor="production-date">Production Date</label>
+          <input
+            type="date"
+            id="production-date"
+            name="production-date"
+            required
+          />
 
-      <label htmlFor="expiration-date">Expiration Date</label>
-      <input type="date" id="expiration-date" name="expiration-date" required />
+          <label htmlFor="expiration-date">Expiration Date</label>
+          <input
+            type="date"
+            id="expiration-date"
+            name="expiration-date"
+            required
+          />
 
-      {!showLoader && <button type="submit">Add Item</button>}
-      {showLoader && <div></div>}
-    </form>
+          {!showLoader && <button type="submit">Add Item</button>}
+          {showLoader && <div></div>}
+        </form>
+      )}
+    </>
   );
 }
