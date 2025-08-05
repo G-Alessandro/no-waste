@@ -11,6 +11,8 @@ export default function AddStore({
   addingLocationFromMap,
   setAddingLocationFromMap,
 }) {
+  const [addingNewStore, setAddingNewStore] = useState(false);
+
   const [showLoader, setShowLoader] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState(null);
 
@@ -61,47 +63,57 @@ export default function AddStore({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="store-name">Store Name</label>
-      <input
-        type="text"
-        id="store-name"
-        name="store-name"
-        minLength={1}
-        maxLength={30}
-        placeholder="Enter the store name"
-        required
-      />
+    <>
+      <button onClick={() => setAddingNewStore(!addingNewStore)}>
+        ADD STORE
+      </button>
+      {addingNewStore && (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="store-name">Store Name</label>
+          <input
+            type="text"
+            id="store-name"
+            name="store-name"
+            minLength={1}
+            maxLength={30}
+            placeholder="Enter the store name"
+            required
+          />
 
-      <Geocoding
-        addingLocationFromMap={addingLocationFromMap}
-        setAddingLocationFromMap={setAddingLocationFromMap}
-        newLocation={newStoreLocation}
-        setNewLocation={setNewStoreLocation}
-        parentComponent={"add-store"}
-        selectedPlace={selectedPlace}
-        setSelectedPlace={setSelectedPlace}
-      />
+          <Geocoding
+            addingLocationFromMap={addingLocationFromMap}
+            setAddingLocationFromMap={setAddingLocationFromMap}
+            newLocation={newStoreLocation}
+            setNewLocation={setNewStoreLocation}
+            parentComponent={"add-store"}
+            selectedPlace={selectedPlace}
+            setSelectedPlace={setSelectedPlace}
+          />
 
-      {!addingLocationFromMap && (
-        <button onClick={() => setAddingLocationFromMap(true)}>
-          Click directly on the map
-        </button>
+          {!addingLocationFromMap && (
+            <button onClick={() => setAddingLocationFromMap(true)}>
+              Click directly on the map
+            </button>
+          )}
+
+          {addingLocationFromMap && (
+            <button onClick={() => setAddingLocationFromMap(false)}>
+              Write the address
+            </button>
+          )}
+
+          {!showLoader && (
+            <button
+              type="submit"
+              disabled={!newStoreLocation || !selectedPlace}
+            >
+              ADD STORE
+            </button>
+          )}
+          {showLoader && <div></div>}
+          {!newStoreLocation && <p>You need to select a location</p>}
+        </form>
       )}
-
-      {addingLocationFromMap && (
-        <button onClick={() => setAddingLocationFromMap(false)}>
-          Write the address
-        </button>
-      )}
-
-      {!showLoader && (
-        <button type="submit" disabled={!newStoreLocation || !selectedPlace}>
-          ADD STORE
-        </button>
-      )}
-      {showLoader && <div></div>}
-      {!newStoreLocation && <p>You need to select a location</p>}
-    </form>
+    </>
   );
 }
