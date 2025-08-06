@@ -1,0 +1,28 @@
+footer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+  padding: 20px 0px;
+  background-color: #9cc495;
+}
+
+.footerLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.footerLink:hover {
+  transform: scale(1.2);
+}
+
+footer > a > img {
+  width: 35px;
+}
