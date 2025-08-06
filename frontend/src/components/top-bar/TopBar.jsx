@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import NoWasteLogo from "/assets/images/png/no-waste-logo.png";
+import style from "./TopBar.module.css";
 
 export default function TopBar({ setUserId }) {
   const [userData, setUserData] = useState(null);
@@ -79,49 +81,66 @@ export default function TopBar({ setUserId }) {
 
   return (
     <header>
-      <Link>
-        <h1>NoWaste</h1>
+      <Link to="/" className={style.noWasteLogoLink}>
+        <img src={NoWasteLogo} alt="link to home" />
+        <h1>
+          <span className={style.noWastePart1}>N</span>
+          <span className={style.noWastePart2}>o</span>
+          <span className={style.noWastePart3}>W</span>
+          <span className={style.noWastePart4}>aste</span>
+        </h1>
       </Link>
       <nav>
         <ul>
-          <li>
-            <Link to="/">HOME</Link>
-          </li>
-          <li>
-            <Link to="/finds-stores">FINDS STORES</Link>
-          </li>
-          {!userData && (
-            <>
-              <li>
-                <Link to="/login">SIGN-IN</Link>
-              </li>
-              <li>
-                <Link to="/registration">SIGN-UP</Link>
-              </li>
-            </>
-          )}
+          <>
+            <li>
+              <Link to="/">HOME</Link>
+            </li>
+            <li>
+              <Link to="/finds-stores">FINDS STORES</Link>
+            </li>
+            {!userData && (
+              <>
+                <li>
+                  <Link to="/login">SIGN-IN</Link>
+                </li>
+                <li>
+                  <Link to="/registration">SIGN-UP</Link>
+                </li>
+              </>
+            )}
+          </>
           {userData && (
-            <>
-              <li>
+            <div className={style.userDataLogoutContainer}>
+              <li className={style.userData}>
                 <p>{`${userData.firstName} ${userData.lastName}`}</p>
               </li>
               <li>
                 {!showLoader && (
-                  <button onClick={handleLogout} type="button">
-                    Logout
+                  <button
+                    onClick={handleLogout}
+                    type="button"
+                    className={style.logoutBtn}
+                  >
+                    logout
                   </button>
                 )}
                 {showLoader && (
                   <div
                     aria-live="polite"
                     aria-label="Logging out, please wait..."
+                    className={style.loader}
                   ></div>
                 )}
               </li>
-            </>
+            </div>
           )}
         </ul>
-        {logoutMessage && <p aria-live="polite">{logoutMessage}</p>}
+        {logoutMessage && (
+          <p aria-live="polite" className={style.logoutMessage}>
+            {logoutMessage}
+          </p>
+        )}
       </nav>
     </header>
   );
