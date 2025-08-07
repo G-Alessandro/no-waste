@@ -27,6 +27,7 @@ export default function Footer() {
       {footerLinks.map((link) => {
         return (
           <a
+            key={link.name}
             href={link.imgHref}
             className={style.footerLink}
             target="_blank"
