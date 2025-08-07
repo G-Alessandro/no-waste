@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TopBar from "../top-bar/TopBar.jsx";
 import Footer from "../footer/Footer.jsx";
+import style from "./Login.module.css";
 
-export default function Login({ setError }) {
+export default function Login() {
   const [loginSuccessful, setLoginSuccessful] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
 
@@ -36,9 +38,7 @@ export default function Login({ setError }) {
       );
 
       const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error);
+      if (data.error) {
         setLoginError(true);
       } else {
         setLoginSuccessful(true);
@@ -47,31 +47,44 @@ export default function Login({ setError }) {
       }
     } catch (error) {
       console.log("Error requesting registration:", error);
-      setError(error);
+      setFetchError(true);
     } finally {
       setShowLoader(false);
     }
   };
 
   useEffect(() => {
+    let timerId;
+    if (loginError) {
+      timerId = setTimeout(() => setLoginError(false), 3000);
+    } else if (fetchError) {
+      timerId = setTimeout(() => setFetchError(false), 3000);
+    }
+    return () => clearTimeout(timerId);
+  }, [loginError, fetchError]);
+
+  useEffect(() => {
     if (loginSuccessful) {
-      setTimeout(() => navigate("/finds-stores"), 5000);
+      setTimeout(() => navigate("/finds-stores"), 3000);
     }
   }, [loginSuccessful]);
 
   return (
     <main>
+      <TopBar />
       {loginSuccessful && (
-        <div aria-live="polite">
+        <div aria-live="polite" className={style.loginSuccessful}>
           <p>
             Login successful, you will be redirected to the page to find stores
             near you
           </p>
         </div>
       )}
-      <TopBar />
       {!loginSuccessful && (
-        <form onSubmit={(event) => handleSubmit(event, "login")}>
+        <form
+          onSubmit={(event) => handleSubmit(event, "login")}
+          className={style.loginForm}
+        >
           <label htmlFor="email">Email</label>
           <input type="email" name="email" id="email" minLength={1} required />
 
@@ -83,26 +96,37 @@ export default function Login({ setError }) {
             minLength={8}
             required
           />
-
-          {loginError && (
-            <div aria-live="polite">
-              <p>Incorrect email or password</p>
-            </div>
-          )}
-
           {showLoader && (
             <div
               aria-live="assertive"
               aria-label="Logging in, please wait..."
+              className={style.loader}
             ></div>
           )}
-          {!showLoader && <button type="submit">Login</button>}
           {!showLoader && (
-            <button onClick={(event) => handleSubmit(event, "demo-account")}>
+            <button type="submit" className={style.loginBtn}>
+              Login
+            </button>
+          )}
+          {!showLoader && (
+            <button
+              onClick={(event) => handleSubmit(event, "demo-account")}
+              className={style.tryDemoAccountBtn}
+            >
               Try a demo account
             </button>
           )}
         </form>
+      )}
+      {loginError && (
+        <div aria-live="polite" className={style.loginError}>
+          <p>Incorrect email or password</p>
+        </div>
+      )}
+      {fetchError && (
+        <div className={style.fetchError}>
+          <p>An error occurred while logging in.</p>
+        </div>
       )}
       <Footer />
     </main>
