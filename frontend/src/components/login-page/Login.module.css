@@ -1,0 +1,106 @@
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.loginForm {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.loginForm > label {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.loginForm > input {
+  width: 400px;
+  height: 35px;
+  font-size: 20px;
+  font-weight: 500;
+  border: 3px solid rgb(184, 184, 184);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  outline: none;
+  text-indent: 15px;
+}
+
+.loginForm > input:focus {
+  border: 3px solid rgb(136, 136, 136);
+}
+
+.loginForm > input:user-valid {
+  border: 3px solid #83b778;
+}
+
+.loginForm > input:user-invalid {
+  border: 3px solid #eeb885;
+}
+
+.loginError,
+.loginSuccessful,
+.fetchError {
+  width: fit-content;
+  align-self: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 5px;
+  background-color: red;
+}
+
+.loginSuccessful {
+  background-color: #83b778;
+}
+
+.loader {
+  align-self: center;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #83b778;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loginBtn,
+.tryDemoAccountBtn {
+  cursor: pointer;
+  color: #83b778;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px;
+  border: 3px solid #83b778;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0);
+  transition: 0.3s;
+  margin-bottom: 15px;
+}
+
+.loginBtn:hover {
+  color: white;
+  background-color: #83b778;
+}
+
+.tryDemoAccountBtn {
+  color: #77c4e7;
+  border: 3px solid #77c4e7;
+}
+
+.tryDemoAccountBtn:hover {
+  color: white;
+  background-color: #77c4e7;
+}
