@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TopBar from "../top-bar/TopBar";
 import Footer from "../footer/Footer";
+import style from "./Registration.module.css";
 
 export default function Registration() {
-  const [registrationError, setRegistrationError] = useState(null);
+  const [fetchError, setFetchError] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
   const [email, setEmail] = useState("");
@@ -59,19 +60,27 @@ export default function Registration() {
       );
       const data = await response.json();
 
-      if (!response.ok) {
-        setRegistrationError(data.error);
+      if (data.error) {
+        setFetchError(true);
       } else {
         setRegistrationSuccessful(true);
         setTimeout(() => navigate("/login"), 5000);
       }
     } catch (error) {
       console.log("Error requesting registration:", error);
-      setRegistrationError(error);
+      setFetchError(true);
     } finally {
       setShowLoader(false);
     }
   };
+
+  useEffect(() => {
+    let timerId;
+  if (fetchError) {
+      timerId = setTimeout(() => setFetchError(false), 3000);
+    }
+    return () => clearTimeout(timerId);
+  }, [ fetchError]);
 
   const handleChange = (e, field) => {
     const value = e.target.value;
@@ -91,20 +100,18 @@ export default function Registration() {
   return (
     <main>
       <TopBar />
-      {registrationSuccessful && (
-        <div aria-live="polite">
-          <p>
-            Registration successful, you will be redirected to the login page
-          </p>
-        </div>
+      {fetchError && (
+        <p aria-live="polite" className={style.fetchError}>
+          An error occurred during registration
+        </p>
       )}
-      {registrationError && (
-        <div aria-live="polite">
-          <p>{registrationError}</p>
-        </div>
+      {registrationSuccessful && (
+        <p aria-live="polite" className={style.registrationSuccessful}>
+          Registration successful, you will be redirected to the login page
+        </p>
       )}
       {!registrationSuccessful && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={style.registrationForm}>
           <label htmlFor="first-name">First Name</label>
           <input
             type="text"
@@ -138,7 +145,19 @@ export default function Registration() {
             required
           />
 
-          <label htmlFor="confirm-email">Confirm Email</label>
+          <div className={style.labelContainer}>
+            <label htmlFor="confirm-email">Confirm Email</label>
+            {confirmEmailError && (
+              <p
+                aria-live="polite"
+                id="confirm-email-error"
+                className={style.inputRequirements}
+              >
+                Emails must be the same*
+              </p>
+            )}
+          </div>
+
           <input
             type="email"
             id="confirm-email"
@@ -146,16 +165,25 @@ export default function Registration() {
             minLength={1}
             placeholder="Confirm your email"
             onChange={(e) => handleChange(e, "confirm-email")}
+            aria-describedby={
+              confirmEmailError ? "confirm-email-error" : undefined
+            }
             required
           />
 
-          {confirmEmailError && (
-            <div aria-live="polite">
-              <p>Emails must be the same</p>
-            </div>
-          )}
+          <div className={style.labelContainer}>
+            <label htmlFor="password">Password</label>
+            {passwordMinLengthMessage && (
+              <p
+                aria-live="polite"
+                id="password-length-error"
+                className={style.inputRequirements}
+              >
+                Must contain at least 8 characters*
+              </p>
+            )}
+          </div>
 
-          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -163,15 +191,25 @@ export default function Registration() {
             minLength={8}
             placeholder="Enter your password"
             onChange={(e) => handleChange(e, "password")}
+            aria-describedby={
+              passwordMinLengthMessage ? "password-length-error" : undefined
+            }
             required
           />
-          {passwordMinLengthMessage && (
-            <div aria-live="polite">
-              <p>Must contain at least 8 characters</p>
-            </div>
-          )}
 
-          <label htmlFor="confirm-password">Confirm Password</label>
+          <div className={style.labelContainer}>
+            <label htmlFor="confirm-password">Confirm Password</label>
+            {confirmPasswordError && (
+              <p
+                aria-live="polite"
+                id="passwords-do-not-match-error"
+                className={style.inputRequirements}
+              >
+                Passwords must be the same*
+              </p>
+            )}
+          </div>
+
           <input
             type="password"
             id="confirm-password"
@@ -179,22 +217,24 @@ export default function Registration() {
             minLength={8}
             placeholder="Confirm your password"
             onChange={(e) => handleChange(e, "confirm-password")}
+            aria-describedby={
+              confirmPasswordError ? "passwords-do-not-match-error" : undefined
+            }
             required
           />
-
-          {confirmPasswordError && (
-            <div aria-live="polite">
-              <p>Passwords must be the same</p>
-            </div>
-          )}
 
           {showLoader && (
             <div
               aria-live="assertive"
-              aria-label="Registration in progress, please wait..."
+              aria-label="Registration in progress, please wait"
+              className={style.loader}
             ></div>
           )}
-          {!showLoader && <button type="submit">Sign Up</button>}
+          {!showLoader && (
+            <button type="submit" className={style.registrationBtn}>
+              Sign Up
+            </button>
+          )}
         </form>
       )}
       <Footer />
