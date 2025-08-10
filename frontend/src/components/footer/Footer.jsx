@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import LinkedinSvg from "/assets/images/svg/linkedin.svg";
 import GitHubSvg from "/assets/images/svg/github.svg";
 import PersonalWebsiteSvg from "/assets/images/svg/personal-website.svg";
@@ -22,6 +23,16 @@ const footerLinks = [
 ];
 
 export default function Footer() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 750);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 750);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <footer role="contentinfo">
       {footerLinks.map((link) => {
@@ -35,7 +46,7 @@ export default function Footer() {
             aria-label={`Visit my ${link.name}`}
           >
             <img src={link.imgSrc} />
-            <p>{link.name}</p>
+            {!isMobile && <p>{link.name}</p>}
           </a>
         );
       })}
