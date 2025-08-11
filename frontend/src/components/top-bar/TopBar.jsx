@@ -30,7 +30,9 @@ export default function TopBar({ setUserId, topBarLocation }) {
             localStorage.setItem("accessToken", newToken);
           }
           setUserData(data.userData);
-          setUserId(data.userData.id);
+          if (topBarLocation === "finds-stores") {
+            setUserId(data.userData.id);
+          }
         }
       } catch (error) {
         console.log("Error fetching user data:", error);
