@@ -1,0 +1,135 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dropDownMenuBtn {
+  cursor: pointer;
+  width: 50px;
+  margin-left: auto;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.rotated {
+  transform: rotate(90deg);
+}
+
+header > nav {
+  position: relative;
+}
+
+.noWasteLogoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.noWasteLogoLink:hover {
+  transform: scale(1.2);
+}
+
+.noWasteLogoLink > img {
+  height: 100px;
+}
+
+.noWasteLogoLink > h1 {
+  font-size: 40px;
+  font-weight: 900;
+}
+
+.noWastePart1,
+.noWastePart3 {
+  color: #eca461;
+}
+
+.noWastePart2,
+.noWastePart4 {
+  color: #83b778;
+}
+
+header > nav > ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  gap: 30px;
+}
+
+li > a {
+  color: #78ad6d;
+  font-weight: 600;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+li > a:hover {
+  color: #eca461;
+}
+
+.highlightedLink {
+  color: #eca461;
+}
+
+.logoutMessage {
+  color: white;
+  position: absolute;
+  width: 100vw;
+  top: 70px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 20px;
+  background-color: #83b778;
+}
+
+@media (max-width: 750px) {
+  header {
+    position: relative;
+    padding: 0px 5px;
+    justify-content: flex-start;
+  }
+
+  .noWasteLogoLink > img {
+    height: 50px;
+    margin-right: 20px;
+  }
+
+  .noWasteLogoLink:hover {
+    transform: none;
+  }
+
+  header > nav > ul {
+    width: 200px;
+    position: absolute;
+    flex-direction: column;
+    top: 30px;
+    right: 0px;
+    background-color: rgb(255, 255, 255);
+    gap: 0px;
+    padding: 0px 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  header > nav > ul > li {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0px;
+    border-bottom: 2px solid rgb(230, 230, 230);
+  }
+
+  header > nav > ul > li:last-child {
+    border-bottom: none;
+  }
+
+  .logoutMessage {
+    font-size: 16px;
+    padding: 12px 10px;
+    width: 90%;
+    word-break: break-all;
+  }
+}
