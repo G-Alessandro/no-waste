@@ -1,8 +1,8 @@
-import walkSvg from "/assets/images/svg/walk.svg";
-import bicycleSvg from "/assets/images/svg/bicycle.svg";
-import driveSvg from "/assets/images/svg/drive.svg";
-import transitSvg from "/assets/images/svg/transit.svg";
-import noRouteData from "/assets/images/svg/no-route-data.svg";
+import walkSvg from "/assets/images/svg/store-routes/walk.svg";
+import bicycleSvg from "/assets/images/svg/store-routes/bicycle.svg";
+import driveSvg from "/assets/images/svg/store-routes/drive.svg";
+import transitSvg from "/assets/images/svg/store-routes/transit.svg";
+import noRouteData from "/assets/images/svg/store-routes/no-route-data.svg";
 import style from "./StoreRoutes.module.css";
 
 export default function StoreRoutes({ routes }) {
