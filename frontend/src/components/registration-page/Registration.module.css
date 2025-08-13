@@ -1,7 +1,7 @@
-main {
+.registrationMain {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh - 75px);
 }
 
 .registrationForm {
@@ -113,7 +113,7 @@ main {
 @media (max-width: 750px) {
   .labelContainer {
     flex-direction: column;
-     justify-content: space-between;
+    justify-content: space-between;
   }
 
   .registrationForm > input {
