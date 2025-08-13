@@ -1,7 +1,24 @@
-main {
+.loginMain {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh - 75px);
+}
+
+.loginError,
+.loginSuccessful,
+.fetchError {
+  width: 95vw;
+  align-self: center;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 20px;
+  background-color: red;
+}
+
+.loginSuccessful {
+  background-color: #83b778;
 }
 
 .loginForm {
@@ -18,12 +35,12 @@ main {
 
 .loginForm > input {
   width: 400px;
-  height: 35px;
+  height: 40px;
   font-size: 20px;
   font-weight: 500;
   border: 3px solid rgb(184, 184, 184);
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   outline: none;
   text-indent: 15px;
 }
@@ -38,23 +55,6 @@ main {
 
 .loginForm > input:user-invalid {
   border: 3px solid #eeb885;
-}
-
-.loginError,
-.loginSuccessful,
-.fetchError {
-  width: fit-content;
-  align-self: center;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  padding: 12px 20px;
-  border-radius: 5px;
-  background-color: red;
-}
-
-.loginSuccessful {
-  background-color: #83b778;
 }
 
 .loader {
@@ -76,8 +76,7 @@ main {
   }
 }
 
-.loginBtn,
-.tryDemoAccountBtn {
+.loginBtn {
   cursor: pointer;
   color: #83b778;
   font-size: 18px;
@@ -87,6 +86,7 @@ main {
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0);
   transition: 0.3s;
+  margin-top: 20px;
   margin-bottom: 15px;
 }
 
@@ -95,12 +95,14 @@ main {
   background-color: #83b778;
 }
 
-.tryDemoAccountBtn {
-  color: #77c4e7;
-  border: 3px solid #77c4e7;
-}
+@media (max-width: 750px) {
+  .loginForm > input {
+    max-width: 300px;
+  }
 
-.tryDemoAccountBtn:hover {
-  color: white;
-  background-color: #77c4e7;
+  .loginError,
+  .loginSuccessful,
+  .fetchError {
+    width: 85vw;
+  }
 }
