@@ -9,6 +9,7 @@ main {
   align-self: center;
   flex-direction: column;
   margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .registrationForm > label,
@@ -29,7 +30,7 @@ main {
 
 .registrationForm > input {
   width: 400px;
-  height: 35px;
+  height: 40px;
   font-size: 20px;
   font-weight: 500;
   border: 3px solid rgb(184, 184, 184);
@@ -53,13 +54,13 @@ main {
 
 .registrationSuccessful,
 .fetchError {
-  width: fit-content;
+  width: 95vw;
   align-self: center;
+  text-align: center;
   color: white;
   font-size: 18px;
   font-weight: 700;
   padding: 12px 20px;
-  border-radius: 5px;
   background-color: red;
 }
 
@@ -107,4 +108,20 @@ main {
 .registrationBtn:hover {
   color: white;
   background-color: #83b778;
+}
+
+@media (max-width: 750px) {
+  .labelContainer {
+    flex-direction: column;
+     justify-content: space-between;
+  }
+
+  .registrationForm > input {
+    max-width: 300px;
+  }
+
+  .registrationSuccessful,
+  .fetchError {
+    width: 85vw;
+  }
 }
