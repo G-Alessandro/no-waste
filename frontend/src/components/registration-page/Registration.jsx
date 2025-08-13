@@ -101,7 +101,7 @@ export default function Registration() {
 
   return (
     <>
-      <main>
+      <main className={style.registrationMain}>
         <TopBar topBarLocation={"registration"} />
         {fetchError && (
           <p aria-live="polite" className={style.fetchError}>
