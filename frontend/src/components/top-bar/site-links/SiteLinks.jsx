@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import UserDataLogout from "./user-data-logout/UserDataLogout";
 import NoWasteLogo from "/assets/images/png/no-waste-logo.png";
 import DropDownMenu from "/assets/images/svg/dropdown-menu.svg";
+import UserDataLogout from "./user-data-logout/UserDataLogout";
+import TryDemoAccount from "./try-demo-account/TryDemoAccount";
 import style from "./SiteLinks.module.css";
 
 export default function SiteLinks({
@@ -10,11 +11,14 @@ export default function SiteLinks({
   setUserData,
   setUserId,
   topBarLocation,
+  loginSuccessful,
+  setLoginSuccessful,
+  setFetchError,
+  setLogoutMessage,
 }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 750);
   const [showNav, setShowNav] = useState(isMobile ? false : true);
   const [rotateDropdownMenu, setRotateDropdownMenu] = useState(false);
-  const [logoutMessage, setLogoutMessage] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -39,6 +43,7 @@ export default function SiteLinks({
       setRotateDropdownMenu(false);
     }
   };
+
   return (
     <header>
       <Link
@@ -118,6 +123,15 @@ export default function SiteLinks({
                     SIGN-UP
                   </Link>
                 </li>
+                <li>
+                  <TryDemoAccount
+                    setLogoutMessage={setLogoutMessage}
+                    loginSuccessful={loginSuccessful}
+                    setLoginSuccessful={setLoginSuccessful}
+                    setFetchError={setFetchError}
+                    handleMobileLinkClick={handleMobileLinkClick}
+                  />
+                </li>
               </>
             )}
             <UserDataLogout
@@ -130,11 +144,6 @@ export default function SiteLinks({
             />
           </ul>
         </nav>
-      )}
-      {logoutMessage && (
-        <p aria-live="polite" className={style.logoutMessage}>
-          {logoutMessage}
-        </p>
       )}
     </header>
   );
