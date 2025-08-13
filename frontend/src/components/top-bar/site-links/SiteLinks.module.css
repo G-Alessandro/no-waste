@@ -75,18 +75,6 @@ li > a:hover {
   color: #eca461;
 }
 
-.logoutMessage {
-  color: white;
-  position: absolute;
-  width: 100vw;
-  top: 70px;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 12px 20px;
-  background-color: #83b778;
-}
-
 @media (max-width: 750px) {
   header {
     position: relative;
@@ -124,12 +112,5 @@ li > a:hover {
 
   header > nav > ul > li:last-child {
     border-bottom: none;
-  }
-
-  .logoutMessage {
-    font-size: 16px;
-    padding: 12px 10px;
-    width: 90%;
-    word-break: break-all;
   }
 }
