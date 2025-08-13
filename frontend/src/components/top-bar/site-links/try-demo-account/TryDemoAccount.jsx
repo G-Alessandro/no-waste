@@ -1,0 +1,72 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import style from "./TryDemoAccount.module.css";
+
+export default function TryDemoAccount({
+  setLoginError,
+  loginSuccessful,
+  setLoginSuccessful,
+  setFetchError,
+  handleMobileLinkClick,
+}) {
+  const [showLoader, setShowLoader] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setShowLoader(true);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/authentication/demo-account`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          mode: "cors",
+        }
+      );
+
+      const data = await response.json();
+      if (data.error) {
+        setLoginError(true);
+      } else {
+        setLoginSuccessful(true);
+        const accessToken = data.accessToken;
+        localStorage.setItem("accessToken", accessToken);
+        handleMobileLinkClick();
+      }
+    } catch (error) {
+      console.log("Error requesting registration:", error);
+      setFetchError(true);
+    } finally {
+      setShowLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    if (loginSuccessful) {
+      setTimeout(() => navigate("/finds-stores"), 3000);
+    }
+  }, [loginSuccessful]);
+
+  return (
+    <div className={style.tryDemoAccountBtnContainer}>
+      {showLoader && (
+        <div
+          aria-live="assertive"
+          aria-label="Logging in with the demo account, please wait"
+          className={style.loader}
+        ></div>
+      )}
+      {!showLoader && (
+        <button
+          onClick={(event) => handleSubmit(event)}
+          className={style.tryDemoAccountBtn}
+        >
+          Try a demo account
+        </button>
+      )}
+    </div>
+  );
+}
