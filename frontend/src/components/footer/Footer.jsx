@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import LinkedinSvg from "/assets/images/svg/linkedin.svg";
-import GitHubSvg from "/assets/images/svg/github.svg";
-import PersonalWebsiteSvg from "/assets/images/svg/personal-website.svg";
+import LinkedinSvg from "/assets/images/svg/footer/linkedin.svg";
+import GitHubSvg from "/assets/images/svg/footer/github.svg";
+import PersonalWebsiteSvg from "/assets/images/svg/footer/personal-website.svg";
 import style from "./Footer.module.css";
 
 const footerLinks = [
