@@ -1,0 +1,35 @@
+.loginSuccessful,
+.fetchError,
+.logoutMessage {
+  position: absolute;
+  color: white;
+  width: 95vw;
+  top: 80px;
+  align-self: center;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 20px;
+  background-color: red;
+}
+
+.logoutMessage,
+.loginSuccessful {
+  background-color: #83b778;
+}
+
+@media (max-width: 750px) {
+  .loginSuccessful,
+  .fetchError,
+  .logoutMessage {
+    width: 90vw;
+    top: 60px;
+  }
+
+  .logoutMessage {
+    font-size: 16px;
+    padding: 12px 10px;
+    width: 90%;
+    word-break: break-all;
+  }
+}
