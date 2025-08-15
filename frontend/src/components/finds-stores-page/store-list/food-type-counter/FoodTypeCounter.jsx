@@ -1,73 +1,62 @@
-// import FreshFoodsSvg from "/assets/svg/fresh-foods.svg";
-// import CannedFoodsSvg from "/assets/svg/canned-foods.svg";
-// import BreadSvg from "/assets/svg/bread.svg";
-// import MeatSvg from "/assets/svg/meat.svg";
-// import FishSvg from "/assets/svg/fish.svg";
-// import CheeseSvg from "/assets/svg/cheese.svg";
-// import VegetablesSvg from "/assets/svg/vegetables.svg";
-// import OtherFoodsSvg from "/assets/svg/other-foods.svg";
+import BreadSvg from "/assets/images/svg/food-type-counter/bread.svg";
+import MeatSvg from "/assets/images/svg/food-type-counter/meat.svg";
+import FishSvg from "/assets/images/svg/food-type-counter/fish.svg";
+import CheeseSvg from "/assets/images/svg/food-type-counter/cheese.svg";
+import VegetablesSvg from "/assets/images/svg/food-type-counter/vegetables.svg";
+import OtherFoodsSvg from "/assets/images/svg/food-type-counter/other-foods.svg";
+import style from "./FoodTypeCounter.module.css";
 
 export default function FoodTypeCounter({ freshFoods, cannedFoods }) {
-  // const foodTypeImage = (foodType) => {
-  //   const newFoodType = foodType.replace("canned-", "");
-  //   switch (newFoodType) {
-  //     case "bread":
-  //       return BreadSvg;
-  //     case "meat":
-  //       return MeatSvg;
-  //     case "fish":
-  //       return FishSvg;
-  //     case "cheese":
-  //       return CheeseSvg;
-  //     case "vegetables":
-  //       return VegetablesSvg;
-  //     case "other":
-  //       return OtherFoodsSvg;
-  //   }
-  // };
+  const typesOfFood = [
+    { type: "bread", svgImage: BreadSvg },
+    { type: "meat", svgImage: MeatSvg },
+    { type: "fish", svgImage: FishSvg },
+    { type: "cheese", svgImage: CheeseSvg },
+    { type: "vegetables", svgImage: VegetablesSvg },
+    { type: "other", svgImage: OtherFoodsSvg },
+  ];
 
-  const foodTypeImage = (foodType) => {
-    const newFoodType = foodType.replace("canned-", "");
-    switch (newFoodType) {
-      case "bread":
-        return console.log("bread");
-      case "meat":
-        return console.log("meat");
-      case "fish":
-        return console.log("fish");
-      case "cheese":
-        return console.log("cheese");
-      case "vegetables":
-        return console.log("vegetables");
-      case "other":
-        return console.log("other");
+  const findQuantity = (foods, foodType) => {
+    let result = 0;
+    const findFood = foods.find((item) => item.type === foodType);
+    if (findFood) {
+      result = findFood.quantity;
     }
+    return result;
+  };
+
+  const foodCategory = (foods, category) => {
+    const isFresh = category === "fresh";
+
+    return (
+      <div className={style.foodCategory}>
+        <p>{isFresh ? "Fresh Food" : "Canned Food"}</p>
+        <div
+          aria-label={`${isFresh ? "fresh" : "canned"} foods quantity`}
+          className={style.foodsTypeContainer}
+        >
+          {typesOfFood.map((food) => {
+            return (
+              <div key={food.type} className={style.foodsCounter}>
+                <img src={food.svgImage} className={style.foodTypeImage} />
+                <p aria-label={food.type}>
+                  {findQuantity(
+                    foods,
+                    isFresh ? food.type : `canned-${food.type}`
+                  )}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div>
-      <div aria-label="fresh foods quantity">
-        {/* <img src={FreshFoodsSvg} /> */}
-        {freshFoods.map((food) => {
-          return (
-            <div key={food.type} aria-label={food.type}>
-              {/* <img src={foodTypeImage(food.type)} /> */}
-              <p>{food.quantity}</p>
-            </div>
-          );
-        })}
-      </div>
-      <div aria-label="canned foods quantity">
-        {/* <img src={CannedFoodsSvg} /> */}
-        {cannedFoods.map((food) => {
-          return (
-            <div key={food.type} aria-label={food.type}>
-              {/* <img src={foodTypeImage(food.type)} /> */}
-              <p>{food.quantity}</p>
-            </div>
-          );
-        })}
-      </div>
+    <div className={style.foodTypeCounter}>
+      {freshFoods && foodCategory(freshFoods, "fresh")}
+      {cannedFoods && foodCategory(cannedFoods, "canned")}
     </div>
   );
 }
