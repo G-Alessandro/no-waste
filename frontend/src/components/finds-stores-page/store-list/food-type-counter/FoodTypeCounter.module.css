@@ -1,0 +1,27 @@
+.foodTypeCounter {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.foodCategory {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.foodCategory > p {
+  color: #83b778;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.foodsTypeContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.foodTypeImage {
+  width: 20px;
+}
