@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import StoresFilter from "./stores-filter/StoresFilter";
 import StoreSearch from "./store-search/StoreSearch";
 import StoreRoutes from "./store-routes/StoreRoutes";
 import FoodTypeCounter from "./food-type-counter/FoodTypeCounter";
+import DeleteStore from "./delete-store/DeleteStore";
 import style from "./StoreList.module.css";
 
 export default function StoreList({
@@ -60,50 +60,6 @@ export default function StoreList({
     }
   }, [storesList]);
 
-  const handleShowLoader = (index) => {
-    setShowDeleteLoader((prevLoader) =>
-      prevLoader.map((loader, i) => (i === index ? !loader : loader))
-    );
-  };
-
-  const handleDeleteStore = async (storeId, index) => {
-    handleShowLoader(index);
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/stores/delete-store`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          mode: "cors",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ storeId }),
-        }
-      );
-
-      const newToken = response.headers.get("Authorization");
-      const data = await response.json();
-
-      if (!data) {
-        setErrorMessage("Store not found!");
-      } else {
-        if (newToken) {
-          localStorage.setItem("accessToken", newToken);
-        }
-        setMessage(data.message);
-        setTimeout(() => setMessage(null), 5000);
-      }
-    } catch (error) {
-      setErrorMessage(error);
-      console.log("Error while deleting the store:", error);
-    } finally {
-      handleShowLoader(index);
-      setStatusChanged(!statusChanged);
-    }
-  };
-
   const handleStoreSelect = (store) => {
     setSelectedStore({
       storeId: store.id,
@@ -119,7 +75,7 @@ export default function StoreList({
   };
 
   return (
-    <div>
+    <div className={style.storeListContainer}>
       {!storesList && <p>Loading Stores...</p>}
       {message && <p aria-live="polite">{message}</p>}
       {errorMessage && <p aria-live="polite">{errorMessage}</p>}
@@ -134,49 +90,48 @@ export default function StoreList({
         />
       )}
       <StoreSearch setSearchText={setSearchText} />
-      {sortedStoresList &&
-        sortedStoresList
-          .filter(
-            (store) =>
-              !searchText ||
-              store.name.toLowerCase().includes(searchText.toLowerCase())
-          )
-          .map((store, index) => {
-            return (
-              <div key={store.id}>
-                <button
-                  onClick={() => handleStoreSelect(store)}
-                  className={
-                    selectedStore?.storeId === store.id
-                      ? style.storeButtonClicked
-                      : style.storeButton
-                  }
-                >
-                  <h2>{store.name}</h2>
-                  <StoreRoutes routes={store.routes} />
-                  <FoodTypeCounter
-                    freshFoods={store.freshFoods}
-                    cannedFoods={store.cannedFoods}
+      <div className={style.storeList}>
+        {sortedStoresList &&
+          sortedStoresList
+            .filter(
+              (store) =>
+                !searchText ||
+                store.name.toLowerCase().includes(searchText.toLowerCase())
+            )
+            .map((store, index) => {
+              return (
+                <div key={store.id} className={style.storeCard}>
+                  <button
+                    onClick={() => handleStoreSelect(store)}
+                    className={`${style.storeBtn} ${
+                      selectedStore?.storeId === store.id
+                        ? style.storeBtnClicked
+                        : ""
+                    }`}
+                  >
+                    <h2>{store.name}</h2>
+                    <StoreRoutes routes={store.routes} />
+                    <FoodTypeCounter
+                      freshFoods={store.freshFoods}
+                      cannedFoods={store.cannedFoods}
+                    />
+                  </button>
+
+                  <DeleteStore
+                    userId={userId}
+                    store={store}
+                    index={index}
+                    showDeleteLoader={showDeleteLoader}
+                    setShowDeleteLoader={setShowDeleteLoader}
+                    setMessage={setMessage}
+                    setErrorMessage={setErrorMessage}
+                    setStatusChanged={setStatusChanged}
+                    statusChanged={statusChanged}
                   />
-                </button>
-                <div>
-                  {userId === store.createdByUserId &&
-                    localStorage.getItem("accessToken") &&
-                    showDeleteLoader[index] === false && (
-                      <button
-                        onClick={() => handleDeleteStore(store.id, index)}
-                      >
-                        X
-                      </button>
-                    )}
-                  {showDeleteLoader[index] && <div></div>}
-                  <Link to="/items-list" state={{ store }}>
-                    See food list
-                  </Link>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+      </div>
     </div>
   );
 }
