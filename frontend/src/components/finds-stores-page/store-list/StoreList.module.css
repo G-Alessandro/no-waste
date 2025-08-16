@@ -4,6 +4,7 @@
 
 .storeList {
   height: 60vh;
+  width: 520px;
   display: flex;
   flex-direction: column;
   padding: 20px;
