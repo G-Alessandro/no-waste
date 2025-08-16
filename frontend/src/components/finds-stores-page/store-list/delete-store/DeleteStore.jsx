@@ -62,7 +62,7 @@ export default function DeleteStore({
     <div className={style.itemsLinkDeleteStoreContainer}>
       {userId !== store.createdByUserId &&
         showDeleteLoader[index] === false && (
-          <dic className={style.emptyDiv}></dic>
+          <div className={style.emptyDiv}></div>
         )}
 
       {userId === store.createdByUserId &&
