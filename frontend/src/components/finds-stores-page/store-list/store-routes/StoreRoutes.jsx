@@ -2,6 +2,7 @@ import walkSvg from "/assets/images/svg/store-routes/walk.svg";
 import bicycleSvg from "/assets/images/svg/store-routes/bicycle.svg";
 import driveSvg from "/assets/images/svg/store-routes/drive.svg";
 import transitSvg from "/assets/images/svg/store-routes/transit.svg";
+import RouteDurationSvg from "/assets/images/svg/store-routes/route-duration.svg";
 import noRouteData from "/assets/images/svg/store-routes/no-route-data.svg";
 import style from "./StoreRoutes.module.css";
 
@@ -98,6 +99,7 @@ export default function StoreRoutes({ routes }) {
                   className={style.routeDurationContainer}
                   aria-label={`travel time`}
                 >
+                  <img src={RouteDurationSvg} className={style.routeTypeSvg} />
                   {data.duration &&
                     Object.entries(data.duration).map(([mode, data], index) => (
                       <div
@@ -117,7 +119,7 @@ export default function StoreRoutes({ routes }) {
                           </>
                         )}
                         {data === "no-data" && (
-                          <p aria-hidden="true">unknown timing</p>
+                          <p aria-hidden="true">unknown</p>
                         )}
                       </div>
                     ))}
