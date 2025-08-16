@@ -1,0 +1,70 @@
+.itemsLinkDeleteStoreContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.emptyDiv {
+  width: 30px;
+  height: 30px;
+  visibility: hidden;
+}
+
+.deleteStoreBtn {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: red;
+  border-radius: 5px;
+  padding: 2px 2px;
+  transition: transform 0.3s ease;
+}
+
+.deleteStoreBtn:hover {
+  transform: scale(1.2);
+}
+
+.deleteStoreImg {
+  cursor: pointer;
+  width: 30px;
+  background-color: red;
+  border-radius: 5px;
+}
+
+.foodListLink {
+  width: fit-content;
+  color: #83b778;
+  font-size: 13px;
+  font-weight: 700;
+  align-self: center;
+  text-decoration: none;
+  background-color: white;
+  border: 2px solid #83b778;
+  padding: 20px;
+}
+
+.foodListLink:hover {
+  color: white;
+  background-color: #83b778;
+  padding: 20px;
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #83b778;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
