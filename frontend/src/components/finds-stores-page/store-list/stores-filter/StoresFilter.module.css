@@ -1,0 +1,81 @@
+.storesFilter {
+}
+
+.filterBtnSearchContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.filterButton {
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: #7ab1f5;
+  padding: 10px 18px;
+  border: none;
+}
+
+.filterButton:hover {
+  background-color: #6391c9;
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  visibility: hidden;
+}
+
+.filterContainer.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.selectContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.selectContainer > label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.selectContainer > select {
+  font-size: 15px;
+  font-weight: 700;
+  border: 2px solid rgb(216, 216, 216);
+  outline: none;
+  background-color: white;
+  padding: 2px;
+}
+
+.selectContainer > select:focus {
+  border: 2px solid rgb(184, 184, 184);
+}
+
+.selectContainer > select option {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.inputRadioContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.inputRadioContainer > div {
+  display: flex;
+  gap: 2px;
+}
+
+.inputRadioContainer > div > label {
+  font-weight: 700;
+}
