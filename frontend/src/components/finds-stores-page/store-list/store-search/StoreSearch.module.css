@@ -1,0 +1,41 @@
+.storeSearch {
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 350px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 500;
+  border: 3px solid rgb(216, 216, 216);
+  border-right: none;
+  border-radius: 5px 0px 0px 5px;
+  outline: none;
+  padding: 2px;
+  text-indent: 15px;
+}
+
+.searchInput:focus {
+  border: 3px solid rgb(184, 184, 184);
+  border-right: none;
+}
+
+.searchLabel {
+  height: 40px;
+  border-top: 3px solid rgb(216, 216, 216);
+  border-right: 3px solid rgb(216, 216, 216);
+  border-bottom: 3px solid rgb(216, 216, 216);
+  border-left: none;
+  padding: 2px;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.searchLabelFocus {
+  border: 3px solid rgb(184, 184, 184);
+  border-left: none;
+}
+
+.searchLabel > img {
+  width: 40px;
+}
