@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import StoreSearch from "../store-search/StoreSearch";
+import style from "./StoresFilter.module.css";
 
 export default function StoresFilter({
   storesList,
@@ -7,7 +9,9 @@ export default function StoresFilter({
   setTravelModesFilter,
   travelUnitFilter,
   setTravelUnitFilter,
+  setSearchText,
 }) {
+  const [visible, setVisible] = useState(false);
   const [showStoreFilter, setShowStoreFilter] = useState(false);
 
   useEffect(() => {
@@ -76,13 +80,26 @@ export default function StoresFilter({
     handleTravelFilters(travelModesFilter, travelUnitFilter);
   }, [storesList, travelModesFilter, travelUnitFilter]);
 
+  const handleCLick = () => {
+    setShowStoreFilter(!showStoreFilter);
+    setVisible(!visible);
+  };
+
   return (
-    <>
-      <button onClick={() => setShowStoreFilter(!showStoreFilter)}>
-        Filters
-      </button>
-      {showStoreFilter && (
-        <div>
+    <div className={style.storesFilter}>
+      <div className={style.filterBtnSearchContainer}>
+        <button
+          onClick={() => handleCLick()}
+          aria-label="click to filter the stores"
+          className={style.filterButton}
+        >
+          Filters
+        </button>
+        <StoreSearch setSearchText={setSearchText} />
+      </div>
+
+      <div className={`${style.filterContainer} ${visible ? style.show : ""}`}>
+        <div className={style.selectContainer}>
           <label htmlFor="filter-travel-modes">Shortest route:</label>
           <select
             name="filter-travel-modes"
@@ -95,27 +112,32 @@ export default function StoresFilter({
             <option value="drive">Car</option>
             <option value="transit">Public Transport</option>
           </select>
-
-          <input
-            type="radio"
-            value="distance"
-            id="travel-unit-distance"
-            name="travel-unit"
-            onClick={(e) => setTravelUnitFilter(e.target.value)}
-            defaultChecked
-          />
-          <label htmlFor="travel-unit-distance">Distance</label>
-
-          <input
-            type="radio"
-            value="time"
-            id="travel-unit-time"
-            name="travel-unit"
-            onClick={(e) => setTravelUnitFilter(e.target.value)}
-          />
-          <label htmlFor="travel-unit-time">Time</label>
         </div>
-      )}
-    </>
+        <div className={style.inputRadioContainer}>
+          <div>
+            <input
+              type="radio"
+              value="distance"
+              id="travel-unit-distance"
+              name="travel-unit"
+              onClick={(e) => setTravelUnitFilter(e.target.value)}
+              defaultChecked
+            />
+            <label htmlFor="travel-unit-distance">Distance</label>
+          </div>
+          <div>/</div>
+          <div>
+            <input
+              type="radio"
+              value="time"
+              id="travel-unit-time"
+              name="travel-unit"
+              onClick={(e) => setTravelUnitFilter(e.target.value)}
+            />
+            <label htmlFor="travel-unit-time">Time</label>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
