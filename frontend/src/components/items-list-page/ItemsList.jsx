@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import TopBar from "../top-bar/TopBar";
-import AddStoreItem from "../finds-stores-page/add-store-item/AddStoreItem";
+import AddStoreItem from "../finds-stores-page/store-list/add-store-item/AddStoreItem";
 import ItemsFilter from "./items-filter/ItemsFilter";
 import ItemsTable from "./items-table/ItemsTable";
 
