@@ -86,7 +86,7 @@ export default function StoresFilter({
   };
 
   return (
-    <div className={style.storesFilter}>
+    <div>
       <div className={style.filterBtnSearchContainer}>
         <button
           onClick={() => handleCLick()}
