@@ -1,11 +1,10 @@
-import { useState } from "react";
+import style from "./UserGeolocation.module.css";
 
 export default function UserGeolocation({
   setUserLocation,
   setLocationFromGeolocation,
+  setError,
 }) {
-  const [geolocationError, setGeolocationError] = useState(false);
-
   const getUserLocation = () => {
     if (navigator.geolocation) {
       const options = {
@@ -26,18 +25,19 @@ export default function UserGeolocation({
         options
       );
     } else {
-      setGeolocationError(true);
+      setError("Geolocation is not supported by this browser");
       console.error("Geolocation is not supported by this browser.");
-      setTimeout(() => setGeolocationError(false), 5000);
+      setTimeout(() => setError(null), 5000);
     }
   };
 
   return (
-    <div>
-      <button onClick={getUserLocation}>Use Geolocation</button>
-      {geolocationError && (
-        <p aria-live="polite">Geolocation is not supported by this browser</p>
-      )}
-    </div>
+    <button
+      aria-label="click to find your location using geolocation"
+      onClick={getUserLocation}
+      className={style.userGeolocationBtn}
+    >
+      Geolocation
+    </button>
   );
 }
