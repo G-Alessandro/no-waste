@@ -1,0 +1,63 @@
+.autocompleteContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.autocompleteContainer > label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.autocompleteContainer > input {
+  width: 250px;
+  height: 25px;
+  font-size: 18px;
+  font-weight: 500;
+  border: 3px solid rgb(216, 216, 216);
+  border-radius: 5px;
+  outline: none;
+  padding: 2px;
+  text-indent: 10px;
+}
+
+.autocompleteContainer > input:focus {
+  border: 3px solid rgb(184, 184, 184);
+}
+
+.autocompleteBtnContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0px;
+}
+
+.autocompleteCancelBtn,
+.autocompleteSaveBtn {
+  cursor: pointer;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: rgb(194, 194, 194);
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+}
+
+.autocompleteSaveBtn {
+  background-color: #7ab1f5;
+}
+
+.autocompleteCancelBtn:not(:disabled):hover {
+  background-color: rgb(173, 173, 173);
+}
+
+.autocompleteSaveBtn:not(:disabled):hover {
+  background-color: #5fa3f5;
+}
+
+.autocompleteCancelBtn:disabled,
+.autocompleteSaveBtn:disabled {
+  cursor: default;
+  opacity: 0.3;
+  background-color: rgb(158, 158, 158);
+}
