@@ -1,8 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
+import UserGeolocation from "../../../user-locations/user-geolocation/UserGeolocation";
+import style from "./PlaceAutocomplete.module.css";
 
 export default function PlaceAutocomplete({
   userId,
+  setError,
   addingLocationFromMap,
   setAddingLocationFromMap,
   geocodingService,
@@ -14,6 +17,8 @@ export default function PlaceAutocomplete({
   setShowSaveLocation,
   setShowUserMarker,
   locationsSelectIsNone,
+  setUserLocation,
+  setLocationFromGeolocation,
 }) {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
   const [locationChanged, setLocationChanged] = useState(false);
@@ -83,9 +88,11 @@ export default function PlaceAutocomplete({
   };
 
   return (
-    <div className="autocomplete-container">
+    <div className={style.autocompleteContainer}>
       <label htmlFor="geocoding-location">
-        {parentComponent === "add-store" ? "Store Location" : "Your Location"}
+        {parentComponent === "add-store"
+          ? "Store Location"
+          : "Find Your Location"}
       </label>
       <input
         ref={inputRef}
@@ -95,22 +102,39 @@ export default function PlaceAutocomplete({
         minLength={1}
         placeholder={
           parentComponent === "add-store"
-            ? "Enter the store location"
-            : "Enter your location"
+            ? "Enter the store address"
+            : "Enter your address"
         }
         required
       />
-      <button type="button" onClick={deleteLocation} disabled={!selectedPlace}>
-        Cancel location
-      </button>
-      {userId && (
+      <div className={style.autocompleteBtnContainer}>
         <button
-          onClick={() => setShowSaveLocation(true)}
+          type="button"
+          onClick={deleteLocation}
           disabled={!selectedPlace}
+          aria-label="click to cancel your location"
+          className={style.autocompleteCancelBtn}
         >
-          Save location
+          Cancel
         </button>
-      )}
+        {userId && (
+          <button
+            onClick={() => setShowSaveLocation(true)}
+            aria-label="click to save your location"
+            className={style.autocompleteSaveBtn}
+            disabled={!selectedPlace}
+          >
+            Save
+          </button>
+        )}
+        {parentComponent !== "add-store" && (
+          <UserGeolocation
+            setUserLocation={setUserLocation}
+            setLocationFromGeolocation={setLocationFromGeolocation}
+            setError={setError}
+          />
+        )}
+      </div>
     </div>
   );
 }
