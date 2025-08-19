@@ -61,3 +61,7 @@
   opacity: 0.3;
   background-color: rgb(158, 158, 158);
 }
+
+.hideAutocompleteContainer {
+  display: none;
+}
