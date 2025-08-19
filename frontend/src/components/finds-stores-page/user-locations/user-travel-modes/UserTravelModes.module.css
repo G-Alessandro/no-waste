@@ -1,0 +1,34 @@
+.userLocationsSelect {
+  display: flex;
+  flex-direction: column;
+}
+
+.userLocationsSelect > label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.userLocationsSelect > select {
+  height: 34px;
+  font-size: 18px;
+  font-weight: 500;
+  border: 3px solid rgb(216, 216, 216);
+  background-color: white;
+  border-radius: 5px;
+  outline: none;
+  padding: 2px;
+}
+
+.userLocationsSelect > select:focus {
+  border: 3px solid rgb(184, 184, 184);
+}
+
+.userLocationsSelect > select option {
+  padding: 5px;
+}
+
+.userLocationsSelect > select option:checked {
+  color: white;
+  background-color: #7ab1f5;
+}
