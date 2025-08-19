@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import DeleteStoreSvg from "/assets/images/svg/store-list/delete-store.svg";
+import style from "./UserLocationsList.module.css";
 
 export default function UserLocationsList({
   setMessage,
@@ -10,6 +12,7 @@ export default function UserLocationsList({
   setShowUserMarker,
   setSelectDefaultValue,
 }) {
+  const listRef = useRef(null);
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
 
   useEffect(() => {
@@ -23,6 +26,18 @@ export default function UserLocationsList({
       prevLoader.map((loader, i) => (i === index ? !loader : loader))
     );
   };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (listRef.current && !listRef.current.contains(event.target)) {
+        setShowUserLocationsList(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleDeleteUserLocation = async (locationId, index) => {
     handleShowLoader(index);
@@ -64,29 +79,33 @@ export default function UserLocationsList({
   };
 
   return (
-    <div>
-      <button onClick={() => setShowUserLocationsList(false)}>X</button>
+    <div className={style.userLocationsListContainer} ref={listRef}>
       {userLocationsList && (
         <ul>
           {userLocationsList.map((location, index) => {
             return (
               <li key={location.id}>
-                {location.name}
+                <p>{location.name}</p>
                 {!showDeleteLoader[index] && (
                   <button
                     onClick={() => handleDeleteUserLocation(location.id, index)}
                     aria-label={`Delete location ${location.name}`}
+                    className={style.deleteLocationBtn}
                   >
-                    Delete
+                    <img src={DeleteStoreSvg} />
                   </button>
                 )}
-                {showDeleteLoader[index] && <div></div>}
+                {showDeleteLoader[index] && (
+                  <div className={style.loader}></div>
+                )}
               </li>
             );
           })}
         </ul>
       )}
-      {!userLocationsList && <p>No personal location saved</p>}
+      {!userLocationsList && (
+        <p className={style.noLocationSaved}>No location saved</p>
+      )}
     </div>
   );
 }
