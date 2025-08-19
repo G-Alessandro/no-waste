@@ -14,6 +14,7 @@ export default function PlaceAutocomplete({
   newLocation,
   setNewLocation,
   parentComponent,
+  showSaveLocation,
   setShowSaveLocation,
   setShowUserMarker,
   locationsSelectIsNone,
@@ -72,7 +73,7 @@ export default function PlaceAutocomplete({
     setAddingLocationFromMap(false);
   }, [locationChanged]);
 
-  const deleteLocation = () => {
+  const handleDeleteLocation = () => {
     if (inputRef.current.value !== "") {
       if (locationsSelectIsNone === true) {
         setShowUserMarker(false);
@@ -88,7 +89,13 @@ export default function PlaceAutocomplete({
   };
 
   return (
-    <div className={style.autocompleteContainer}>
+    <div
+      className={` ${
+        showSaveLocation
+          ? style.hideAutocompleteContainer
+          : style.autocompleteContainer
+      }`}
+    >
       <label htmlFor="geocoding-location">
         {parentComponent === "add-store"
           ? "Store Location"
@@ -110,9 +117,9 @@ export default function PlaceAutocomplete({
       <div className={style.autocompleteBtnContainer}>
         <button
           type="button"
-          onClick={deleteLocation}
+          onClick={handleDeleteLocation}
           disabled={!selectedPlace}
-          aria-label="click to cancel your location"
+          aria-label="click to delete the selected location"
           className={style.autocompleteCancelBtn}
         >
           Cancel
@@ -120,7 +127,7 @@ export default function PlaceAutocomplete({
         {userId && (
           <button
             onClick={() => setShowSaveLocation(true)}
-            aria-label="click to save your location"
+            aria-label="click to open the location saving screen"
             className={style.autocompleteSaveBtn}
             disabled={!selectedPlace}
           >
