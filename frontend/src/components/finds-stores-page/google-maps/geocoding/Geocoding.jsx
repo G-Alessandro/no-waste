@@ -4,6 +4,7 @@ import PlaceAutocomplete from "./place-autocomplete/PlaceAutocomplete";
 
 function GeocodingInput({
   userId,
+  setError,
   addingLocationFromMap,
   setAddingLocationFromMap,
   newLocation,
@@ -12,10 +13,13 @@ function GeocodingInput({
   setSelectedPlace,
   setSelectDefaultValue,
   parentComponent,
+  showSaveLocation,
   setShowSaveLocation,
   setShowUserMarker,
   locationsSelectIsNone,
   setLocationsSelectIsNone,
+  setUserLocation,
+  setLocationFromGeolocation,
 }) {
   const geocodingApiLoaded = useMapsLibrary("geocoding");
   const [geocodingService, setGeocodingService] = useState(null);
@@ -49,6 +53,7 @@ function GeocodingInput({
   return (
     <PlaceAutocomplete
       userId={userId}
+      setError={setError}
       addingLocationFromMap={addingLocationFromMap}
       setAddingLocationFromMap={setAddingLocationFromMap}
       geocodingService={geocodingService}
@@ -57,32 +62,40 @@ function GeocodingInput({
       newLocation={newLocation}
       setNewLocation={setNewLocation}
       parentComponent={parentComponent}
+      showSaveLocation={showSaveLocation}
       setShowSaveLocation={setShowSaveLocation}
       setShowUserMarker={setShowUserMarker}
       locationsSelectIsNone={locationsSelectIsNone}
+      setUserLocation={setUserLocation}
+      setLocationFromGeolocation={setLocationFromGeolocation}
     />
   );
 }
 
 export default function Geocoding({
   userId,
+  setError,
   addingLocationFromMap,
   setAddingLocationFromMap,
   newLocation,
   setNewLocation,
   parentComponent,
   setSelectDefaultValue,
+  showSaveLocation,
   setShowSaveLocation,
   setShowUserMarker,
   selectedPlace,
   setSelectedPlace,
   locationsSelectIsNone,
   setLocationsSelectIsNone,
+  setUserLocation,
+  setLocationFromGeolocation,
 }) {
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <GeocodingInput
         userId={userId}
+        setError={setError}
         addingLocationFromMap={addingLocationFromMap}
         setAddingLocationFromMap={setAddingLocationFromMap}
         newLocation={newLocation}
@@ -91,10 +104,13 @@ export default function Geocoding({
         setSelectedPlace={setSelectedPlace}
         setSelectDefaultValue={setSelectDefaultValue}
         parentComponent={parentComponent}
+        showSaveLocation={showSaveLocation}
         setShowSaveLocation={setShowSaveLocation}
         setShowUserMarker={setShowUserMarker}
         locationsSelectIsNone={locationsSelectIsNone}
         setLocationsSelectIsNone={setLocationsSelectIsNone}
+        setUserLocation={setUserLocation}
+        setLocationFromGeolocation={setLocationFromGeolocation}
       />
     </APIProvider>
   );
