@@ -85,7 +85,7 @@ export default function SaveUserLocation({
           </button>
         </div>
       )}
-      {showLoader && <div></div>}
+      {showLoader && <div className={style.loader}></div>}
     </form>
   );
 }
