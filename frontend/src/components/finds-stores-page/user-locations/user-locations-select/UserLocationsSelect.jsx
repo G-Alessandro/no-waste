@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import style from "./UserLocationsSelect.module.css";
 
 export default function UserLocationsSelect({
   userId,
@@ -61,8 +62,8 @@ export default function UserLocationsSelect({
   };
 
   return (
-    <>
-      <label htmlFor="user-locations">Your Locations</label>
+    <div className={style.userLocationsSelect}>
+      <label htmlFor="user-locations">Saved Locations</label>
       <select
         id="user-locations"
         name="user-locations"
@@ -96,6 +97,6 @@ export default function UserLocationsSelect({
           Location List
         </button>
       )}
-    </>
+    </div>
   );
 }
