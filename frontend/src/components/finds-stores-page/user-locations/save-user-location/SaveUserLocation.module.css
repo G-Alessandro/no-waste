@@ -1,0 +1,48 @@
+.saveUserLocationForm {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.saveUserLocationForm > label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.saveUserLocationForm > input {
+  width: 250px;
+  height: 25px;
+  font-size: 18px;
+  font-weight: 500;
+  border: 3px solid rgb(216, 216, 216);
+  border-radius: 5px;
+  outline: none;
+  padding: 2px;
+  text-indent: 10px;
+}
+
+.saveUserLocationForm > input:focus {
+  border: 3px solid rgb(184, 184, 184);
+}
+
+.saveUserLocationForm > div {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 5px 0px;
+}
+
+.saveUserLocationForm > div > button {
+  cursor: pointer;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #7ab1f5;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+}
+
+.saveUserLocationForm > div > button:first-of-type {
+  background-color: rgb(194, 194, 194);
+}
