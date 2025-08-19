@@ -1,0 +1,71 @@
+.userLocationsListContainer {
+  position: absolute;
+  width: 150px;
+  background-color: white;
+  padding: 0px 5px;
+  border: 2px solid rgb(216, 216, 216);
+  z-index: 999999;
+}
+
+.userLocationsListContainer > ul > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 5px;
+  border-bottom: 2px solid rgb(216, 216, 216);
+}
+
+.userLocationsListContainer > ul > li:last-child {
+  border-bottom: 0px;
+}
+
+.userLocationsListContainer > ul > li > p {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.userLocationsListContainer > ul > li > button {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: red;
+  border-radius: 3px;
+  padding: 2px 2px;
+  transition: transform 0.3s ease;
+}
+
+.userLocationsListContainer > ul > li > button:hover {
+  transform: scale(1.2);
+}
+
+.userLocationsListContainer > ul > li > button > img {
+  cursor: pointer;
+  width: 23px;
+  background-color: red;
+  border-radius: 5px;
+}
+
+.loader {
+  align-self: center;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #83b778;
+  border-radius: 50%;
+  width: 11px;
+  height: 11px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.noLocationSaved {
+  width: fit-content;
+  padding: 10px;
+}
