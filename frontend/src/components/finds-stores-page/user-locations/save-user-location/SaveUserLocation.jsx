@@ -1,4 +1,5 @@
 import { useState } from "react";
+import style from "./SaveUserLocation.module.css";
 
 export default function SaveUserLocation({
   userId,
@@ -59,7 +60,7 @@ export default function SaveUserLocation({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={style.saveUserLocationForm}>
       <label htmlFor="location-name">Location Name</label>
       <input
         type="text"
@@ -72,9 +73,15 @@ export default function SaveUserLocation({
       />
       {!showLoader && (
         <div>
-          <button type="submit">Save</button>
-          <button onClick={() => setShowSaveLocation(false)} type="button">
+          <button
+            onClick={() => setShowSaveLocation(false)}
+            type="button"
+            aria-label="click to close the location saving screen"
+          >
             Cancel
+          </button>
+          <button type="submit" aria-label="click to save the location">
+            Save
           </button>
         </div>
       )}
