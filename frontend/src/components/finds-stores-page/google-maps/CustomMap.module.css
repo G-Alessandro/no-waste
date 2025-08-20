@@ -1,0 +1,36 @@
+.mapContainer {
+  position: relative;
+  height: 60vh;
+  width: 60vw;
+}
+
+.mapContainer > a {
+  position: absolute;
+  top: 50px;
+  left: 250px;
+  z-index: 99999999;
+  text-decoration: none;
+  background: none padding-box rgb(255, 255, 255);
+  display: table-cell;
+  border: 0px;
+  margin: 0px;
+  padding: 0px 17px;
+  text-transform: none;
+  appearance: none;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  text-align: center;
+  height: 40px;
+  vertical-align: middle;
+  color: rgb(86, 86, 86);
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 18px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  min-width: 66px;
+}
+
+.mapContainer > a:hover {
+  background: none padding-box rgb(224, 224, 224);
+}
