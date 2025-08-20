@@ -1,0 +1,9 @@
+.userLocationsSection {
+  display: flex;
+  margin: 10px 10px 10px;
+  gap: 20px;
+}
+
+.userLocationsContainer {
+  position: relative;
+}
