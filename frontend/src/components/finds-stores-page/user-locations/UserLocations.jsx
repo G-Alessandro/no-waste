@@ -1,10 +1,10 @@
-import { useState } from "react";
-import UserGeolocation from "./user-geolocation/UserGeolocation.jsx";
+import { useState, useRef } from "react";
 import Geocoding from "../google-maps/geocoding/Geocoding.jsx";
 import UserLocationsSelect from "./user-locations-select/UserLocationsSelect.jsx";
 import SaveUserLocation from "./save-user-location/SaveUserLocation.jsx";
 import UserLocationsList from "./user-locations-list/UserLocationsList.jsx";
 import UserTravelModes from "./user-travel-modes/UserTravelModes.jsx";
+import style from "./UserLocations.module.css";
 
 export default function UserLocations({
   userId,
@@ -29,74 +29,73 @@ export default function UserLocations({
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [locationsSelectIsNone, setLocationsSelectIsNone] = useState(false);
   const [locationFromGeolocation, setLocationFromGeolocation] = useState(false);
+  const showLocationsListBtn = useRef(null);
 
   return (
-    <section>
-      <div>
-        <UserGeolocation
-          setUserLocation={setUserLocation}
-          setLocationFromGeolocation={setLocationFromGeolocation}
-        />
-        <Geocoding
-          userId={userId}
-          addingLocationFromMap={locationFromGeolocation}
-          setAddingLocationFromMap={setLocationFromGeolocation}
-          newLocation={userLocation}
-          setNewLocation={setUserLocation}
-          setSelectDefaultValue={setSelectDefaultValue}
-          parentComponent={"user-locations"}
-          setShowSaveLocation={setShowSaveLocation}
-          setShowUserMarker={setShowUserMarker}
-          selectedPlace={selectedPlace}
-          setSelectedPlace={setSelectedPlace}
-          locationsSelectIsNone={locationsSelectIsNone}
-          setLocationsSelectIsNone={setLocationsSelectIsNone}
-        />
-      </div>
-
-      {userId && showSaveLocation && (
-        <div>
-          <SaveUserLocation
-            userId={userId}
-            setError={setError}
-            setMessage={setMessage}
-            userLocation={userLocation}
-            userLocationStatusChanged={userLocationStatusChanged}
-            setUserLocationStatusChanged={setUserLocationStatusChanged}
-            setShowSaveLocation={setShowSaveLocation}
-            setSelectDefaultValue={setSelectDefaultValue}
-            setSelectedPlace={setSelectedPlace}
-          />
-        </div>
-      )}
-      <UserLocationsSelect
+    <section className={style.userLocationsSection}>
+      <Geocoding
         userId={userId}
         setError={setError}
-        setUserLocationsList={setUserLocationsList}
-        userLocationStatusChanged={userLocationStatusChanged}
-        selectDefaultValue={selectDefaultValue}
+        addingLocationFromMap={locationFromGeolocation}
+        setAddingLocationFromMap={setLocationFromGeolocation}
+        newLocation={userLocation}
+        setNewLocation={setUserLocation}
         setSelectDefaultValue={setSelectDefaultValue}
-        setUserLocation={setUserLocation}
-        userLocationsList={userLocationsList}
-        showUserLocationsList={showUserLocationsList}
-        setShowUserLocationsList={setShowUserLocationsList}
+        parentComponent={"user-locations"}
+        showSaveLocation={showSaveLocation}
+        setShowSaveLocation={setShowSaveLocation}
         setShowUserMarker={setShowUserMarker}
+        selectedPlace={selectedPlace}
+        setSelectedPlace={setSelectedPlace}
+        locationsSelectIsNone={locationsSelectIsNone}
         setLocationsSelectIsNone={setLocationsSelectIsNone}
+        setUserLocation={setUserLocation}
+        setLocationFromGeolocation={setLocationFromGeolocation}
       />
-
-      {showUserLocationsList && (
-        <UserLocationsList
-          setMessage={setMessage}
+      {userId && showSaveLocation && (
+        <SaveUserLocation
+          userId={userId}
           setError={setError}
-          userLocationsList={userLocationsList}
-          setShowUserLocationsList={setShowUserLocationsList}
+          setMessage={setMessage}
+          userLocation={userLocation}
           userLocationStatusChanged={userLocationStatusChanged}
           setUserLocationStatusChanged={setUserLocationStatusChanged}
-          setShowUserMarker={setShowUserMarker}
+          setShowSaveLocation={setShowSaveLocation}
           setSelectDefaultValue={setSelectDefaultValue}
+          setSelectedPlace={setSelectedPlace}
         />
       )}
+      <div className={style.userLocationsContainer}>
+        <UserLocationsSelect
+          userId={userId}
+          setError={setError}
+          setUserLocationsList={setUserLocationsList}
+          userLocationStatusChanged={userLocationStatusChanged}
+          selectDefaultValue={selectDefaultValue}
+          setSelectDefaultValue={setSelectDefaultValue}
+          setUserLocation={setUserLocation}
+          userLocationsList={userLocationsList}
+          showUserLocationsList={showUserLocationsList}
+          setShowUserLocationsList={setShowUserLocationsList}
+          setShowUserMarker={setShowUserMarker}
+          setLocationsSelectIsNone={setLocationsSelectIsNone}
+          showLocationsListBtn={showLocationsListBtn}
+        />
 
+        {showUserLocationsList && (
+          <UserLocationsList
+            setMessage={setMessage}
+            setError={setError}
+            userLocationsList={userLocationsList}
+            setShowUserLocationsList={setShowUserLocationsList}
+            userLocationStatusChanged={userLocationStatusChanged}
+            setUserLocationStatusChanged={setUserLocationStatusChanged}
+            setShowUserMarker={setShowUserMarker}
+            setSelectDefaultValue={setSelectDefaultValue}
+            showLocationsListBtn={showLocationsListBtn}
+          />
+        )}
+      </div>
       <UserTravelModes travelMode={travelMode} setTravelMode={setTravelMode} />
     </section>
   );
