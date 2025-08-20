@@ -14,6 +14,7 @@ export default function UserLocationsSelect({
   setShowUserLocationsList,
   setShowUserMarker,
   setLocationsSelectIsNone,
+  showLocationsListBtn,
 }) {
   useEffect(() => {
     if (!userId) return;
@@ -93,6 +94,7 @@ export default function UserLocationsSelect({
       {userId && (
         <button
           onClick={() => setShowUserLocationsList(!showUserLocationsList)}
+          ref={showLocationsListBtn}
         >
           Location List
         </button>
