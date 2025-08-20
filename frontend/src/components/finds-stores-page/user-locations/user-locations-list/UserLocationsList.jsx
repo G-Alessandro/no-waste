@@ -11,6 +11,7 @@ export default function UserLocationsList({
   setUserLocationStatusChanged,
   setShowUserMarker,
   setSelectDefaultValue,
+  showLocationsListBtn,
 }) {
   const listRef = useRef(null);
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
@@ -29,7 +30,12 @@ export default function UserLocationsList({
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (listRef.current && !listRef.current.contains(event.target)) {
+      if (
+        listRef.current &&
+        !listRef.current.contains(event.target) &&
+        showLocationsListBtn.current &&
+        !showLocationsListBtn.current.contains(event.target)
+      ) {
         setShowUserLocationsList(false);
       }
     }
