@@ -43,9 +43,9 @@
   border: none;
   border-radius: 3px;
   margin: 5px 0px;
+  transition: 0.3s;
 }
 
 .userLocationsSelect > button:hover {
   background-color: #5fa3f5;
 }
-
