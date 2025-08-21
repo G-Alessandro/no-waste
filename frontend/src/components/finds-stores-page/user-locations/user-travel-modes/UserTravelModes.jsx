@@ -35,7 +35,11 @@ export default function UserTravelModes({ travelMode, setTravelMode }) {
         onChange={handleLocationChange}
       >
         {modes.map((mode) => {
-          return <option value={mode.value}>{mode.name}</option>;
+          return (
+            <option key={mode.value} value={mode.value}>
+              {mode.name}
+            </option>
+          );
         })}
       </select>
     </div>
