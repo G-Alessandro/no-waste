@@ -7,6 +7,7 @@
   padding: 5px 10px;
   border: none;
   border-radius: 3px;
+  transition: 0.3s;
 }
 
 .userGeolocationBtn:hover {
