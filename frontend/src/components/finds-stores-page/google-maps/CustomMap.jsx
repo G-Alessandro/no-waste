@@ -81,7 +81,11 @@ export default function MapComponent({
   }, [newStoreLocation]);
 
   return (
-    <div className={style.mapContainer}>
+    <div
+      className={`${style.mapContainer} ${
+        addingLocationFromMap ? style.addLocationFromMap : ""
+      }`}
+    >
       {userLocation && selectedStore && travelMode && (
         <a
           href={`https://www.google.com/maps/dir/?api=1&origin=${userLocation.latitude},${userLocation.longitude}&destination=${selectedStore.location.lat},${selectedStore.location.lng}&travelmode=${travelMode}`}
