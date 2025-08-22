@@ -2,6 +2,11 @@
   position: relative;
   height: 60vh;
   width: 60vw;
+  border: 5px solid white;
+}
+
+.mapContainer.addLocationFromMap {
+  border: 5px solid #eca461;
 }
 
 .mapContainer > a {
@@ -18,7 +23,7 @@
   font-family: Roboto, Arial, sans-serif;
   font-size: 18px;
   text-decoration: none;
-   text-align: center;
+  text-align: center;
   background: none padding-box rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
   border: 0px;
