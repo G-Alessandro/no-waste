@@ -3,6 +3,7 @@
   height: 60vh;
   width: 60vw;
   border: 5px solid white;
+  transition: 0.3s;
 }
 
 .mapContainer.addLocationFromMap {
