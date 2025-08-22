@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import StoreSearch from "../store-search/StoreSearch";
+import PlusSvg from "/assets/images/svg/stores-filter/plus.svg";
 import style from "./StoresFilter.module.css";
 
 export default function StoresFilter({
@@ -10,8 +11,11 @@ export default function StoresFilter({
   travelUnitFilter,
   setTravelUnitFilter,
   setSearchText,
+  showAddNewItem,
+  setShowAddNewItem,
+  showAddNewStore,
+  setShowAddNewStore,
 }) {
-  const [visible, setVisible] = useState(false);
   const [showStoreFilter, setShowStoreFilter] = useState(false);
 
   useEffect(() => {
@@ -80,16 +84,21 @@ export default function StoresFilter({
     handleTravelFilters(travelModesFilter, travelUnitFilter);
   }, [storesList, travelModesFilter, travelUnitFilter]);
 
-  const handleCLick = () => {
-    setShowStoreFilter(!showStoreFilter);
-    setVisible(!visible);
+  const handleAddBtnClick = (addType) => {
+    if (addType === "store") {
+      setShowAddNewStore(!showAddNewStore);
+      setShowAddNewItem(false);
+    } else {
+      setShowAddNewItem(!showAddNewItem);
+      setShowAddNewStore(false);
+    }
   };
 
   return (
     <div>
       <div className={style.filterBtnSearchContainer}>
         <button
-          onClick={() => handleCLick()}
+          onClick={() => setShowStoreFilter(!showStoreFilter)}
           aria-label="click to filter the stores"
           className={style.filterButton}
         >
@@ -98,46 +107,70 @@ export default function StoresFilter({
         <StoreSearch setSearchText={setSearchText} />
       </div>
 
-      <div className={`${style.filterContainer} ${visible ? style.show : ""}`}>
-        <div className={style.selectContainer}>
-          <label htmlFor="filter-travel-modes">Shortest route:</label>
-          <select
-            name="filter-travel-modes"
-            id="filter-travel-modes"
-            defaultValue="drive"
-            onChange={(e) => setTravelModesFilter(e.target.value)}
+      {showStoreFilter && (
+        <div className={style.filterContainer}>
+          <div className={style.selectContainer}>
+            <label htmlFor="filter-travel-modes">Shortest route:</label>
+            <select
+              name="filter-travel-modes"
+              id="filter-travel-modes"
+              defaultValue="drive"
+              onChange={(e) => setTravelModesFilter(e.target.value)}
+            >
+              <option value="walk">Walking</option>
+              <option value="bicycle">Bicycle</option>
+              <option value="drive">Car</option>
+              <option value="transit">Public Transport</option>
+            </select>
+          </div>
+          <div className={style.inputRadioContainer}>
+            <div>
+              <input
+                type="radio"
+                value="distance"
+                id="travel-unit-distance"
+                name="travel-unit"
+                onClick={(e) => setTravelUnitFilter(e.target.value)}
+                defaultChecked
+              />
+              <label htmlFor="travel-unit-distance">Distance</label>
+            </div>
+            <div>/</div>
+            <div>
+              <input
+                type="radio"
+                value="time"
+                id="travel-unit-time"
+                name="travel-unit"
+                onClick={(e) => setTravelUnitFilter(e.target.value)}
+              />
+              <label htmlFor="travel-unit-time">Time</label>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!showStoreFilter && (
+        <div className={style.addBtnContainer}>
+          <button
+            onClick={() => handleAddBtnClick("store")}
+            className={`${style.addBtn} ${
+              showAddNewStore ? style.btnClicked : ""
+            }`}
           >
-            <option value="walk">Walking</option>
-            <option value="bicycle">Bicycle</option>
-            <option value="drive">Car</option>
-            <option value="transit">Public Transport</option>
-          </select>
+            ADD STORE
+            <img src={PlusSvg} />
+          </button>
+          <button
+            onClick={() => handleAddBtnClick("item")}
+            className={`${style.addBtn} ${
+              showAddNewItem ? style.btnClicked : ""
+            }`}
+          >
+            ADD ITEM <img src={PlusSvg} />
+          </button>
         </div>
-        <div className={style.inputRadioContainer}>
-          <div>
-            <input
-              type="radio"
-              value="distance"
-              id="travel-unit-distance"
-              name="travel-unit"
-              onClick={(e) => setTravelUnitFilter(e.target.value)}
-              defaultChecked
-            />
-            <label htmlFor="travel-unit-distance">Distance</label>
-          </div>
-          <div>/</div>
-          <div>
-            <input
-              type="radio"
-              value="time"
-              id="travel-unit-time"
-              name="travel-unit"
-              onClick={(e) => setTravelUnitFilter(e.target.value)}
-            />
-            <label htmlFor="travel-unit-time">Time</label>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
