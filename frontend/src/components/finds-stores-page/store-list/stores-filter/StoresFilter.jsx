@@ -4,6 +4,7 @@ import PlusSvg from "/assets/images/svg/stores-filter/plus.svg";
 import style from "./StoresFilter.module.css";
 
 export default function StoresFilter({
+  userId,
   storesList,
   setSortedStoresList,
   travelModesFilter,
@@ -96,7 +97,11 @@ export default function StoresFilter({
 
   return (
     <div>
-      <div className={style.filterBtnSearchContainer}>
+      <div
+        className={`${style.filterBtnSearchContainer} ${
+          !userId && !showStoreFilter ? style.noLoggedIn : ""
+        }`}
+      >
         <button
           onClick={() => setShowStoreFilter(!showStoreFilter)}
           aria-label="click to filter the stores"
@@ -150,7 +155,7 @@ export default function StoresFilter({
         </div>
       )}
 
-      {!showStoreFilter && (
+      {!showStoreFilter && userId && (
         <div className={style.addBtnContainer}>
           <button
             onClick={() => handleAddBtnClick("store")}
