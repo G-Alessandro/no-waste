@@ -7,6 +7,10 @@
   margin-top: 20px;
 }
 
+.filterBtnSearchContainer.noLoggedIn {
+  margin-bottom: 61px;
+}
+
 .filterButton {
   cursor: pointer;
   color: white;
