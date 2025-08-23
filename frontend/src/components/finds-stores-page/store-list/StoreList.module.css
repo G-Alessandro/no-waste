@@ -4,10 +4,10 @@
 
 .storeList {
   height: 60vh;
-  width: 520px;
+  width: 530px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 5px 20px 20px;
   gap: 20px;
   overflow-y: scroll;
 }
