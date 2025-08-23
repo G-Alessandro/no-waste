@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import StoresFilter from "./stores-filter/StoresFilter";
-import StoreSearch from "./store-search/StoreSearch";
+import AddStore from "./add-store/AddStore.jsx";
+import AddStoreItem from "./add-store-item/AddStoreItem.jsx";
 import StoreRoutes from "./store-routes/StoreRoutes";
 import FoodTypeCounter from "./food-type-counter/FoodTypeCounter";
 import DeleteStore from "./delete-store/DeleteStore";
@@ -13,6 +14,12 @@ export default function StoreList({
   sortedStoresList,
   setSortedStoresList,
   userLocation,
+  newStoreLocation,
+  setNewStoreLocation,
+  addingLocationFromMap,
+  setAddingLocationFromMap,
+  setMessage,
+  setError,
   selectedStore,
   setSelectedStore,
   statusChanged,
@@ -22,8 +29,8 @@ export default function StoreList({
   const [travelModesFilter, setTravelModesFilter] = useState("drive");
   const [travelUnitFilter, setTravelUnitFilter] = useState("distance");
   const [showDeleteLoader, setShowDeleteLoader] = useState([]);
-  const [message, setMessage] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [showAddNewStore, setShowAddNewStore] = useState(false);
+  const [showAddNewItem, setShowAddNewItem] = useState(false);
 
   useEffect(() => {
     const fetchStoreItemList = async () => {
@@ -40,14 +47,14 @@ export default function StoreList({
         );
         const data = await response.json();
         if (!data) {
-          setErrorMessage("No data found");
-          setTimeout(() => setErrorMessage(null), 5000);
+          setError("No data found");
+          setTimeout(() => setError(null), 5000);
         } else {
           setStoresList(data.storesList);
         }
       } catch (error) {
-        setErrorMessage(error);
-        setTimeout(() => setErrorMessage(null), 5000);
+        setError(error);
+        setTimeout(() => setError(null), 5000);
         console.log("Error while searching for items:", error);
       }
     };
@@ -77,22 +84,25 @@ export default function StoreList({
   return (
     <div className={style.storeListContainer}>
       {!storesList && <p>Loading Stores...</p>}
-      {message && <p aria-live="polite">{message}</p>}
-      {errorMessage && <p aria-live="polite">{errorMessage}</p>}
       {storesList && (
         <StoresFilter
+          userId={userId}
           storesList={storesList}
           setSortedStoresList={setSortedStoresList}
           travelModesFilter={travelModesFilter}
           travelUnitFilter={travelUnitFilter}
           setTravelModesFilter={setTravelModesFilter}
           setTravelUnitFilter={setTravelUnitFilter}
+          setSearchText={setSearchText}
+          showAddNewStore={showAddNewStore}
+          setShowAddNewStore={setShowAddNewStore}
+          showAddNewItem={showAddNewItem}
+          setShowAddNewItem={setShowAddNewItem}
         />
       )}
-      <StoreSearch setSearchText={setSearchText} />
-      <div className={style.storeList}>
-        {sortedStoresList &&
-          sortedStoresList
+      {sortedStoresList && !showAddNewItem && !showAddNewStore && (
+        <div className={style.storeList}>
+          {sortedStoresList
             .filter(
               (store) =>
                 !searchText ||
@@ -124,14 +134,37 @@ export default function StoreList({
                     showDeleteLoader={showDeleteLoader}
                     setShowDeleteLoader={setShowDeleteLoader}
                     setMessage={setMessage}
-                    setErrorMessage={setErrorMessage}
+                    setError={setError}
                     setStatusChanged={setStatusChanged}
                     statusChanged={statusChanged}
                   />
                 </div>
               );
             })}
-      </div>
+        </div>
+      )}
+      {showAddNewStore && (
+        <AddStore
+          newStoreLocation={newStoreLocation}
+          setNewStoreLocation={setNewStoreLocation}
+          statusChanged={statusChanged}
+          setStatusChanged={setStatusChanged}
+          setMessage={setMessage}
+          setError={setError}
+          addingLocationFromMap={addingLocationFromMap}
+          setAddingLocationFromMap={setAddingLocationFromMap}
+        />
+      )}
+      {showAddNewItem && (
+        <AddStoreItem
+          statusChanged={statusChanged}
+          setStatusChanged={setStatusChanged}
+          userId={userId}
+          storesList={storesList}
+          setMessage={setMessage}
+          setError={setError}
+        />
+      )}
     </div>
   );
 }
