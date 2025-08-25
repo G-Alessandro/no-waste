@@ -38,8 +38,8 @@ export default function FindStore() {
       <main className={style.findStoreMain}>
         <TopBar setUserId={setUserId} topBarLocation={"finds-stores"} />
         <div className={style.sectionContainer}>
-          {message && <p aria-live="polite">{message}</p>}
-          {error && <p aria-live="polite">{error}</p>}
+          {message && <p aria-live="polite" className={style.message}>{message}</p>}
+          {error && <p aria-live="polite" className={style.error}>{error}</p>}
           <section aria-labelledby="store-management-heading">
             <h2 id="store-management-heading" className={style.srOnly}>
               Manage the addition of new stores, items and view current stores
