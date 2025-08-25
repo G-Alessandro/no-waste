@@ -20,9 +20,11 @@ export default function PlaceAutocomplete({
   locationsSelectIsNone,
   setUserLocation,
   setLocationFromGeolocation,
+  newStoreLocation,
 }) {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
   const [locationChanged, setLocationChanged] = useState(false);
+  const [autocompleteInput, setAutocompleteInput] = useState("");
   const inputRef = useRef(null);
   const places = useMapsLibrary("places");
 
@@ -88,6 +90,18 @@ export default function PlaceAutocomplete({
     }
   };
 
+  useEffect(() => {
+    if (autocompleteInput === "" && selectedPlace) {
+      if (locationsSelectIsNone === true) {
+        setShowUserMarker(false);
+      }
+      if (parentComponent === "add-store") {
+        setNewLocation(null);
+      }
+      setSelectedPlace(null);
+    }
+  }, [autocompleteInput]);
+
   return (
     <div
       className={` ${
@@ -96,11 +110,21 @@ export default function PlaceAutocomplete({
           : style.autocompleteContainer
       }`}
     >
-      <label htmlFor="geocoding-location">
-        {parentComponent === "add-store"
-          ? "Store Location"
-          : "Find Your Location"}
-      </label>
+      <div className={style.labelContainer}>
+        <label
+          htmlFor="geocoding-location"
+          className={parentComponent === "add-store" ? style.assStore : ""}
+        >
+          {parentComponent === "add-store"
+            ? "Store Location"
+            : "Find Your Location"}
+        </label>
+
+        {!newStoreLocation && parentComponent === "add-store" && (
+          <p>Select a valid location *</p>
+        )}
+      </div>
+
       <input
         ref={inputRef}
         type="text"
@@ -112,8 +136,15 @@ export default function PlaceAutocomplete({
             ? "Enter the store address"
             : "Enter your address"
         }
+        className={
+          parentComponent !== "add-store"
+            ? style.autocompleteInput
+            : style.autocompleteInputStore
+        }
+        onChange={(e) => setAutocompleteInput(e.target.value)}
         required
       />
+
       <div className={style.autocompleteBtnContainer}>
         <button
           type="button"
@@ -124,6 +155,21 @@ export default function PlaceAutocomplete({
         >
           Cancel
         </button>
+
+        {parentComponent === "add-store" && (
+          <button
+            type="button"
+            onClick={() => setAddingLocationFromMap(!addingLocationFromMap)}
+            className={`${style.addLocationFromMapBtn} ${
+              addingLocationFromMap ? style.write : ""
+            }`}
+          >
+            {addingLocationFromMap
+              ? "Write the address"
+              : "Click directly on the map"}
+          </button>
+        )}
+
         {userId && (
           <button
             onClick={() => setShowSaveLocation(true)}
