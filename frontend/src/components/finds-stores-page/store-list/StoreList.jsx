@@ -83,7 +83,7 @@ export default function StoreList({
 
   return (
     <div className={style.storeListContainer}>
-      {!storesList && <p>Loading Stores...</p>}
+      {!storesList && <p className={style.loadingStores}>Loading Stores...</p>}
       {storesList && (
         <StoresFilter
           userId={userId}
