@@ -3,13 +3,28 @@
   flex-direction: column;
 }
 
-.autocompleteContainer > label {
+.labelContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.labelContainer > label {
   font-size: 15px;
   font-weight: 700;
   margin-bottom: 5px;
 }
 
-.autocompleteContainer > input {
+.labelContainer > label.assStore {
+  font-size: 16px;
+}
+
+.labelContainer > p {
+  font-size: 14px;
+  font-weight: 700;
+  color: red;
+}
+
+.autocompleteInput {
   width: 250px;
   height: 25px;
   font-size: 18px;
@@ -21,8 +36,51 @@
   text-indent: 10px;
 }
 
-.autocompleteContainer > input:focus {
+.autocompleteInput:focus {
   border: 3px solid rgb(184, 184, 184);
+}
+
+.autocompleteInputStore {
+  width: 294px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 500;
+  background-color: white;
+  border: 3px solid rgb(184, 184, 184);
+  border-radius: 5px;
+  margin-bottom: 2px;
+  outline: none;
+  text-indent: 15px;
+}
+
+.autocompleteInputStore:focus {
+  border: 3px solid rgb(136, 136, 136);
+}
+
+.addLocationFromMapBtn {
+  width: 200px;
+  height: 35px;
+  cursor: pointer;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #eca461;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  transition: 0.3s;
+}
+
+.addLocationFromMapBtn:hover {
+  background-color: #e08e40;
+}
+
+.addLocationFromMapBtn.write {
+  background-color: #7ab1f5;
+}
+
+.addLocationFromMapBtn.write:hover {
+  background-color: #5fa3f5;
 }
 
 .autocompleteBtnContainer {
