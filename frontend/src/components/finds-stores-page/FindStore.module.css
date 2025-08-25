@@ -1,0 +1,41 @@
+.findStoreMain {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 75px);
+}
+
+.sectionContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sectionContainer > .message,
+.sectionContainer > .error {
+  position: absolute;
+  color: white;
+  width: 95vw;
+  top: 80px;
+  align-self: center;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 20px;
+  background-color: red;
+  z-index: 99999;
+}
+
+.sectionContainer > .message {
+  background-color: #83b778;
+}
