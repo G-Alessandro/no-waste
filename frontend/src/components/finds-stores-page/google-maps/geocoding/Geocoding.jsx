@@ -20,6 +20,7 @@ function GeocodingInput({
   setLocationsSelectIsNone,
   setUserLocation,
   setLocationFromGeolocation,
+  newStoreLocation,
 }) {
   const geocodingApiLoaded = useMapsLibrary("geocoding");
   const [geocodingService, setGeocodingService] = useState(null);
@@ -68,6 +69,7 @@ function GeocodingInput({
       locationsSelectIsNone={locationsSelectIsNone}
       setUserLocation={setUserLocation}
       setLocationFromGeolocation={setLocationFromGeolocation}
+      newStoreLocation={newStoreLocation}
     />
   );
 }
@@ -90,6 +92,7 @@ export default function Geocoding({
   setLocationsSelectIsNone,
   setUserLocation,
   setLocationFromGeolocation,
+  newStoreLocation,
 }) {
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
@@ -111,6 +114,7 @@ export default function Geocoding({
         setLocationsSelectIsNone={setLocationsSelectIsNone}
         setUserLocation={setUserLocation}
         setLocationFromGeolocation={setLocationFromGeolocation}
+        newStoreLocation={newStoreLocation}
       />
     </APIProvider>
   );
