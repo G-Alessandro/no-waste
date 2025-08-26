@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import DeleteStoreSvg from "/assets/images/svg/store-list/delete-store.svg";
+import DeleteSvg from "/assets/images/svg/delete.svg";
 import style from "./UserLocationsList.module.css";
 
 export default function UserLocationsList({
@@ -98,7 +98,7 @@ export default function UserLocationsList({
                     aria-label={`Delete location ${location.name}`}
                     className={style.deleteLocationBtn}
                   >
-                    <img src={DeleteStoreSvg} />
+                    <img src={DeleteSvg} />
                   </button>
                 )}
                 {showDeleteLoader[index] && (
