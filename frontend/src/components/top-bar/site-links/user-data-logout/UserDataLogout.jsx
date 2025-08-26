@@ -35,7 +35,10 @@ export default function UserDataLogout({
       } else {
         localStorage.removeItem("accessToken");
         setUserData(null);
-        if (topBarLocation === "finds-stores") {
+        if (
+          topBarLocation === "finds-stores" ||
+          topBarLocation === "items-list"
+        ) {
           setUserId(null);
         }
         setLogoutMessage(data.message);
