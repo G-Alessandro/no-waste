@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import DeleteStoreSvg from "/assets/images/svg/store-list/delete.svg";
+import DeleteSvg from "/assets/images/svg/delete.svg";
 import style from "./DeleteStore.module.css";
 
 export default function DeleteStore({
@@ -73,7 +73,7 @@ export default function DeleteStore({
             className={style.deleteStoreBtn}
             aria-label="click to delete the store"
           >
-            <img src={DeleteStoreSvg} className={style.deleteStoreImg} />
+            <img src={DeleteSvg} className={style.deleteStoreImg} />
           </button>
         )}
       {showDeleteLoader[index] && <div className={style.loader}></div>}
