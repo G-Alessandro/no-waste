@@ -18,8 +18,7 @@ exports.get_items_list = [
 
       if (!inventoryId) {
         return res.status(200).json({
-          message:
-            "The store currently has no merchandise that is about to expire",
+          itemsList: [],
         });
       }
 
