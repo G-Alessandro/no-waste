@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import DeleteStoreSvg from "/assets/images/svg/store-list/delete-store.svg";
+import DeleteStoreSvg from "/assets/images/svg/store-list/delete.svg";
 import style from "./DeleteStore.module.css";
 
 export default function DeleteStore({
