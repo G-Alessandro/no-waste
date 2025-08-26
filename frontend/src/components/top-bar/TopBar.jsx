@@ -34,7 +34,10 @@ export default function TopBar({ setUserId, topBarLocation }) {
             localStorage.setItem("accessToken", newToken);
           }
           setUserData(data.userData);
-          if (topBarLocation === "finds-stores") {
+          if (
+            topBarLocation === "finds-stores" ||
+            topBarLocation === "items-list"
+          ) {
             setUserId(data.userData.id);
           }
         }
