@@ -7,6 +7,7 @@ export default function AddStoreItem({
   setStatusChanged,
   setMessage,
   setError,
+  parentComponent,
 }) {
   const typesOfFood = [
     "bread",
@@ -68,7 +69,12 @@ export default function AddStoreItem({
   return (
     <>
       {storesList && (
-        <form onSubmit={handleSubmit} className={style.addStoreItemFrom}>
+        <form
+          onSubmit={handleSubmit}
+          className={`${style.addStoreItemFrom} ${
+            parentComponent ? style.parentComponentItemsList : ""
+          }`}
+        >
           <div>
             <label htmlFor="stores">Store</label>
             <select
@@ -154,10 +160,9 @@ export default function AddStoreItem({
             />
             {!showLoader && <button type="submit">Add Item</button>}
             {showLoader && (
-              <div
-                className={style.loader}
-                aria-live="adding new item, please wait"
-              ></div>
+              <div className={style.loader} role="status">
+                <span className="sr-only">Adding new item, please wait</span>
+              </div>
             )}
           </div>
         </form>
