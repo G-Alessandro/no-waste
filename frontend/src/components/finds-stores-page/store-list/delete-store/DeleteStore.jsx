@@ -76,7 +76,11 @@ export default function DeleteStore({
             <img src={DeleteSvg} className={style.deleteStoreImg} />
           </button>
         )}
-      {showDeleteLoader[index] && <div className={style.loader}></div>}
+      {showDeleteLoader[index] && (
+        <div className={style.loader} role="status">
+          <span className="sr-only">Removing the store, please wait</span>
+        </div>
+      )}
 
       <Link to="/items-list" state={{ store }} className={style.foodListLink}>
         Food list
