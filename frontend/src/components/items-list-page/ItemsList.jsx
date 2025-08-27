@@ -4,6 +4,8 @@ import TopBar from "../top-bar/TopBar";
 import AddStoreItem from "../finds-stores-page/store-list/add-store-item/AddStoreItem";
 import ItemsFilter from "./items-filter/ItemsFilter";
 import ItemsTable from "./items-table/ItemsTable";
+import Footer from "../footer/Footer";
+import style from "./ItemsList.module.css";
 
 export default function ItemsList() {
   const location = useLocation();
@@ -56,45 +58,62 @@ export default function ItemsList() {
     }
   }
 
+  useEffect(() => {
+    let timerId;
+    if (message) {
+      timerId = setTimeout(() => setMessage(null), 5000);
+    } else if (error) {
+      timerId = setTimeout(() => setError(null), 5000);
+    }
+    return () => clearTimeout(timerId);
+  }, [message, error]);
+
   return (
-    <main>
-      <TopBar setUserId={setUserId} />
-      {message && <p aria-live="polite">{message}</p>}
-      {error && <p aria-live="polite">{error}</p>}
-      {itemsList && (
-        <section>
-          <AddStoreItem
-            statusChanged={statusChanged}
-            setStatusChanged={setStatusChanged}
-            userId={userId}
-            storesList={[store]}
-            setMessage={setMessage}
-            setError={setError}
-          />
-          <ItemsFilter
-            itemsList={itemsList}
-            setItemsList={setItemsList}
-            searchText={searchText}
-            setSearchText={setSearchText}
-            typesFilter={typesFilter}
-            setTypesFilter={setTypesFilter}
-            setSelectedType={setSelectedType}
-            hideItem={hideItem}
-          />
-          {!itemsList && <p>Loading Items....</p>}
-          {itemsList && (
-            <ItemsTable
-              userId={userId}
-              itemsList={itemsList}
-              hideItem={hideItem}
-              setMessage={setMessage}
-              setError={setError}
-              statusChanged={statusChanged}
-              setStatusChanged={setStatusChanged}
-            />
-          )}
-        </section>
-      )}
-    </main>
+    <>
+      <main className={style.itemsListMain}>
+        <TopBar topBarLocation={"items-list"} setUserId={setUserId} />
+        {message && <p role="status">{message}</p>}
+        {error && <p role="status">{error}</p>}
+        {itemsList && (
+          <div>
+            <section>
+              <ItemsFilter
+                itemsList={itemsList}
+                setItemsList={setItemsList}
+                searchText={searchText}
+                setSearchText={setSearchText}
+                typesFilter={typesFilter}
+                setTypesFilter={setTypesFilter}
+                setSelectedType={setSelectedType}
+                hideItem={hideItem}
+              />
+            </section>
+            <section className={style.itemsTableAndAddSection}>
+              <AddStoreItem
+                statusChanged={statusChanged}
+                setStatusChanged={setStatusChanged}
+                userId={userId}
+                storesList={[store]}
+                setMessage={setMessage}
+                setError={setError}
+                parentComponent={"items-list"}
+              />
+              <div>
+                <ItemsTable
+                  userId={userId}
+                  itemsList={itemsList}
+                  hideItem={hideItem}
+                  setMessage={setMessage}
+                  setError={setError}
+                  statusChanged={statusChanged}
+                  setStatusChanged={setStatusChanged}
+                />
+              </div>
+            </section>
+          </div>
+        )}
+      </main>
+      <Footer />
+    </>
   );
 }
