@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import DeleteSvg from "/assets/images/svg/delete.svg";
+import style from "./ItemsTable.module.css";
 
 export default function ItemsTable({
   userId,
@@ -61,43 +63,61 @@ export default function ItemsTable({
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Price</th>
-          <th>Expiration date</th>
-          <th>Days before expiration</th>
-        </tr>
-      </thead>
-      <tbody>
-        {itemsList.map((item, index) => {
-          if (hideItem(item, "both")) return null;
-          return (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{item.type}</td>
-              <td>{`${item.price} €`}</td>
-              <td>{new Date(item.expirationDate).toLocaleDateString()}</td>
-              <td>{item.daysRemaining}</td>
-              {userId === item.createdByUserId && (
-                <td>
-                  {!showDeleteLoader[index] && (
-                    <button
-                      aria-label={`delete item ${item.name}`}
-                      onClick={() => handleDeleteItem(index, item.id)}
-                    >
-                      delete
-                    </button>
-                  )}
-                  {showDeleteLoader[index] && <div></div>}
-                </td>
-              )}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <>
+      {!itemsList && <p className={style.loadingItems}>Loading Items....</p>}
+      {itemsList.length === 0 && (
+        <p className={style.noItems}>No items on sale, add some!</p>
+      )}
+      {itemsList && itemsList.length > 0 && (
+        <div className={style.tableContainer}>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Expiration date</th>
+                <th>Days before expiration</th>
+              </tr>
+            </thead>
+            <tbody>
+              {itemsList.map((item, index) => {
+                if (hideItem(item, "both")) return null;
+                return (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td>{item.type}</td>
+                    <td>{`${item.price} €`}</td>
+                    <td>
+                      {new Date(item.expirationDate).toLocaleDateString()}
+                    </td>
+                    <td>{item.daysRemaining}</td>
+                    {userId === item.createdByUserId && (
+                      <td style={{ padding: "0 10px" }}>
+                        {!showDeleteLoader[index] && (
+                          <button
+                            aria-label={`click to delete item ${item.name} from list`}
+                            onClick={() => handleDeleteItem(index, item.id)}
+                          >
+                            <img src={DeleteSvg} />
+                          </button>
+                        )}
+                        {showDeleteLoader[index] && (
+                          <div className={style.loader} role="status">
+                            <span className="sr-only">
+                              Adding new item, please wait
+                            </span>
+                          </div>
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
   );
 }
