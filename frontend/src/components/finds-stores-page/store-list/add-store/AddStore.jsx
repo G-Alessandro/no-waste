@@ -106,10 +106,9 @@ export default function AddStore({
             </button>
           )}
           {showLoader && (
-            <div
-              className={style.loader}
-              aria-live="adding new store, please wait"
-            ></div>
+            <div className={style.loader} role="status">
+              <span className="sr-only">Adding new store, please wait</span>
+            </div>
           )}
         </div>
       </form>
