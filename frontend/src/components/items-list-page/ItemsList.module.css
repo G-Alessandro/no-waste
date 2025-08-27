@@ -1,0 +1,10 @@
+.itemsListMain {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 75px);
+}
+
+.itemsListMain > div > .itemsTableAndAddSection {
+  display: flex;
+  justify-content: center;
+}
