@@ -54,13 +54,31 @@ export default function ItemsFilter({
         ref.value = "none";
       }
     });
+
+    const getComparableValue = (dataToSort, filterName) => {
+      if (filterName === "expirationDate") {
+        return new Date(dataToSort[filterName]);
+      } else {
+        return dataToSort[filterName];
+      }
+    };
+
     const sortedItems = [...itemsList];
     switch (selectedValue) {
       case "ascending":
-        sortedItems.sort((a, b) => a[filterName] - b[filterName]);
+        sortedItems.sort(
+          (a, b) =>
+            getComparableValue(a, filterName) -
+            getComparableValue(b, filterName)
+        );
+
         break;
       case "descending":
-        sortedItems.sort((a, b) => b[filterName] - a[filterName]);
+        sortedItems.sort(
+          (a, b) =>
+            getComparableValue(b, filterName) -
+            getComparableValue(a, filterName)
+        );
         break;
       default:
         sortedItems.sort((a, b) => a.id - b.id);
