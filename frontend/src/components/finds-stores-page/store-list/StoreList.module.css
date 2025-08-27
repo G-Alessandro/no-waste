@@ -44,6 +44,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.storeClicked,
 .storeCard:hover {
   border: 2px solid #83b778;
 }
@@ -52,10 +53,6 @@
   cursor: pointer;
   background-color: white;
   border: none;
-}
-
-.storeBtnClicked {
-  background-color: rgb(129, 255, 255);
 }
 
 .storeBtn > h2 {
