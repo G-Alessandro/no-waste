@@ -110,14 +110,17 @@ export default function StoreList({
             )
             .map((store, index) => {
               return (
-                <div key={store.id} className={style.storeCard}>
+                <div
+                  key={store.id}
+                  className={`${style.storeCard} ${
+                    selectedStore?.storeId === store.id
+                      ? style.storeClicked
+                      : ""
+                  }`}
+                >
                   <button
                     onClick={() => handleStoreSelect(store)}
-                    className={`${style.storeBtn} ${
-                      selectedStore?.storeId === store.id
-                        ? style.storeBtnClicked
-                        : ""
-                    }`}
+                    className={style.storeBtn}
                   >
                     <h2>{store.name}</h2>
                     <StoreRoutes routes={store.routes} />
