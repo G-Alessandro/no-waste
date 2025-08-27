@@ -1,0 +1,52 @@
+.itemsFilterContainer {
+  display: flex;
+  justify-self: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.itemsFilterContainer > .labelInputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemsFilterContainer > .labelInputContainer > label {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.itemsFilterContainer > .labelInputContainer > select,
+.itemsFilterContainer > .labelInputContainer > input {
+  font-size: 20px;
+  font-weight: 500;
+  background-color: white;
+  border: 3px solid rgb(184, 184, 184);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  outline: none;
+  text-indent: 15px;
+}
+
+.itemsFilterContainer > .labelInputContainer > input {
+  width: 250px;
+  height: 30px;
+}
+
+.itemsFilterContainer > .labelInputContainer > input[type="date"] {
+  text-align: center;
+}
+
+.itemsFilterContainer > .labelInputContainer > select {
+  width: 200px;
+  height: 35px;
+}
+
+.itemsFilterContainer > .labelInputContainer > select option:checked {
+  color: white;
+  background-color: #7ab1f5;
+}
+
+.itemsFilterContainer > .labelInputContainer > select:focus,
+.itemsFilterContainer > .labelInputContainer > input:focus {
+  border: 3px solid rgb(136, 136, 136);
+}
