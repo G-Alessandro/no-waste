@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import NoWasteLogo from "/assets/images/png/top-bar/site-links/no-waste-logo.png";
+import NoWasteLogo from "/assets/images/top-bar/site-links/no-waste-logo.png";
 import DropDownMenu from "/assets/images/svg/top-bar/site-links/dropdown-menu.svg";
 import UserDataLogout from "./user-data-logout/UserDataLogout";
 import TryDemoAccount from "./try-demo-account/TryDemoAccount";
