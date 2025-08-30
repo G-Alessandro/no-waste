@@ -1,0 +1,81 @@
+.HowAppWorkSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 70px;
+  margin-bottom: 50px;
+}
+
+.HowAppWorkSection > h2 {
+  color: rgb(102, 102, 102);
+  font-size: 45px;
+  margin-bottom: 50px;
+}
+
+.HowAppWorkSection > h2 > a {
+  color: #77c4e7;
+  text-decoration: none;
+}
+
+.HowAppWorkSection > div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.HowAppWorkSection > div > div {
+  display: flex;
+  margin-bottom: 40px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.imgRight {
+  flex-direction: row-reverse;
+}
+
+.HowAppWorkSection > div > div > img {
+  width: 400px;
+  height: 200px;
+  border: 2px solid #83b778;
+}
+
+.HowAppWorkSection > div > div > p {
+  color: #83b778;
+  width: 400px;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 750px) {
+  .HowAppWorkSection {
+    margin-top: 40px;
+    margin-bottom: 0px;
+  }
+
+  .HowAppWorkSection > h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .HowAppWorkSection > div > div {
+    flex-direction: column-reverse;
+    padding: 10px 20px 15px;
+  }
+
+  .imgRight {
+    flex-direction: column-reverse;
+  }
+
+  .HowAppWorkSection > div > div > img {
+    width: 250px;
+    height: 125px;
+    margin-top: 20px;
+  }
+
+  .HowAppWorkSection > div > div > p {
+    width: 250px;
+  }
+}
