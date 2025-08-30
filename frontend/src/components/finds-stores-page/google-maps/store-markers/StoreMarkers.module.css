@@ -1,0 +1,11 @@
+.infoWindowStoreName {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.infoWindowStoreAddress {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 15px;
+}
