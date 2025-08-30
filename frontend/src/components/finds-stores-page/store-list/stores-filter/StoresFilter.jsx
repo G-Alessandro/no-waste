@@ -172,7 +172,7 @@ export default function StoresFilter({
               showAddNewItem ? style.btnClicked : ""
             }`}
           >
-            ADD ITEM <img src={PlusSvg} />
+            ADD FOOD <img src={PlusSvg} />
           </button>
         </div>
       )}
