@@ -7,6 +7,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import StoreRoutes from "../../store-list/store-routes/StoreRoutes";
 import FoodTypeCounter from "../../store-list/food-type-counter/FoodTypeCounter";
+import style from "./StoreMarkers.module.css";
 
 export default function StoreMarkers({
   storesList,
@@ -89,13 +90,13 @@ export default function StoreMarkers({
           pixelOffset={[0, -30]}
           onClose={() => setInfoWindowShown(false)}
         >
-          <h2>{storeInfo.storeName}</h2>
+          <h2 className={style.infoWindowStoreName}>{storeInfo.storeName}</h2>
           <StoreRoutes routes={storeInfo.routes} />
           <FoodTypeCounter
             freshFoods={storeInfo.freshFoods}
             cannedFoods={storeInfo.cannedFoods}
           />
-          <p>{storeInfo.storeAddress}</p>
+          <p className={style.infoWindowStoreAddress}>{storeInfo.storeAddress}</p>
         </InfoWindow>
       )}
     </>
