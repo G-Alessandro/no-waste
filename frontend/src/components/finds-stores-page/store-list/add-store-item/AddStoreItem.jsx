@@ -96,7 +96,7 @@ export default function AddStoreItem({
               })}
             </select>
 
-            <label htmlFor="item-name">Item Name</label>
+            <label htmlFor="item-name">Food Name</label>
             <input
               type="text"
               id="item-name"
@@ -107,7 +107,7 @@ export default function AddStoreItem({
               required
             />
 
-            <label htmlFor="item-type">Item Type</label>
+            <label htmlFor="item-type">Food Type</label>
             <select name="item-type" id="item-type" defaultValue="" required>
               <option value="" disabled hidden>
                 Choose a type
@@ -158,7 +158,7 @@ export default function AddStoreItem({
               name="expiration-date"
               required
             />
-            {!showLoader && <button type="submit">Add Item</button>}
+            {!showLoader && <button type="submit">Add Food</button>}
             {showLoader && (
               <div className={style.loader} role="status">
                 <span className="sr-only">Adding new item, please wait</span>
