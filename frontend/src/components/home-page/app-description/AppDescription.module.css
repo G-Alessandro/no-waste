@@ -1,0 +1,193 @@
+.appDescriptionSection {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.appDescriptionSection > .container1 {
+  display: flex;
+  justify-content: center;
+  background-image: url("/assets/images/home-page/vegetables.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: rgba(2, 2, 2, 0.295);
+  background-blend-mode: multiply;
+}
+
+.appDescriptionSection > .container1 > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 500px;
+}
+
+.appDescriptionSection > .container1 > div > h2 {
+  color: #fafbfc;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 60px;
+  margin-bottom: 16px;
+}
+
+.appDescriptionSection > .container1 > div > h4 {
+  color: #fafbfc;
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.appDescriptionSection > .container1 > div > a {
+  position: relative;
+  display: flex;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  overflow: hidden;
+  padding: 20px 20px;
+  background-color: #eca461;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+  transition: color 0.3s;
+}
+
+.appDescriptionSection > .container1 > div > a:before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #83b778;
+  opacity: 1;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: width 0.3s;
+}
+
+.appDescriptionSection > .container1 > div > a:hover {
+  color: #fff;
+}
+
+.appDescriptionSection > .container1 > div > a:hover:before {
+  width: 100%;
+}
+
+.appDescriptionSection > .container1 > div > a > img {
+  width: 25px;
+  margin-left: 10px;
+}
+
+.appDescriptionSection > .container2 {
+  align-self: center;
+  display: flex;
+  gap: 40px;
+}
+
+.appDescriptionSection > .container2 > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px 50px;
+  background-color: aliceblue;
+}
+
+.appDescriptionSection > .container2 > div > img {
+  width: 45px;
+  margin-bottom: 20px;
+  background-color: #4e4b66;
+  padding: 20px;
+}
+
+.appDescriptionSection > .container2 > div > div > h5 {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.appDescriptionSection > .container2 > div > div > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-weight: 700;
+}
+
+.appDescriptionSection > .container2 > div > div > div > .numberCount {
+  color: green;
+  font-size: 35px;
+}
+
+.appDescriptionSection > .container2 > div > div > div > p {
+  color: #4e4b66;
+  font-size: 25px;
+  text-align: center;
+}
+
+@media (max-width: 750px) {
+  .appDescriptionSection > .container1 > div {
+    position: relative;
+    align-items: center;
+    height: fit-content;
+  }
+
+  .appDescriptionSection > .container1 > div > h2 {
+    text-align: center;
+    font-size: 25px;
+    margin-top: 30px;
+  }
+
+  .appDescriptionSection > .container1 > div > h4 {
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .appDescriptionSection > .container1 > div > a {
+    position: absolute;
+    bottom: -70px;
+  }
+
+  .appDescriptionSection > .container2 {
+    flex-direction: column;
+    margin-top: 80px;
+    gap: 20px;
+  }
+
+  .appDescriptionSection > .container2 > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    gap: 10px;
+  }
+
+  .appDescriptionSection > .container2 > div > img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 0px;
+    padding: 10px;
+  }
+
+  .appDescriptionSection > .container2 > div > div > h5 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .appDescriptionSection > .container2 > div > div > div {
+    gap: 10px;
+  }
+
+  .appDescriptionSection > .container2 > div > div > div > .numberCount {
+    color: green;
+    font-size: 30px;
+  }
+
+  .appDescriptionSection > .container2 > div > div > div > p {
+    color: #4e4b66;
+    font-size: 20px;
+    text-align: center;
+  }
+}
