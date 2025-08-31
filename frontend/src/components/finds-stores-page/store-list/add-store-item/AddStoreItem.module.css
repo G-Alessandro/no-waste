@@ -95,3 +95,29 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 750px) {
+  .addStoreItemFrom {
+    width: 270px;
+    overflow-y: scroll;
+    direction: rtl;
+    padding-left: 10px;
+    margin-bottom: 20px;
+  }
+
+  .addStoreItemFrom > * {
+    direction: ltr;
+  }
+
+  .addStoreItemFrom > div {
+    margin-right: 0px;
+  }
+
+  .addStoreItemFrom > div > input {
+    width: 250px;
+  }
+
+  .addStoreItemFrom > div > select {
+    width: 256px;
+  }
+}
