@@ -19,24 +19,6 @@
   overflow-y: scroll;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #83b778;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #658f5d;
-}
-
 .storeCard {
   display: flex;
   border: 2px solid white;
@@ -57,4 +39,28 @@
 
 .storeBtn > h2 {
   margin-bottom: 10px;
+}
+
+@media (max-width: 750px) {
+  .storeListContainer {
+    margin: 0px;
+  }
+
+  .storeList {
+    width: 250px;
+    padding-left: 10px;
+    direction: rtl;
+  }
+
+  .storeCard {
+    flex-direction: column;
+  }
+
+  .storeList > * {
+    direction: ltr;
+  }
+
+  .storeBtn > h2 {
+    margin-bottom: 0px;
+  }
 }
