@@ -113,3 +113,30 @@
 .addBtn.btnClicked {
   background-color: #eca461;
 }
+
+@media (max-width: 750px) {
+  .filterContainer {
+    flex-direction: column;
+    margin: 0px;
+    padding: 5px;
+  }
+
+  .filterBtnSearchContainer.noLoggedIn {
+    margin-bottom: 65px;
+  }
+
+  .filterBtnSearchContainer {
+    justify-content: center;
+    margin-right: 0px;
+    margin-top: 15px;
+  }
+
+  .addBtnContainer {
+    margin-right: 0px;
+  }
+
+  .addBtn {
+    gap: 5px;
+    padding: 5px;
+  }
+}
