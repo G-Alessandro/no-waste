@@ -49,3 +49,14 @@
 .userLocationsSelect > button:hover {
   background-color: #5fa3f5;
 }
+
+@media (max-width: 750px) {
+  .userLocationsSelect {
+    width: 250px;
+  }
+
+  .userLocationsSelect > button {
+    width: fit-content;
+    align-self: center;
+  }
+}
