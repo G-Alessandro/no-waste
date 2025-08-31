@@ -25,3 +25,12 @@
 .foodTypeImage {
   width: 20px;
 }
+
+@media (max-width: 750px) {
+  .foodsTypeContainer {
+    display: grid;
+    justify-content: space-around;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+}
