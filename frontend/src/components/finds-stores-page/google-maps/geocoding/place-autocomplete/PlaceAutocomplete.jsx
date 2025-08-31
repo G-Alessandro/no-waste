@@ -113,7 +113,7 @@ export default function PlaceAutocomplete({
       <div className={style.labelContainer}>
         <label
           htmlFor="geocoding-location"
-          className={parentComponent === "add-store" ? style.assStore : ""}
+          className={parentComponent === "add-store" ? style.addStore : ""}
         >
           {parentComponent === "add-store"
             ? "Store Location"
