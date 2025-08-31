@@ -68,3 +68,11 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 750px) {
+  .itemsLinkDeleteStoreContainer {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+}
