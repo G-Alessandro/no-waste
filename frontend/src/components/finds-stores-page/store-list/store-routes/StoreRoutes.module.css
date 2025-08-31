@@ -44,3 +44,16 @@
 .routeDurationUnit {
   font-size: 11px;
 }
+
+@media (max-width: 750px) {
+  .storeRoutesContainer {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .routeContainer {
+    width: fit-content;
+  }
+}
