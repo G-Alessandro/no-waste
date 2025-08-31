@@ -39,3 +39,9 @@
 .searchLabel > img {
   width: 40px;
 }
+
+@media (max-width: 750px) {
+  .searchInput {
+    width: 150px;
+   }
+}
