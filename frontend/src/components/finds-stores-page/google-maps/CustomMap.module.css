@@ -52,4 +52,9 @@
     position: relative;
     width: 280px;
   }
+
+  .mapContainer > a {
+    top: 230px;
+    left: 10px;
+  }
 }
