@@ -83,7 +83,7 @@ export default function MapComponent({
   return (
     <div
       className={`${style.mapContainer} ${
-        addingLocationFromMap ? style.addLocationFromMap : ""
+        addingLocationFromMap ? style.blink : ""
       }`}
     >
       {userLocation && selectedStore && travelMode && (
