@@ -39,3 +39,85 @@
 .sectionContainer > .message {
   background-color: #83b778;
 }
+
+.mobileDropdown {
+  display: none;
+}
+
+@media (max-width: 750px) {
+  .sectionContainer {
+    justify-content: space-between;
+  }
+
+  .storeSection {
+    padding-left: 10px;
+  }
+
+  .mapSection {
+    flex-direction: column;
+    padding-left: 0px;
+  }
+
+  .mobileDropdown {
+    width: 2px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #eca461;
+    margin-left: 10px;
+  }
+
+  .mobileDropdownBtn {
+    position: absolute;
+    color: white;
+    font-weight: 700;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    bottom: 30%;
+    right: 2px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px 0px 0px 5px;
+    background-color: #eca461;
+  }
+
+  .mobileDropdownBtn.blink {
+    animation: blink-colors 1.5s infinite alternate;
+  }
+
+  @keyframes blink-colors {
+    from {
+      background-color: #eca461;
+    }
+    to {
+      background-color: rgb(255, 207, 102);
+    }
+  }
+
+  .mobileDropdownLeft {
+    margin-left: 0px;
+    margin-right: 10px;
+  }
+
+  .mobileDropdownLeftBtn {
+    width: fit-content;
+    height: fit-content;
+    writing-mode: vertical-lr;
+    bottom: 40px;
+    right: 0px;
+    left: 2px;
+    border-radius: 0px 5px 5px 0px;
+  }
+
+  .showUserLocationsOptionBtn {
+    align-self: center;
+    width: 250px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #7ab1f5;
+    padding: 10px 18px;
+    border: none;
+    margin: 10px 0px 5px;
+  }
+}
