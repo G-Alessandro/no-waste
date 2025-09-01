@@ -101,3 +101,37 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 750px) {
+  .addStoreFrom {
+    width: 270px;
+    margin-top: 20px;
+    direction: rtl;
+    align-items: center;
+    padding-left: 10px;
+    margin-bottom: 20px;
+  }
+
+  .addStoreFrom > * {
+    direction: ltr;
+  }
+
+  .addStoreFrom > div {
+    margin-right: 0px;
+  }
+
+  .addStoreFrom > div > div {
+    width: 250px;
+    flex-direction: column;
+    margin-bottom: 2px;
+  }
+
+  .addStoreFrom > div > input {
+    width: 250px;
+  }
+
+  .addStoreFrom > div > button[type="submit"] {
+    width: fit-content;
+    padding: 10px;
+  }
+}
