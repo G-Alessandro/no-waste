@@ -48,6 +48,7 @@ export default function AddStore({
         }
         setMessage(data.message);
         setTimeout(() => setMessage(null), 2000);
+        setStoreNameInput("");
         setNewStoreLocation(null);
         setSelectedPlace(null);
         setAddingLocationFromMap(false);
