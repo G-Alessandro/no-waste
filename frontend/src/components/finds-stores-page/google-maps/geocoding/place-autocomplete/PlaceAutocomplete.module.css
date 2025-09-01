@@ -14,7 +14,7 @@
   margin-bottom: 5px;
 }
 
-.labelContainer > label.assStore {
+.labelContainer > label.addStore {
   font-size: 16px;
 }
 
@@ -123,4 +123,35 @@
 
 .hideAutocompleteContainer {
   display: none;
+}
+
+@media (max-width: 750px) {
+  .autocompleteContainer {
+    align-items: center;
+  }
+
+  .labelContainer {
+    width: 250px;
+    flex-direction: column;
+    margin-bottom: 2px;
+  }
+
+  .labelContainer > label {
+    margin-bottom: 2px;
+  }
+  .autocompleteBtnContainer,
+  .autocompleteInputStore {
+    width: 250px;
+  }
+
+  .addLocationFromMapBtn {
+    width: fit-content;
+  }
+  
+  .addLocationFromMapBtn,
+  .autocompleteCancelBtn,
+  .autocompleteSaveBtn {
+    font-size: 15px;
+    padding: 5px 5px;
+  }
 }
