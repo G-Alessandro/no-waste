@@ -10,6 +10,49 @@
   flex-direction: column;
 }
 
+.itemsSearchContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.itemsSearchContainer > input {
+  width: 250px;
+  height: 30px;
+  font-size: 20px;
+  font-weight: 500;
+  border: 3px solid rgb(184, 184, 184);
+  border-right: none;
+  border-radius: 5px 0px 0px 5px;
+  outline: none;
+  padding: 2px;
+  text-indent: 15px;
+}
+
+.itemsSearchContainer > input:focus {
+  border: 3px solid rgb(136, 136, 136);
+  border-right: none;
+}
+
+.searchLabel {
+  height: 30px;
+  border-top: 3px solid rgb(184, 184, 184);
+  border-right: 3px solid rgb(184, 184, 184);
+  border-bottom: 3px solid rgb(184, 184, 184);
+  border-left: none;
+  padding: 2px;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.searchLabelFocus {
+  border: 3px solid rgb(136, 136, 136);
+  border-left: none;
+}
+
+.searchLabel > img {
+  width: 30px;
+}
+
 .itemsFilterContainer > .labelInputContainer > label {
   font-weight: 700;
   margin-bottom: 2px;
@@ -49,4 +92,61 @@
 .itemsFilterContainer > .labelInputContainer > select:focus,
 .itemsFilterContainer > .labelInputContainer > input:focus {
   border: 3px solid rgb(136, 136, 136);
+}
+
+@media (max-width: 750px) {
+  .itemsFilterContainer {
+    flex-direction: column;
+    gap: 0px;
+    margin-top: 0px;
+    align-items: center;
+  }
+
+  .itemsFilterContainer > .labelInputContainer.hideFilter {
+    display: none;
+  }
+
+  .itemsFilterContainer > .labelInputContainer:last-child {
+    margin-bottom: 20px;
+  }
+
+  .itemsFilterBtnContainer {
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .itemsFilterBtn {
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #7ab1f5;
+    padding: 10px 18px;
+    border: none;
+  }
+
+  .itemsFilterAddFoodBtn {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    outline: none;
+    padding: 10px 15px;
+    border: none;
+    background-color: #8fc784;
+  }
+  .itemsFilterAddFoodBtn > img {
+    width: 20px;
+  }
+
+  .itemsFilterBtn.btnClicked,
+  .itemsFilterAddFoodBtn.btnClicked {
+    background-color: #eca461;
+  }
 }
