@@ -18,6 +18,36 @@ export default function ItemsList() {
   const [typesFilter, setTypesFilter] = useState([]);
   const [selectedType, setSelectedType] = useState("none");
   const [statusChanged, setStatusChanged] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 750);
+  const [showFilter, setShowFilter] = useState(true);
+  const [showAddFood, setShowAddFood] = useState(true);
+  const [showItemsTable, setShowItemsTable] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 750);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) {
+      setShowFilter(false);
+      setShowAddFood(false);
+      setShowItemsTable(true);
+    } else {
+      setShowFilter(true);
+      setShowAddFood(true);
+      setShowItemsTable(true);
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (!showFilter && !showAddFood) {
+      setShowItemsTable(true);
+    }
+  }, [showFilter, showAddFood]);
 
   useEffect(() => {
     const fetchStoreItemList = async () => {
@@ -72,8 +102,16 @@ export default function ItemsList() {
     <>
       <main className={style.itemsListMain}>
         <TopBar topBarLocation={"items-list"} setUserId={setUserId} />
-        {message && <p role="status">{message}</p>}
-        {error && <p role="status">{error}</p>}
+        {message && (
+          <p role="status" className={style.message}>
+            {message}
+          </p>
+        )}
+        {error && (
+          <p role="status" className={style.error}>
+            {error}
+          </p>
+        )}
         {itemsList && (
           <div>
             <section>
@@ -86,29 +124,39 @@ export default function ItemsList() {
                 setTypesFilter={setTypesFilter}
                 setSelectedType={setSelectedType}
                 hideItem={hideItem}
+                isMobile={isMobile}
+                showFilter={showFilter}
+                setShowFilter={setShowFilter}
+                showAddFood={showAddFood}
+                setShowAddFood={setShowAddFood}
+                setShowItemsTable={setShowItemsTable}
               />
             </section>
             <section className={style.itemsTableAndAddSection}>
-              <AddStoreItem
-                statusChanged={statusChanged}
-                setStatusChanged={setStatusChanged}
-                userId={userId}
-                storesList={[store]}
-                setMessage={setMessage}
-                setError={setError}
-                parentComponent={"items-list"}
-              />
-              <div>
-                <ItemsTable
-                  userId={userId}
-                  itemsList={itemsList}
-                  hideItem={hideItem}
-                  setMessage={setMessage}
-                  setError={setError}
+              {showAddFood && (
+                <AddStoreItem
                   statusChanged={statusChanged}
                   setStatusChanged={setStatusChanged}
+                  userId={userId}
+                  storesList={[store]}
+                  setMessage={setMessage}
+                  setError={setError}
+                  parentComponent={"items-list"}
                 />
-              </div>
+              )}
+              {showItemsTable && (
+                <div>
+                  <ItemsTable
+                    userId={userId}
+                    itemsList={itemsList}
+                    hideItem={hideItem}
+                    setMessage={setMessage}
+                    setError={setError}
+                    statusChanged={statusChanged}
+                    setStatusChanged={setStatusChanged}
+                  />
+                </div>
+              )}
             </section>
           </div>
         )}
