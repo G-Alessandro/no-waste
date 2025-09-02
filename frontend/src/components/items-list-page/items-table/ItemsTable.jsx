@@ -85,15 +85,15 @@ export default function ItemsTable({
                 if (hideItem(item, "both")) return null;
                 return (
                   <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.type}</td>
-                    <td>{`${item.price} €`}</td>
-                    <td>
+                    <td data-cell="name">{item.name}</td>
+                    <td data-cell="type">{item.type}</td>
+                    <td data-cell="price">{`${item.price} €`}</td>
+                    <td data-cell="expiration-date">
                       {new Date(item.expirationDate).toLocaleDateString()}
                     </td>
-                    <td>{item.daysRemaining}</td>
+                    <td data-cell="days-remaining">{item.daysRemaining}</td>
                     {userId === item.createdByUserId && (
-                      <td style={{ padding: "0 10px" }}>
+                      <td style={{ padding: "0 10px" }} data-cell="delete-item">
                         {!showDeleteLoader[index] && (
                           <button
                             aria-label={`click to delete item ${item.name} from list`}
