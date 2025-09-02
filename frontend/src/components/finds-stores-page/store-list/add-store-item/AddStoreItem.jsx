@@ -72,7 +72,9 @@ export default function AddStoreItem({
         <form
           onSubmit={handleSubmit}
           className={`${style.addStoreItemFrom} ${
-            parentComponent ? style.parentComponentItemsList : ""
+            parentComponent === "items-list"
+              ? style.parentComponentItemsList
+              : ""
           }`}
         >
           <div>
