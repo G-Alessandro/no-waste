@@ -1,4 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import PlusSvg from "/assets/images/svg/stores-filter/plus.svg";
+import SearchSvg from "/assets/images/svg/store-search/search.svg";
 import style from "./ItemsFilter.module.css";
 
 const numericFilters = [
@@ -25,7 +27,13 @@ export default function ItemsFilter({
   selectedType,
   setSelectedType,
   hideItem,
+  isMobile,
+  showFilter,
+  setShowFilter,
+  showAddFood,
+  setShowAddFood,
 }) {
+  const [focused, setFocused] = useState(false);
   const selectRefs = useRef({});
 
   useEffect(() => {
@@ -86,19 +94,65 @@ export default function ItemsFilter({
     setItemsList(sortedItems);
   };
 
+  const handleItemsFilterBtnClick = (btnType) => {
+    if (btnType === "filter") {
+      setShowFilter(!showFilter);
+      setShowAddFood(false);
+    } else {
+      setShowFilter(false);
+      setShowAddFood(!showAddFood);
+    }
+  };
+
   return (
     <div className={style.itemsFilterContainer}>
-      <div className={style.labelInputContainer}>
-        <label htmlFor="items-search">Search</label>
+      <div className={style.itemsSearchContainer}>
         <input
           type="text"
           onChange={searchHandler}
           placeholder="Enter item name"
           name="items-search"
           id="items-search"
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
         />
+        <label
+          htmlFor="items-search"
+          aria-label="items-search"
+          className={`${style.searchLabel} ${
+            focused ? style.searchLabelFocus : ""
+          }`}
+        >
+          <img src={SearchSvg} />
+        </label>
       </div>
-      <div className={style.labelInputContainer}>
+
+      {isMobile && (
+        <div className={style.itemsFilterBtnContainer}>
+          <button
+            onClick={() => handleItemsFilterBtnClick("filter")}
+            className={`${style.itemsFilterBtn} ${
+              showFilter ? style.btnClicked : ""
+            }`}
+          >
+            FILTER
+          </button>
+          <button
+            onClick={() => handleItemsFilterBtnClick("add-food")}
+            className={`${style.itemsFilterAddFoodBtn} ${
+              showAddFood ? style.btnClicked : ""
+            }`}
+          >
+            ADD FOOD <img src={PlusSvg} />
+          </button>
+        </div>
+      )}
+
+      <div
+        className={`${style.labelInputContainer} ${
+          showFilter ? "" : style.hideFilter
+        }`}
+      >
         <label htmlFor="select-type">Type</label>
         <select
           name="select-type"
@@ -119,7 +173,11 @@ export default function ItemsFilter({
       {numericFilters.map((filter) => {
         return (
           <React.Fragment key={filter.parameter}>
-            <div className={style.labelInputContainer}>
+            <div
+              className={`${style.labelInputContainer} ${
+                showFilter ? "" : style.hideFilter
+              }`}
+            >
               <label htmlFor={`items-${filter.attribute}`}>
                 {filter.label}
               </label>
