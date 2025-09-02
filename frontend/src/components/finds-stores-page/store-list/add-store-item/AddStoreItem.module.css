@@ -9,6 +9,7 @@
 
 .parentComponentItemsList {
   width: auto;
+  align-items: center;
 }
 
 .addStoreItemFrom > div {
