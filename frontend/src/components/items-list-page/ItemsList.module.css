@@ -8,3 +8,35 @@
   display: flex;
   justify-content: center;
 }
+
+.itemsListMain > .message,
+.itemsListMain > .error {
+  position: absolute;
+  color: white;
+  width: 95vw;
+  top: 80px;
+  align-self: center;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 12px 20px;
+  background-color: red;
+  z-index: 99999;
+}
+
+.itemsListMain > .message {
+  background-color: #83b778;
+}
+
+@media (max-width: 750px) {
+  .itemsListMain > div > .itemsTableAndAddSection {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .itemsListMain > .message,
+  .itemsListMain > .error {
+    width: 85vw;
+    top: 50px;
+  }
+}
