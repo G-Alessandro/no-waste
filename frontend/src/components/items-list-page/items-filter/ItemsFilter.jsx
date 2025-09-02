@@ -32,6 +32,7 @@ export default function ItemsFilter({
   setShowFilter,
   showAddFood,
   setShowAddFood,
+  setShowItemsTable,
 }) {
   const [focused, setFocused] = useState(false);
   const selectRefs = useRef({});
@@ -98,9 +99,11 @@ export default function ItemsFilter({
     if (btnType === "filter") {
       setShowFilter(!showFilter);
       setShowAddFood(false);
+      setShowItemsTable(false);
     } else {
-      setShowFilter(false);
       setShowAddFood(!showAddFood);
+      setShowFilter(false);
+      setShowItemsTable(false);
     }
   };
 
