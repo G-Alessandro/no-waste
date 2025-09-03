@@ -1,16 +1,13 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import style from "./TryDemoAccount.module.css";
 
 export default function TryDemoAccount({
   setLoginError,
-  loginSuccessful,
   setLoginSuccessful,
   setFetchError,
   handleMobileLinkClick,
 }) {
   const [showLoader, setShowLoader] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -43,12 +40,6 @@ export default function TryDemoAccount({
       setShowLoader(false);
     }
   };
-
-  useEffect(() => {
-    if (loginSuccessful) {
-      setTimeout(() => navigate("/finds-stores"), 3000);
-    }
-  }, [loginSuccessful]);
 
   return (
     <div className={style.tryDemoAccountBtnContainer}>
