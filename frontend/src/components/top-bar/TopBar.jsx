@@ -75,8 +75,7 @@ export default function TopBar({ setUserId, topBarLocation }) {
       />
       {loginSuccessful && (
         <p aria-live="polite" className={style.loginSuccessful}>
-          Login successful, you will be redirected to the page to find stores
-          near you
+          Login successful
         </p>
       )}
       {logoutMessage && (
