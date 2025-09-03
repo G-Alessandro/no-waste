@@ -20,11 +20,10 @@ export default function PlaceAutocomplete({
   locationsSelectIsNone,
   setUserLocation,
   setLocationFromGeolocation,
-  newStoreLocation,
 }) {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
   const [locationChanged, setLocationChanged] = useState(false);
-  const [autocompleteInput, setAutocompleteInput] = useState("");
+  const [autocompleteInput, setAutocompleteInput] = useState(null);
   const inputRef = useRef(null);
   const places = useMapsLibrary("places");
 
@@ -44,7 +43,6 @@ export default function PlaceAutocomplete({
     const options = {
       fields: ["geometry", "name", "formatted_address"],
     };
-
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
   }, [places]);
 
@@ -52,6 +50,7 @@ export default function PlaceAutocomplete({
     if (!placeAutocomplete) return;
     placeAutocomplete.addListener("place_changed", () => {
       setSelectedPlace(placeAutocomplete.getPlace());
+      setAutocompleteInput(placeAutocomplete.getPlace().formatted_address);
     });
   }, [setSelectedPlace, placeAutocomplete]);
 
@@ -84,6 +83,7 @@ export default function PlaceAutocomplete({
         setNewLocation(null);
       }
       setSelectedPlace(null);
+      setAutocompleteInput(null);
       if (inputRef.current) {
         inputRef.current.value = "";
       }
@@ -91,7 +91,7 @@ export default function PlaceAutocomplete({
   };
 
   useEffect(() => {
-    if (autocompleteInput === "" && selectedPlace) {
+    if (!autocompleteInput && selectedPlace) {
       if (locationsSelectIsNone === true) {
         setShowUserMarker(false);
       }
@@ -120,7 +120,7 @@ export default function PlaceAutocomplete({
             : "Find Your Location"}
         </label>
 
-        {!newStoreLocation && parentComponent === "add-store" && (
+        {parentComponent === "add-store" && !autocompleteInput && (
           <p>Select a valid location *</p>
         )}
       </div>
@@ -141,7 +141,6 @@ export default function PlaceAutocomplete({
             ? style.autocompleteInput
             : style.autocompleteInputStore
         }
-        onChange={(e) => setAutocompleteInput(e.target.value)}
         required
       />
 
