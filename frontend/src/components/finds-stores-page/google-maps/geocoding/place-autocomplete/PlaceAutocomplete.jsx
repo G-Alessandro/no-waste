@@ -20,6 +20,7 @@ export default function PlaceAutocomplete({
   locationsSelectIsNone,
   setUserLocation,
   setLocationFromGeolocation,
+  statusChanged,
 }) {
   const [placeAutocomplete, setPlaceAutocomplete] = useState(null);
   const [locationChanged, setLocationChanged] = useState(false);
@@ -101,6 +102,12 @@ export default function PlaceAutocomplete({
       setSelectedPlace(null);
     }
   }, [autocompleteInput]);
+
+  useEffect(() => {
+    if (autocompleteInput) {
+      setAutocompleteInput(null);
+    }
+  }, [statusChanged]);
 
   return (
     <div
