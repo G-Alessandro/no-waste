@@ -33,6 +33,10 @@ export default function StoreList({
   const [showAddNewItem, setShowAddNewItem] = useState(false);
 
   useEffect(() => {
+    console.log("storesList", storesList);
+  }, [storesList]);
+
+  useEffect(() => {
     const fetchStoreItemList = async () => {
       try {
         const response = await fetch(
