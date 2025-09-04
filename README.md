@@ -28,16 +28,17 @@ Frontend (React) → API Gateway → Microservices (authentication, store, users
 
 <h2>Features</h2>
 <ul>
-    <li>Register and login</li>
+    <li>Registration and login</li>
     <li>Use a demo account</li>
     <li>Add or remove shops and items</li>
     <li>View store locations on Google Maps</li>
     <li>Detect your current location using geolocation</li>
-    <li>Save or delete your saved location</li>
+    <li>Save or delete your location</li>
     <li>See the route between your location and a chosen store</li>
     <li>View travel time and distance by car, walking, biking, or public transport</li>
     <li>Filter stores by name, shortest travel distance, or fastest travel time</li>
     <li>Filter items by name, type, price, expiration date, or days remaining before expiration</li>
+    <li>Responsive design for mobile devices</li>
 </ul>
 
 <h2>Technology Used</h2>
