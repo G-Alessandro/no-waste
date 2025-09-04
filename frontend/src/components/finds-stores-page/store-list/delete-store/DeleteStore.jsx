@@ -49,11 +49,11 @@ export default function DeleteStore({
         setTimeout(() => setMessage(null), 5000);
       }
     } catch (error) {
+      handleShowLoader(index);
       setErrorMessage(error);
       console.log("Error while deleting the store:", error);
       setTimeout(() => setErrorMessage(null), 5000);
     } finally {
-      handleShowLoader(index);
       setStatusChanged(!statusChanged);
     }
   };
