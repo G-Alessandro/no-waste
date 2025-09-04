@@ -76,10 +76,10 @@ export default function UserLocationsList({
         setSelectDefaultValue("none");
       }
     } catch (error) {
+      handleShowLoader(index);
       setError(error);
       console.log("Error while deleting the location:", error);
     } finally {
-      handleShowLoader(index);
       setUserLocationStatusChanged(!userLocationStatusChanged);
     }
   };
