@@ -55,10 +55,9 @@ export default function ItemsTable({
         setTimeout(() => setMessage(null), 5000);
       }
     } catch (error) {
+      handleShowLoader(index);
       setErrorMessage(error);
       console.log("Error while deleting item:", error);
-    } finally {
-      handleShowLoader(index);
     }
   };
 
