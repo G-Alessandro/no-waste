@@ -93,6 +93,7 @@ export default function AddStore({
             selectedPlace={selectedPlace}
             setSelectedPlace={setSelectedPlace}
             newStoreLocation={newStoreLocation}
+            statusChanged={statusChanged}
           />
           {!showLoader && (
             <button
