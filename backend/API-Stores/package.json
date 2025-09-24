@@ -23,6 +23,7 @@
     "morgan": "~1.9.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.10",
     "nodemon": "^3.1.9",
     "prisma": "^6.4.1"
   }
