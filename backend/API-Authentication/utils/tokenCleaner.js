@@ -32,6 +32,8 @@ const deleteExpiredTokens = async () => {
 };
 
 const startExpiredTokensCleanup = () => {
+  console.log("Running initial cleanup of expired tokens...");
+  deleteExpiredTokens();
   cron.schedule("0 0 * * *", async () => {
     console.log("Start cleaning expired tokens...");
     await deleteExpiredTokens();
