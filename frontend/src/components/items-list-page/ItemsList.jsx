@@ -133,7 +133,7 @@ export default function ItemsList() {
               />
             </section>
             <section className={style.itemsTableAndAddSection}>
-              {showAddFood && (
+              {userId && showAddFood && (
                 <AddStoreItem
                   statusChanged={statusChanged}
                   setStatusChanged={setStatusChanged}
