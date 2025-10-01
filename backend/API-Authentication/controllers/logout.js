@@ -1,10 +1,9 @@
-const asyncHandler = require("express-async-handler");
 const handleValidationErrors = require("./validation/validation");
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-exports.logout_post = asyncHandler(async (req, res) => {
+exports.logout_post = async (req, res) => {
   handleValidationErrors(req, res);
   try {
     const accessToken = req.body.accessToken;
@@ -31,4 +30,4 @@ exports.logout_post = asyncHandler(async (req, res) => {
     console.log(error);
     res.status(500).json({ error: "An error occurred while logging out" });
   }
-});
+};

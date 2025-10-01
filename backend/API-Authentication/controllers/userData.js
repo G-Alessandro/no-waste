@@ -1,10 +1,9 @@
-const asyncHandler = require("express-async-handler");
 const handleValidationErrors = require("./validation/validation");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 
-exports.user_data_get = asyncHandler(async (req, res) => {
+exports.user_data_get = async (req, res) => {
   handleValidationErrors(req, res);
 
   let accessToken = req.headers["authorization"];
@@ -36,4 +35,4 @@ exports.user_data_get = asyncHandler(async (req, res) => {
   } catch (error) {
     res.status(401).json({ message: "Invalid or expired token" });
   }
-});
+};

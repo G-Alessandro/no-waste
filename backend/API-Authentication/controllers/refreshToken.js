@@ -1,10 +1,9 @@
-const asyncHandler = require("express-async-handler");
 const handleValidationErrors = require("./validation/validation");
 const jwt = require("jsonwebtoken");
 const generateAccessToken = require("./token-utils/generateAccessToken");
 const generateRefreshToken = require("./token-utils/generateRefreshToken");
 
-exports.refresh_token_post = asyncHandler(async (req, res) => {
+exports.refresh_token_post = async (req, res) => {
   handleValidationErrors(req, res);
   try {
     const oldRefreshToken = req.cookies.refreshToken;
@@ -34,7 +33,6 @@ exports.refresh_token_post = asyncHandler(async (req, res) => {
       })
       .json({ accessToken });
   } catch (error) {
-
     if (error.name === "TokenExpiredError") {
       return res
         .status(401)
@@ -50,4 +48,4 @@ exports.refresh_token_post = asyncHandler(async (req, res) => {
 
     res.status(500).json({ error: "internal server error" });
   }
-});
+};

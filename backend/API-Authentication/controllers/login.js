@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation");
 const bcrypt = require("bcryptjs");
@@ -17,7 +16,7 @@ exports.login_post = [
   body("password")
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters long"),
-  asyncHandler(async (req, res) => {
+  async (req, res) => {
     handleValidationErrors(req, res);
     try {
       const { email, password } = req.body;
@@ -52,5 +51,5 @@ exports.login_post = [
       console.log(error);
       res.status(500).json({ error: "Login failed" });
     }
-  }),
+  },
 ];

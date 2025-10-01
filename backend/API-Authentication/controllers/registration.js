@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation");
 const bcrypt = require("bcryptjs");
@@ -52,7 +51,7 @@ exports.registration_post = [
       return true;
     }),
 
-  asyncHandler(async (req, res) => {
+  async (req, res) => {
     handleValidationErrors(req, res);
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -70,5 +69,5 @@ exports.registration_post = [
       console.error("An error occurred while processing the request:", error);
       res.status(500).send("An error occurred while processing the request.");
     }
-  }),
+  },
 ];

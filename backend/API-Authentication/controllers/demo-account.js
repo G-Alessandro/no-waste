@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const handleValidationErrors = require("./validation/validation");
 const bcrypt = require("bcryptjs");
 const { PrismaClient } = require("@prisma/client");
@@ -6,7 +5,7 @@ const prisma = new PrismaClient();
 const generateAccessToken = require("./token-utils/generateAccessToken");
 const generateRefreshToken = require("./token-utils/generateRefreshToken");
 
-exports.demo_account_get = asyncHandler(async (req, res) => {
+exports.demo_account_get = async (req, res) => {
   handleValidationErrors(req, res);
   try {
     const { DEMO_ACCOUNT_EMAIL, DEMO_ACCOUNT_PASSWORD } = process.env;
@@ -46,4 +45,4 @@ exports.demo_account_get = asyncHandler(async (req, res) => {
     console.log(error);
     res.status(500).json({ error: "Login failed" });
   }
-});
+};
