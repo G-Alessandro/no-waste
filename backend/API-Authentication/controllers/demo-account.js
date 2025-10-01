@@ -20,7 +20,7 @@ exports.demo_account_get = async (req, res) => {
         .json({ error: "Account does not exist or incorrect email" });
     }
 
-    const passwordMatch = await bcrypt.compare(
+    const passwordMatch = bcrypt.compare(
       DEMO_ACCOUNT_PASSWORD,
       user.password
     );
