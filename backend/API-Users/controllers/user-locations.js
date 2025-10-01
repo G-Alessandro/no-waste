@@ -1,10 +1,9 @@
-const asyncHandler = require("express-async-handler");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 
-exports.get_user_locations = asyncHandler(async (req, res) => {
+exports.get_user_locations = async (req, res) => {
   handleValidationErrors(req, res);
 
   let accessToken = req.headers["authorization"];
@@ -50,4 +49,4 @@ exports.get_user_locations = asyncHandler(async (req, res) => {
       error: "An error occurred while searching for saved locations",
     });
   }
-});
+};

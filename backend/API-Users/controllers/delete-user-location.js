@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
@@ -7,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 exports.delete_user_location = [
   body("locationId").isInt().trim().escape(),
-  asyncHandler(async (req, res) => {
+  async (req, res) => {
     handleValidationErrors(req, res);
     let accessToken = req.headers["authorization"];
 
@@ -51,5 +50,5 @@ exports.delete_user_location = [
         .status(500)
         .json({ error: "An error occurred while deleting the location" });
     }
-  }),
+  },
 ];

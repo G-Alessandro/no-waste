@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
@@ -10,7 +9,7 @@ exports.post_new_user_location = [
   body("locationName").trim().escape(),
   body("locationLatitude").isFloat().trim().escape(),
   body("locationLongitude").isFloat().trim().escape(),
-  asyncHandler(async (req, res) => {
+  async (req, res) => {
     handleValidationErrors(req, res);
 
     let accessToken = req.headers["authorization"];
@@ -58,5 +57,5 @@ exports.post_new_user_location = [
         .status(500)
         .json({ error: "An error occurred while saving the new location" });
     }
-  }),
+  },
 ];
