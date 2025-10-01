@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import style from "./TryDemoAccount.module.css";
 
 export default function TryDemoAccount({
   setLoginError,
+  topBarLocation,
   setLoginSuccessful,
   setFetchError,
   handleMobileLinkClick,
 }) {
+  const navigate = useNavigate();
   const [showLoader, setShowLoader] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -32,6 +35,9 @@ export default function TryDemoAccount({
         const accessToken = data.accessToken;
         localStorage.setItem("accessToken", accessToken);
         handleMobileLinkClick();
+        if (topBarLocation === "login" || topBarLocation === "registration") {
+          navigate("/finds-stores", { replace: true });
+        }
       }
     } catch (error) {
       console.log("Error requesting registration:", error);
