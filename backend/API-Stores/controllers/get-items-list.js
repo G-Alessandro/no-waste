@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { param } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
@@ -6,7 +5,7 @@ const prisma = new PrismaClient();
 
 exports.get_items_list = [
   param("storeId").isInt().trim().escape(),
-  asyncHandler(async (req, res) => {
+  async (req, res) => {
     handleValidationErrors(req, res);
     try {
       const inventoryId = await prisma.inventory.findUnique({
@@ -61,5 +60,5 @@ exports.get_items_list = [
         .status(500)
         .json({ error: "An error occurred while searching for stores" });
     }
-  }),
+  },
 ];

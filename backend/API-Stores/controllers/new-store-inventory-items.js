@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
@@ -13,7 +12,7 @@ exports.post_new_store_inventory_items = [
   body("itemPrice").isFloat({ min: 0.01 }).toFloat(),
   body("productionDate").isISO8601().trim().escape(),
   body("expirationDate").isISO8601().trim().escape(),
-  asyncHandler(async (req, res) => {
+  async (req, res) => {
     handleValidationErrors(req, res);
 
     let accessToken = req.headers["authorization"];
@@ -26,7 +25,7 @@ exports.post_new_store_inventory_items = [
     if (accessToken.startsWith("Bearer ")) {
       accessToken = accessToken.split(" ")[1];
     }
-    
+
     try {
       const decodedJwt = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
       const userId = decodedJwt.userId;
@@ -60,5 +59,5 @@ exports.post_new_store_inventory_items = [
         .status(500)
         .json({ error: "An error occurred while adding the new item" });
     }
-  }),
+  },
 ];

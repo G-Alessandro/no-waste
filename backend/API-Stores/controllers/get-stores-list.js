@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { param } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
@@ -8,8 +7,7 @@ const storeRoutes = require("./store-routes/store-routes");
 exports.get_stores_list = [
   param("userLocationLatitude").isFloat(),
   param("userLocationLongitude").isFloat(),
-  asyncHandler(async (req, res) => {
-    
+  async (req, res) => {
     handleValidationErrors(req, res);
 
     const { userLocationLatitude, userLocationLongitude } = req.params;
@@ -93,5 +91,5 @@ exports.get_stores_list = [
         .status(500)
         .json({ error: "An error occurred while searching for stores" });
     }
-  }),
+  },
 ];

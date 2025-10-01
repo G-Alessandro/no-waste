@@ -1,4 +1,3 @@
-const asyncHandler = require("express-async-handler");
 const { body } = require("express-validator");
 const handleValidationErrors = require("./validation/validation.js");
 const { PrismaClient } = require("@prisma/client");
@@ -10,7 +9,7 @@ exports.post_new_store = [
   body("storeName").isLength({ min: 1, max: 30 }).trim().escape(),
   body("latitude").isFloat().trim().escape(),
   body("longitude").isFloat().trim().escape(),
-  asyncHandler(async (req, res) => {
+  async (req, res) => {
     handleValidationErrors(req, res);
 
     let accessToken = req.headers["authorization"];
@@ -43,5 +42,5 @@ exports.post_new_store = [
         .status(500)
         .json({ error: "An error occurred while creating the new store" });
     }
-  }),
+  },
 ];
