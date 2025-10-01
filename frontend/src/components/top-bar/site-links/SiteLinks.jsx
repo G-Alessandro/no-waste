@@ -126,6 +126,7 @@ export default function SiteLinks({
                 <li>
                   <TryDemoAccount
                     setLogoutMessage={setLogoutMessage}
+                    topBarLocation={topBarLocation}
                     loginSuccessful={loginSuccessful}
                     setLoginSuccessful={setLoginSuccessful}
                     setFetchError={setFetchError}
