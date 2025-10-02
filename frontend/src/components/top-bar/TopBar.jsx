@@ -5,6 +5,7 @@ import style from "./TopBar.module.css";
 export default function TopBar({ setUserId, topBarLocation }) {
   const [userData, setUserData] = useState(null);
   const [loginSuccessful, setLoginSuccessful] = useState(false);
+  const [demoLoginSuccessful, setDemoLoginSuccessful] = useState(false);
   const [fetchError, setFetchError] = useState(false);
   const [logoutMessage, setLogoutMessage] = useState(null);
 
@@ -57,9 +58,11 @@ export default function TopBar({ setUserId, topBarLocation }) {
       timerId = setTimeout(() => setFetchError(false), 3000);
     } else if (loginSuccessful) {
       timerId = setTimeout(() => setLoginSuccessful(false), 3000);
+    } else if (demoLoginSuccessful) {
+      timerId = setTimeout(() => setDemoLoginSuccessful(false), 3000);
     }
     return () => clearTimeout(timerId);
-  }, [logoutMessage, fetchError, loginSuccessful]);
+  }, [logoutMessage, fetchError, loginSuccessful, demoLoginSuccessful]);
 
   return (
     <>
@@ -70,12 +73,18 @@ export default function TopBar({ setUserId, topBarLocation }) {
         topBarLocation={topBarLocation}
         setLogoutMessage={setLogoutMessage}
         loginSuccessful={loginSuccessful}
+        setDemoLoginSuccessful={setDemoLoginSuccessful}
         setLoginSuccessful={setLoginSuccessful}
         setFetchError={setFetchError}
       />
       {loginSuccessful && (
         <p aria-live="polite" className={style.loginSuccessful}>
           Login successful
+        </p>
+      )}
+      {demoLoginSuccessful && (
+        <p aria-live="polite" className={style.loginSuccessful}>
+          Login successful, you will be redirected to the find store page
         </p>
       )}
       {logoutMessage && (
