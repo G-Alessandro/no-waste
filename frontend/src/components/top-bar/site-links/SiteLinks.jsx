@@ -12,6 +12,7 @@ export default function SiteLinks({
   setUserId,
   topBarLocation,
   loginSuccessful,
+  setDemoLoginSuccessful,
   setLoginSuccessful,
   setFetchError,
   setLogoutMessage,
@@ -128,6 +129,7 @@ export default function SiteLinks({
                     setLogoutMessage={setLogoutMessage}
                     topBarLocation={topBarLocation}
                     loginSuccessful={loginSuccessful}
+                    setDemoLoginSuccessful={setDemoLoginSuccessful}
                     setLoginSuccessful={setLoginSuccessful}
                     setFetchError={setFetchError}
                     handleMobileLinkClick={handleMobileLinkClick}
