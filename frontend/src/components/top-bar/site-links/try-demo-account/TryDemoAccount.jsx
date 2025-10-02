@@ -38,7 +38,7 @@ export default function TryDemoAccount({
         handleMobileLinkClick();
         if (topBarLocation === "login" || topBarLocation === "registration") {
           setDemoLoginSuccessful(true);
-          navigate("/finds-stores", { replace: true });
+          setTimeout(() => navigate("/finds-stores", { replace: true }), 2000);
         }
       }
     } catch (error) {
