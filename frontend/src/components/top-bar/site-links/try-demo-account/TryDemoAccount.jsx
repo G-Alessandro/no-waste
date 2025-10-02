@@ -6,6 +6,7 @@ export default function TryDemoAccount({
   setLoginError,
   topBarLocation,
   setLoginSuccessful,
+  setDemoLoginSuccessful,
   setFetchError,
   handleMobileLinkClick,
 }) {
@@ -36,6 +37,7 @@ export default function TryDemoAccount({
         localStorage.setItem("accessToken", accessToken);
         handleMobileLinkClick();
         if (topBarLocation === "login" || topBarLocation === "registration") {
+          setDemoLoginSuccessful(true);
           navigate("/finds-stores", { replace: true });
         }
       }
